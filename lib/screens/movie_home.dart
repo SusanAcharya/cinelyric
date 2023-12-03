@@ -1,5 +1,8 @@
+import 'package:cinelyric/elements/appbar.dart';
+import 'package:cinelyric/elements/bottombar.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:cinelyric/elements/scaffold_bg.dart';
 
 class MovieHome extends StatefulWidget {
   const MovieHome({super.key});
@@ -44,75 +47,48 @@ class _MovieHomeState extends State<MovieHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('CineLyric: Dialogue Finder'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Movie Finder',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 20),
-            Text(
-              _speechToText.isListening
-                  ? "Listening..."
-                  : _speechEnabled
-                      ? "Tap the microphone to start listening..."
-                      : "Speech not available",
-              style: TextStyle(fontSize: 20.0),
-            ),
-            SizedBox(height: 20),
-            Text(
-              _wordsSpoken,
-              style: const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w300,
+        appBar: const MyAppBar(),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Movie Finder',
+                style: TextStyle(fontSize: 24),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              if (_speechToText.isListening || _wordsSpoken.isNotEmpty)
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    _wordsSpoken,
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _speechToText.isListening ? _stopListening : _startListening,
-        tooltip: 'Listen',
-        child: Icon(
-          _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
-          color: Colors.redAccent,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          clipBehavior: Clip.hardEdge,
+          onPressed:
+              _speechToText.isListening ? _stopListening : _startListening,
+          tooltip: 'Listen',
+          child: Icon(
+            _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
+            size: 30,
+            color: Colors.redAccent,
+            // Setting the mic button color to default
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.movie),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.music_note),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/music');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/history');
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+        bottomNavigationBar: const MyAppBottomBar());
   }
 }

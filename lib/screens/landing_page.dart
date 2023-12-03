@@ -1,75 +1,60 @@
+import 'package:cinelyric/elements/appbar.dart';
+import 'package:cinelyric/elements/scaffold_bg.dart';
 import 'package:flutter/material.dart';
-import 'account/login_page.dart';
+import '../account/login_page.dart';
+import '../elements/scaffold_bg.dart';
 
 class LandingPage extends StatelessWidget {
-  const LandingPage({super.key});
+  const LandingPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('CineLyric'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            Container(
+    return AppBackground(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 10), // Adjust the gap under the app bar
+          Container(
+            child: Image.asset(
+              'assets/landing_image.png',
               width: double.infinity,
-              height: 500,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset('assets/landing_image.png',
-                  width: double.infinity, height: 500, fit: BoxFit.cover),
+              height: 500, // Adjust the height of the landing image
             ),
-            SizedBox(height: 20),
-            Container(
-              width: 300, // set a fixed width for the container
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+          ),
+          Container(
+            width: 300,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
                 ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Proceed to login',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Proceed to login',
+                    style: TextStyle(
                       color: Colors.white,
+                      fontSize: 18,
                     ),
-                  ],
-                ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset('assets/movie_image.png', width: 100, height: 100),
-                Image.asset('assets/music_image.png', width: 100, height: 100),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

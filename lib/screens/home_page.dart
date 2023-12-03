@@ -1,18 +1,17 @@
-import 'package:cinelyric/pages/movie_home.dart';
-import 'package:cinelyric/pages/music_home.dart';
+import 'package:cinelyric/elements/appbar.dart';
+import 'package:cinelyric/screens/movie_home.dart';
+import 'package:cinelyric/screens/music_home.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('CineLyric: Dialogue/Lyric Finder'),
-      ),
+      appBar: MyAppBar(),
       body: ListView(
         children: [
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'You prefer movies or music?',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
@@ -25,8 +24,8 @@ class HomePage extends StatelessWidget {
               );
             },
             child: Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
                 boxShadow: [
                   // BoxShadow(
                   //   color: Color.fromARGB(255, 245, 245, 245).withOpacity(0.5),
@@ -39,7 +38,7 @@ class HomePage extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset('assets/movie_image.png', width: double.infinity),
-                  Padding(
+                  const Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Movies',
@@ -54,7 +53,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          Divider(
+          const Divider(
             color: Colors.black,
             thickness: 5,
           ),
@@ -79,8 +78,8 @@ class HomePage extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset('assets/music_image.png', width: double.infinity),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Music',
                       style:
