@@ -13,12 +13,12 @@ class LandingPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10), // Adjust the gap under the app bar
+          SizedBox(height: 10), 
           Container(
             child: Image.asset(
               'assets/landing_image.png',
               width: double.infinity,
-              height: 500, // Adjust the height of the landing image
+              height: 500, 
             ),
           ),
           Container(
