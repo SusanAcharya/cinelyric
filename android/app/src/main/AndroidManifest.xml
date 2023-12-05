@@ -4,7 +4,7 @@
 
     
     <application
-        android:label="cinelyric"
+        android:label="CineLyric"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

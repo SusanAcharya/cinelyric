@@ -40,6 +40,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.13.1
     
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/applogo.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/appicon.jpeg"
+
 
 
 dev_dependencies:
