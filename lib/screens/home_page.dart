@@ -1,4 +1,5 @@
 import 'package:cinelyric/elements/appbar.dart';
+import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/movie_home.dart';
 import 'package:cinelyric/screens/music_home.dart';
 import 'package:flutter/material.dart';
@@ -92,37 +93,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.movie),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/movie');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.music_note),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/music');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: MyAppBottomBar(),
     );
   }
 }

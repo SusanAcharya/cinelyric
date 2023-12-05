@@ -13,12 +13,12 @@ class LandingPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10), 
+          SizedBox(height: 10),
           Container(
             child: Image.asset(
               'assets/landing_image.png',
               width: double.infinity,
-              height: 500, 
+              height: 500,
             ),
           ),
           Container(
@@ -31,7 +31,7 @@ class LandingPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Color.fromRGBO(50, 54, 146, 1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),

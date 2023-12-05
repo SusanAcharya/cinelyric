@@ -2,9 +2,11 @@ import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:cinelyric/elements/scaffold_bg.dart';
+import 'package:cinelyric/screens/result_display_page.dart';
 
 class MusicHome extends StatefulWidget {
-  const MusicHome({super.key});
+  const MusicHome({Key? key});
 
   @override
   _MusicHomeState createState() => _MusicHomeState();
@@ -64,12 +66,40 @@ class _MusicHomeState extends State<MusicHome> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 padding: EdgeInsets.all(10),
-                child: Text(
-                  _wordsSpoken,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w300,
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      _wordsSpoken,
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    if (!_speechToText.isListening && _wordsSpoken.isNotEmpty)
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultHome()),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            Text(
+                              'See Results',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward, color: Colors.blue),
+                          ],
+                        ),
+                      ),
+                  ],
                 ),
               ),
           ],

@@ -22,14 +22,14 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
               fontSize: 35,
-              color: Color.fromARGB(255, 8, 13, 67),
+              color: Color.fromRGBO(255, 255, 255, 1),
             ),
             // backgroundColor: Color.fromRGBO(199, 235, 247, 1),
-            backgroundColor: Color.fromARGB(172, 19, 52, 217),
+            backgroundColor: Color.fromRGBO(48, 53, 147, 1),
             centerTitle: true,
           ),
           bottomAppBarTheme: const BottomAppBarTheme(
-            color: Color.fromARGB(172, 19, 52, 217),
+            color: Color.fromRGBO(48, 53, 147, 1),
           )),
       title: 'CineLyric',
       debugShowCheckedModeBanner: false,
