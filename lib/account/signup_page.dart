@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -13,14 +15,46 @@ class _SignUpPageState extends State<SignUpPage> {
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void _signUp() {
+  // void _signUp() {
+  //   if (_formKey.currentState!.validate()) {
+  //     // Check if passwords match
+  //     if (_passwordController.text == _confirmPasswordController.text) {
+  //       print("Email: ${_emailController.text}");
+  //       print("Password: ${_passwordController.text}");
+
+  //       Navigator.pop(context);
+  //     } else {
+  //       // if the pws don't match then:-
+  //       showDialog(
+  //         context: context,
+  //         builder: (context) {
+  //           return AlertDialog(
+  //             title: Text('Error'),
+  //             content: Text('Passwords do not match.'),
+  //             actions: [
+  //               TextButton(
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //                 child: Text('OK'),
+  //               ),
+  //             ],
+  //           );
+  //         },
+  //       );
+  //     }
+  //   }
+  // }
+  void loginb(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       // Check if passwords match
       if (_passwordController.text == _confirmPasswordController.text) {
         print("Email: ${_emailController.text}");
         print("Password: ${_passwordController.text}");
 
-        Navigator.pop(context);
+        //Navigator.pop(context);
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
         // if the pws don't match then:-
         showDialog(
@@ -41,6 +75,58 @@ class _SignUpPageState extends State<SignUpPage> {
           },
         );
       }
+    }
+
+    try {
+      Response response = await post(
+          Uri.parse('http://10.0.2.2:8000/registration/'),
+          body: {'username': email, 'password': password});
+
+      if (response.statusCode == 200) {
+        print('accout created sucessfully');
+      } else if (response.statusCode == 201) {
+        print('created!!!');
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Sucess'),
+              content: Text('account created sucessfully!!!'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        print('failed');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('account not created please check details'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -104,7 +190,10 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _signUp,
+                onPressed: () {
+                  loginb(_emailController.text.toString(),
+                      _passwordController.text.toString());
+                },
                 child: Text('Sign up'),
               ),
               SizedBox(height: 10),

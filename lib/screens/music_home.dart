@@ -42,6 +42,7 @@ class _MusicHomeState extends State<MusicHome> {
   void _onSpeechResult(result) {
     setState(() {
       _wordsSpoken = "${result.recognizedWords}";
+      print(_wordsSpoken);
     });
   }
 
