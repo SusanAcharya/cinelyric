@@ -1,4 +1,5 @@
 import 'package:cinelyric/screens/movie_provider.dart';
+import 'package:cinelyric/screens/music_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/home_page.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => MovieProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MusicProvider(),
         ),
       ],
       child: MaterialApp(

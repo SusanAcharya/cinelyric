@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cinelyric/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'signup_page.dart';
@@ -41,7 +42,9 @@ class _LoginPageState extends State<LoginPage> {
         // var tok = prefs.getString('token');
         // print(tok);
         // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, '/home');
+        //Navigator.pushNamed(context, '/home');
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> HomePage(),), (route) => false,);
+
       } else {
         print('login failed');
         showDialog(

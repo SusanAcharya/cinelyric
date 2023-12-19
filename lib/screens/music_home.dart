@@ -1,8 +1,18 @@
+import 'dart:convert';
+
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
+import 'package:cinelyric/screens/music_result.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:cinelyric/elements/scaffold_bg.dart';
 import 'package:cinelyric/screens/result_display_page.dart';
+import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'music_provider.dart';
 
 class MusicHome extends StatefulWidget {
   const MusicHome({Key? key});
@@ -16,6 +26,7 @@ class _MusicHomeState extends State<MusicHome> {
 
   bool _speechEnabled = false;
   String _wordsSpoken = "";
+  String token = "";
 
   @override
   void initState() {
@@ -43,6 +54,78 @@ class _MusicHomeState extends State<MusicHome> {
       _wordsSpoken = "${result.recognizedWords}";
       print(_wordsSpoken);
     });
+  }
+
+  Future<void> getDataFromSharedPreferences() async {
+    // Get an instance of SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? stringValue = prefs.getString('token');
+    token = stringValue!;
+    print('String value: $token');
+  }
+
+  Future getMusic() async {
+    //getDataFromSharedPreferences();
+    String apiUrl = 'http://10.0.2.2:8000/song/';
+    Map<String, String> headers = {
+      'Authorization': 'Token $token',
+      'Content-Type': 'application/json', // Specify content type as JSON
+    };
+    Map<String, dynamic> requestBody = {
+      'lyric': _wordsSpoken,
+    };
+    String jsonBody = jsonEncode(requestBody);
+    try {
+      // Send the POST request
+      http.Response response = await http.post(
+        Uri.parse(apiUrl),
+        headers: headers,
+        body: jsonBody,
+      );
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        // Request was successful
+        print('Response: ${response.body}');
+        Map<String, dynamic> decodedData = jsonDecode(response.body);
+        //int id = decodedData['id'];
+        String id = decodedData['id'].toString();
+        String artist = decodedData['artist_name'];
+        String track = decodedData['track_name'];
+        String genre = decodedData['genre'];
+        String lyric = decodedData['lyrics'];
+        String year = decodedData['release_date'].toString();
+
+        print('ID: $id');
+        print('artist: $artist');
+        print('track: $track');
+        print('type: $genre');
+        print('Year: $year');
+
+        context.read<MusicProvider>().changeMusicDetail(
+            newId: id,
+            newArtist: artist,
+            newTrack: track,
+            newGenre: genre,
+            newLyric: lyric,
+            newYear: year);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ResultMusic()),
+        );
+      } else {
+        // Request failed
+        print('Failed with status code: ${response.statusCode}');
+        print('Response: ${response.body}');
+        Map<String, dynamic> jasonBody = jsonDecode(response.body);
+        String message = jasonBody['message'];
+        print(message);
+      }
+    } catch (error) {
+      // Handle any exceptions that occurred during the request
+      print('Error: $error');
+    }
   }
 
   @override
@@ -79,11 +162,13 @@ class _MusicHomeState extends State<MusicHome> {
                     if (!_speechToText.isListening && _wordsSpoken.isNotEmpty)
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ResultHome()),
-                          );
+                          getDataFromSharedPreferences();
+                          getMusic();
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => ResultHome()),
+                          //);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
