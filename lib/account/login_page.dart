@@ -43,8 +43,12 @@ class _LoginPageState extends State<LoginPage> {
         // print(tok);
         // ignore: use_build_context_synchronously
         //Navigator.pushNamed(context, '/home');
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> HomePage(),), (route) => false,);
-
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+          (route) => false,
+        );
       } else {
         print('login failed');
         showDialog(

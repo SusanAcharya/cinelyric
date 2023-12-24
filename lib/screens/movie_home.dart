@@ -19,6 +19,7 @@ class MovieHome extends StatefulWidget {
 
 class _MovieHomeState extends State<MovieHome> {
   final SpeechToText _speechToText = SpeechToText();
+  final TextEditingController _controller = TextEditingController();
 
   bool _speechEnabled = false;
   String _wordsSpoken = "";
@@ -62,7 +63,7 @@ class _MovieHomeState extends State<MovieHome> {
   }
 
   Future getMovie() async {
-    getDataFromSharedPreferences();
+    //getDataFromSharedPreferences();
     String apiUrl = 'http://10.0.2.2:8000/movie/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
@@ -165,7 +166,10 @@ class _MovieHomeState extends State<MovieHome> {
                     if (!_speechToText.isListening && _wordsSpoken.isNotEmpty)
                       TextButton(
                         onPressed: () {
-                          getMovie();
+                          // getMovie();
+                          getDataFromSharedPreferences().then((_) {
+                            getMovie();
+                          });
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -187,6 +191,119 @@ class _MovieHomeState extends State<MovieHome> {
           ],
         ),
       ),
+
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//         onTap: () {
+//       FocusScope.of(context).unfocus();
+//     },
+//     child: Scaffold(
+//     resizeToAvoidBottomInset: false,
+//     appBar: const MyAppBar(),
+//     body: Column(
+//     children: [
+//     Padding(
+//     padding: const EdgeInsets.all(8.0),
+//     child: TextField(
+//     controller: _controller,
+//     decoration: InputDecoration(
+//     hintText: 'Enter your query',
+//     suffixIcon: IconButton(
+//     icon: const Icon(Icons.search),
+//     onPressed: () {
+//     Navigator.push(
+//     context,
+//     MaterialPageRoute(
+//     builder: (context) =>
+//     SearchQueryResult(query: _controller.text),
+//     ),
+//     );
+//     },
+//     ),
+//     ),
+//     ),
+//     ),
+//     Expanded(
+//     child: Center(
+//     child: Column(
+//     mainAxisAlignment: MainAxisAlignment.center,
+//     crossAxisAlignment: CrossAxisAlignment.center,
+//     children: [
+//     const Text(
+//     'Movie Finder',
+//     style: TextStyle(fontSize: 24),
+//     ),
+//     const SizedBox(height: 20),
+//     if (_speechToText.isListening || _wordsSpoken.isNotEmpty)
+//     Container(
+//     decoration: BoxDecoration(
+//     border: Border.all(),
+//     borderRadius: BorderRadius.circular(10),
+//     ),
+//     padding: const EdgeInsets.all(10),
+//     child: Column(
+//     children: [
+//     Text(
+//     _wordsSpoken,
+//     style: const TextStyle(
+//     fontSize: 25,
+//     fontWeight: FontWeight.w300,
+//     ),
+//     ),
+//     const SizedBox(height: 10),
+//     if (!_speechToText.isListening &&
+//     _wordsSpoken.isNotEmpty)
+//     TextButton(
+//     onPressed: () {
+//     getMovie();
+//     },
+//     child: const Row(
+//     mainAxisAlignment: MainAxisAlignment.end,
+//     children: [
+//     Text(
+//     'See Results',
+//     style: TextStyle(
+//     color: Color.fromRGBO(60, 104, 177, 1),
+//     fontSize: 16,
+//     ),
+//     ),
+//     Icon(
+//     Icons.arrow_forward,
+//     color: Color.fromRGBO(60, 104, 177, 1),
+//     ),
+//     ],
+//     ),
+//     ),
+//     ],
+//     ),
+//     ),
+//     ],
+//     ),
+//     ),
+//     ),
+//     ],
+//     ),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+//       floatingActionButton: FloatingActionButton(
+//         onPressed:
+//         _speechToText.isListening ? _stopListening : _startListening,
+//         tooltip: 'Listen',
+//         child: Icon(
+//           _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
+//           size: 30,
+//           color: Colors.redAccent,
+//         ),
+//       ),
+//       bottomNavigationBar: const MyAppBottomBar(),
+//     ),
+//     );
+//   }
+// }
+
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         clipBehavior: Clip.hardEdge,

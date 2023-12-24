@@ -163,12 +163,10 @@ class _MusicHomeState extends State<MusicHome> {
                       TextButton(
                         onPressed: () {
                           getDataFromSharedPreferences();
-                          getMusic();
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => ResultHome()),
-                          //);
+                          //getMusic();
+                          getDataFromSharedPreferences().then((_) {
+                            getMusic();
+                          });
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
