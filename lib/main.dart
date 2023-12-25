@@ -2,6 +2,7 @@ import 'package:cinelyric/screens/movie_provider.dart';
 import 'package:cinelyric/screens/music_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/funfact.dart';
 import 'screens/home_page.dart';
 import 'screens/landing_page.dart';
 import 'account/user_history.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => SignUpPage(),
           '/history': (context) => UserHistory(),
           'landing': (context) => LandingPage(),
+          '/funfact': (context) => FunFactPage(),
         },
       ),
     );

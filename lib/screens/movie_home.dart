@@ -10,6 +10,8 @@ import 'package:cinelyric/screens/result_display_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'search_result_query.dart';
+
 class MovieHome extends StatefulWidget {
   const MovieHome({Key? key});
 
@@ -134,65 +136,100 @@ class _MovieHomeState extends State<MovieHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const MyAppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: const MyAppBar(),
+        body: Column(
           children: [
-            const Text(
-              'Movie Finder',
-              style: TextStyle(fontSize: 24),
-            ),
-            const SizedBox(height: 20),
-            if (_speechToText.isListening || _wordsSpoken.isNotEmpty)
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  hintText: 'Enter your query',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SearchQueryResult(query: _controller.text),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                padding: EdgeInsets.all(10),
+              ),
+            ),
+            Expanded(
+              child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      _wordsSpoken,
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    const Text(
+                      'Movie Finder',
+                      style: TextStyle(fontSize: 24),
                     ),
-                    const SizedBox(height: 10),
-                    if (!_speechToText.isListening && _wordsSpoken.isNotEmpty)
-                      TextButton(
-                        onPressed: () {
-                          // getMovie();
-                          getDataFromSharedPreferences().then((_) {
-                            getMovie();
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
+                    const SizedBox(height: 20),
+                    if (_speechToText.isListening || _wordsSpoken.isNotEmpty)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
                             Text(
-                              'See Results',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 16,
+                              _wordsSpoken,
+                              style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w300,
                               ),
                             ),
-                            Icon(Icons.arrow_forward, color: Colors.blue),
+                            const SizedBox(height: 10),
+                            if (!_speechToText.isListening &&
+                                _wordsSpoken.isNotEmpty)
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ResultHome()),
+                                  );
+                                },
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'See Results',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(60, 104, 177, 1),
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Color.fromRGBO(60, 104, 177, 1),
+                                    ),
+                                  ],
+                                ),
+                              ),
                           ],
                         ),
                       ),
                   ],
                 ),
               ),
+            ),
           ],
         ),
-      ),
-
-
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -303,19 +340,20 @@ class _MovieHomeState extends State<MovieHome> {
 //   }
 // }
 
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        clipBehavior: Clip.hardEdge,
-        onPressed: _speechToText.isListening ? _stopListening : _startListening,
-        tooltip: 'Listen',
-        child: Icon(
-          _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
-          size: 30,
-          color: Colors.redAccent,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          clipBehavior: Clip.hardEdge,
+          onPressed:
+              _speechToText.isListening ? _stopListening : _startListening,
+          tooltip: 'Listen',
+          child: Icon(
+            _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
+            size: 30,
+            color: Colors.redAccent,
+          ),
         ),
+        bottomNavigationBar: const MyAppBottomBar(),
       ),
-      bottomNavigationBar: const MyAppBottomBar(),
     );
   }
 }

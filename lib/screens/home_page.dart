@@ -5,7 +5,6 @@ import 'package:cinelyric/screens/music_home.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +89,50 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+          const Divider(
+            color: Colors.black,
+            thickness: 5,
+          ),
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(10),
+                //color: const Color.fromARGB(71, 255, 82, 82),
+                color: Color.fromRGBO(
+                  60,
+                  104,
+                  177,
+                  0.5,
+                )),
+            child: Column(
+              children: [
+                const Divider(
+                  color: Colors.black,
+                  thickness: 2,
+                ),
+                ListTile(
+                  title: const Text(
+                    'Fun Facts',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                  trailing: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/funfact');
+                    },
+                    child: const Icon(
+                      Icons.lightbulb_outline_sharp,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

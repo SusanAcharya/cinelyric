@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'music_provider.dart';
+import 'search_result_query.dart';
 
 class MusicHome extends StatefulWidget {
   const MusicHome({Key? key});
@@ -23,6 +24,7 @@ class MusicHome extends StatefulWidget {
 
 class _MusicHomeState extends State<MusicHome> {
   final SpeechToText _speechToText = SpeechToText();
+  final TextEditingController _controller = TextEditingController();
 
   bool _speechEnabled = false;
   String _wordsSpoken = "";
@@ -130,75 +132,113 @@ class _MusicHomeState extends State<MusicHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const MyAppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false, //fixing the mic button
+        appBar: const MyAppBar(),
+        body: Column(
           children: [
-            const Text(
-              'Music Finder',
-              style: TextStyle(fontSize: 24),
-            ),
-            const SizedBox(height: 20),
-            if (_speechToText.isListening || _wordsSpoken.isNotEmpty)
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  hintText: 'Enter your query',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SearchQueryResult(query: _controller.text),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                padding: EdgeInsets.all(10),
+              ),
+            ),
+            Expanded(
+              child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      _wordsSpoken,
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    const Text(
+                      'Music Finder',
+                      style: TextStyle(fontSize: 24),
                     ),
-                    const SizedBox(height: 10),
-                    if (!_speechToText.isListening && _wordsSpoken.isNotEmpty)
-                      TextButton(
-                        onPressed: () {
-                          getDataFromSharedPreferences();
-                          //getMusic();
-                          getDataFromSharedPreferences().then((_) {
-                            getMusic();
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
+                    const SizedBox(height: 20),
+                    if (_speechToText.isListening || _wordsSpoken.isNotEmpty)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
                             Text(
-                              'See Results',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 16,
+                              _wordsSpoken,
+                              style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w300,
                               ),
                             ),
-                            Icon(Icons.arrow_forward, color: Colors.blue),
+                            const SizedBox(height: 10),
+                            if (!_speechToText.isListening &&
+                                _wordsSpoken.isNotEmpty)
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ResultHome()),
+                                  );
+                                },
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'See Results',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(60, 104, 177, 1),
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Color.fromRGBO(60, 104, 177, 1),
+                                    ),
+                                  ],
+                                ),
+                              ),
                           ],
                         ),
                       ),
                   ],
                 ),
               ),
+            ),
           ],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _speechToText.isListening ? _stopListening : _startListening,
-        tooltip: 'Listen',
-        child: Icon(
-          _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
-          size: 30,
-          color: Colors.redAccent,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          onPressed:
+              _speechToText.isListening ? _stopListening : _startListening,
+          tooltip: 'Listen',
+          child: Icon(
+            _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
+            size: 30,
+            color: Colors.redAccent,
+          ),
         ),
+        bottomNavigationBar: const MyAppBottomBar(),
       ),
-      bottomNavigationBar: const MyAppBottomBar(),
     );
   }
 }
