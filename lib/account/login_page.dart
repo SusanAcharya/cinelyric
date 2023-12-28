@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cinelyric/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,11 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   void _login(String email, String password) async {
-    // if (_formKey.currentState!.validate()) {
-    //   // email ra p/w print garya check ko lagi
-    //   print("Email: ${_emailController.text}");
-    //   print("Password: ${_passwordController.text}");
-    // }
+
     try {
       Response response = await post(Uri.parse('http://10.0.2.2:8000/login/'),
           body: {'username': email, 'password': password});
@@ -34,15 +29,10 @@ class _LoginPageState extends State<LoginPage> {
         final jsonResponse = json.decode(response.body);
         final String token = jsonResponse['data']['Token'];
         print(token);
-        // await saveTokenToSharedPreferences(token);
-        // print('Token: $token');
+
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
 
-        // var tok = prefs.getString('token');
-        // print(tok);
-        // ignore: use_build_context_synchronously
-        //Navigator.pushNamed(context, '/home');
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => HomePage(),

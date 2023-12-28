@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/music_result.dart';
@@ -12,7 +11,6 @@ import 'package:cinelyric/screens/result_display_page.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'music_provider.dart';
 import 'search_result_query.dart';
 

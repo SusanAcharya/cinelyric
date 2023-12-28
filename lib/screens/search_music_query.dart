@@ -4,13 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'music_provider.dart';
 
-
-// Import statements...
 
 class SearchQueryResultMusic extends StatefulWidget {
   final String query;
@@ -83,7 +79,7 @@ class _SearchQueryResultState extends State<SearchQueryResultMusic> {
         print('track: $track');
         print('type: $genre');
         print('Year: $year');
-
+//printing to check
 
       } else {
         // Request failed

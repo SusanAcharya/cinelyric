@@ -4,20 +4,6 @@ import 'package:cinelyric/screens/music_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// class Movie {
-//   final String quote;
-//   final String name;
-//   final String date;
-//   final String genre;
-//   final String posterUrl;
-//
-//   Movie(
-//       {required this.quote,
-//         required this.name,
-//         required this.date,
-//         required this.genre,
-//         required this.posterUrl});
-// }
 
 class Music {
   final String track_name;
