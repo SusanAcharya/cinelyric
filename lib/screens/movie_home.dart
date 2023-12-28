@@ -154,6 +154,10 @@ class _MovieHomeState extends State<MovieHome> {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
+                      // setvalue(){
+                      //   _wordsSpoken = _controller.text;
+                      //   getMovie();
+                      // };
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -198,11 +202,14 @@ class _MovieHomeState extends State<MovieHome> {
                                 _wordsSpoken.isNotEmpty)
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ResultHome()),
-                                  );
+                                  getDataFromSharedPreferences().then((_) {
+                                    getMovie();
+                                  });
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => ResultHome()),
+                                  // );
                                 },
                                 child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.end,

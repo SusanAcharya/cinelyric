@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/music_result.dart';
+import 'package:cinelyric/screens/search_music_query.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -154,7 +155,7 @@ class _MusicHomeState extends State<MusicHome> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              SearchQueryResult(query: _controller.text),
+                              SearchQueryResultMusic(query: _controller.text),
                         ),
                       );
                     },
@@ -194,11 +195,14 @@ class _MusicHomeState extends State<MusicHome> {
                                 _wordsSpoken.isNotEmpty)
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ResultHome()),
-                                  );
+                                  getDataFromSharedPreferences().then((_) {
+                                    getMusic();
+                                  });
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => ResultHome()),
+                                  // );
                                 },
                                 child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
