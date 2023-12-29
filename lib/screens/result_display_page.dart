@@ -1,4 +1,3 @@
-
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/movie_provider.dart';
@@ -46,24 +45,27 @@ class ResultHome extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 20),
             Text(
               'Result Details',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
-            // Use ListView.builder for scrollable cards
+            SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: 1, // Change this to the number of cards you want
+                itemCount: 3, // Change this to the number of cards you want
                 itemBuilder: (context, index) {
-                  return MovieCard(
-                    movie: Movie(
-                      quote: context.watch<MovieProvider>().quote,
-                      name: context.watch<MovieProvider>().movie,
-                      date: context.watch<MovieProvider>().year,
-                      genre: context.watch<MovieProvider>().type,
-                      posterUrl:
-                          'https://m.media-amazon.com/images/I/61RhWaYBp7L._AC_SL1044_.jpg',
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: MovieCard(
+                      movie: Movie(
+                        quote: context.watch<MovieProvider>().quote,
+                        name: context.watch<MovieProvider>().movie,
+                        date: context.watch<MovieProvider>().year,
+                        genre: context.watch<MovieProvider>().type,
+                        posterUrl:
+                            'https://m.media-amazon.com/images/I/61RhWaYBp7L._AC_SL1044_.jpg',
+                      ),
                     ),
                   );
                 },
@@ -105,38 +107,41 @@ class MovieDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Quote: ${movie.quote}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Quote: ${movie.quote}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-              Text(
-                'Movie Name: ${movie.name}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
+                Text(
+                  'Movie Name: ${movie.name}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-              Text(
-                'Release Date: ${movie.date}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
+                Text(
+                  'Release Date: ${movie.date}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-              Text(
-                'Type: ${movie.genre}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
+                Text(
+                  'Type: ${movie.genre}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         SizedBox(width: 20),

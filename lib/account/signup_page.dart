@@ -196,11 +196,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   loginb(_emailController.text.toString(),
                       _passwordController.text.toString());
                 },
-                child: Text('Sign up'),
+                child: Text(
+                  'Sign up',
+                  style: Theme.of(context).textTheme.displaySmall,
+                ),
               ),
               SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {
+              TextButton(
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => LoginPage()),
@@ -208,7 +211,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
                 child: Text(
                   'Already have an account? Log in',
-                  style: TextStyle(color: Colors.blue),
                 ),
               ),
             ],

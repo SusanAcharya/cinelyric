@@ -51,17 +51,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Icon(
                   Icons.radio,
-                  color: Color.fromARGB(255, 115, 115, 115),
                   size: 50,
                 ),
                 SizedBox(width: 8),
                 Center(
                     child: Text(
-                      'CineLyric',
-                      style: TextStyle(
-                        color: Color.fromRGBO(232, 232, 232, 1),
-                      ),
-                    )),
+                  'CineLyric',
+                  style: TextStyle(),
+                )),
               ],
             ),
           ],

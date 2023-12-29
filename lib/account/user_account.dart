@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -12,19 +10,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/movie_provider.dart';
 import '../screens/result_display_page.dart';
+import 'history_page.dart';
+import 'login_page.dart';
 
 class UserHistory extends StatefulWidget {
-  const UserHistory({Key? key}) : super(key: key);
+  const UserHistory({super.key});
 
   @override
-  _UserHistoryState createState() => _UserHistoryState();
+  State<UserHistory> createState() => _UserHistoryState();
 }
 
 class _UserHistoryState extends State<UserHistory> {
   final String userEmail = 'user@example.com';
-  bool _isDarkMode = false;
   String token = "";
-  List<Map<String, dynamic>> searchHistory = []; // List to store search history data
+  List<Map<String, dynamic>> searchHistory =
+      []; // List to store search history data
   String _wordsSpoken = "";
 
   @override
@@ -38,7 +38,6 @@ class _UserHistoryState extends State<UserHistory> {
     });
   }
 
-
   Future<void> getDataFromSharedPreferences() async {
     // Get an instance of SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,38 +46,38 @@ class _UserHistoryState extends State<UserHistory> {
     //print('String value: $token');
   }
 
-  Future<void> fetchData() async{
+  Future<void> fetchData() async {
     //getDataFromSharedPreferences();
     print(token);
     String apiUrl = 'http://10.0.2.2:8000/history/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
-      'Content-Type': 'application/json',// Specify content type as JSON
+      'Content-Type': 'application/json', // Specify content type as JSON
       'Accept': 'application/json',
     };
 
-  try{
-    http.Response response = await http.get(
-      Uri.parse(apiUrl),
-      headers: headers,
-    );
-    if (response.statusCode == 200) {
-      print(response.body);
-      //final temp= response.body;
-      // If the server returns a 200 OK response, parse the JSON
-      final List<dynamic> data = jsonDecode(response.body);
-      setState(() {
-        searchHistory = data.cast<Map<String, dynamic>>();
-      });
-    // } else {
-    //   // If the server did not return a 200 OK response,
-    //   // throw an exception.
-    //   throw Exception('Failed to load search history');
+    try {
+      http.Response response = await http.get(
+        Uri.parse(apiUrl),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        print(response.body);
+        //final temp= response.body;
+        // If the server returns a 200 OK response, parse the JSON
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          searchHistory = data.cast<Map<String, dynamic>>();
+        });
+        // } else {
+        //   // If the server did not return a 200 OK response,
+        //   // throw an exception.
+        //   throw Exception('Failed to load search history');
+      }
+    } catch (error) {
+      // Handle any exceptions that occurred during the request
+      print('Error: $error');
     }
-  } catch (error) {
-  // Handle any exceptions that occurred during the request
-  print('Error: $error');
-  }
   }
 
   Future getMovie() async {
@@ -161,62 +160,59 @@ class _UserHistoryState extends State<UserHistory> {
           Card(
             margin: const EdgeInsets.all(10),
             child: ListTile(
-              leading: const Icon(Icons.email),
-              title: Text(userEmail),
+              leading: const Icon(
+                Icons.email,
+                size: 30,
+              ),
+              title: Text(
+                userEmail,
+                style: const TextStyle(fontSize: 18),
+              ),
+              trailing: IconButton(
+                icon: const Icon(
+                  Icons.logout,
+                  size: 25,
+                  color: Colors.redAccent,
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
+                },
+              ),
             ),
           ),
-          Divider(), // Add this line
-          const SizedBox(height: 20),
-
-//           ListTile(
-//   title: Text(
-//     themeProvider.getDarkMode() ? 'Dark Mode' : 'Light Mode',
-//     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-//   ),
-//   trailing: Switch(
-//     value: themeProvider.getDarkMode(),
-//     onChanged: (value) {
-//       themeProvider.toggleTheme();
-//     },
-//   ),
-// ),
-          ListTile(
-            title: Text(
-              _isDarkMode ? 'Dark Mode' : 'Light Mode',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            trailing: Switch(
-              value: _isDarkMode,
-              onChanged: (value) {
-                setState(() {
-                  _isDarkMode = value;
-                  // Add your theme switching logic here
-                });
-              },
-            ),
-          ),
-          Divider(), // Add this line
+          const Divider(),
           const SizedBox(height: 10),
-          const Text(
-            'Your History',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: searchHistory.length, //search history length
-              itemBuilder: (context, index) {
-                final historyItem = searchHistory[index];
-                return ListTile(
-                  title: Text('Query: ${historyItem['user_query']}'),
-                  subtitle: Text('Search Type: ${historyItem['search_type']}'),
+          Container(
+            padding: const EdgeInsets.only(left: 25, top: 16, bottom: 16),
+            child: Row(
+              children: [
+                const Text(
+                  'Your History',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  width: 170,
+                ),
+                GestureDetector(
                   onTap: () {
-                      _wordsSpoken= historyItem['user_query'];
-                      getMovie();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HistoryPage()),
+                    );
                   },
-                );
-              },
+                  child: const Icon(
+                    Icons.history,
+                    size: 30,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
             ),
           ),
+          const Divider(),
         ],
       ),
       bottomNavigationBar: const MyAppBottomBar(),

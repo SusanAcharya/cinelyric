@@ -19,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   void _login(String email, String password) async {
-
     try {
       Response response = await post(Uri.parse('http://10.0.2.2:8000/login/'),
           body: {'username': email, 'password': password});
@@ -124,7 +123,10 @@ class _LoginPageState extends State<LoginPage> {
                   _login(_emailController.text, _passwordController.text);
                 },
                 //_login,
-                child: Text('Login'),
+                child: Text(
+                  'Login',
+                  style: Theme.of(context).textTheme.displaySmall,
+                ),
               ),
               SizedBox(height: 10),
               TextButton(

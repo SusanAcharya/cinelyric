@@ -2,10 +2,11 @@ import 'package:cinelyric/screens/movie_provider.dart';
 import 'package:cinelyric/screens/music_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'elements/app_theme.dart';
 import 'screens/funfact.dart';
 import 'screens/home_page.dart';
 import 'screens/landing_page.dart';
-import 'account/user_history.dart';
+import 'account/user_account.dart';
 import 'package:flutter/material.dart';
 import 'screens/movie_home.dart';
 import 'screens/music_home.dart';
@@ -31,32 +32,20 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-            // scaffoldBackgroundColor: Color.fromRGBO(240, 255, 255, 1),
-            appBarTheme: const AppBarTheme(
-              titleTextStyle: TextStyle(
-                fontSize: 35,
-                color: Color.fromRGBO(255, 255, 255, 1),
-              ),
-              // backgroundColor: Color.fromRGBO(199, 235, 247, 1),
-              backgroundColor: Color.fromRGBO(48, 53, 147, 1),
-              centerTitle: true,
-            ),
-            bottomAppBarTheme: const BottomAppBarTheme(
-              color: Color.fromRGBO(48, 53, 147, 1),
-            )),
+        theme: lightTheme,
+        darkTheme: darkTheme,
         title: 'CineLyric',
         debugShowCheckedModeBanner: false,
-        home: LandingPage(),
+        home: const LandingPage(),
         routes: {
           '/home': (context) => HomePage(),
-          '/movie': (context) => MovieHome(),
-          '/music': (context) => MusicHome(),
-          '/login': (context) => LoginPage(),
+          '/movie': (context) => const MovieHome(),
+          '/music': (context) => const MusicHome(),
+          '/login': (context) => const LoginPage(),
           '/signup': (context) => SignUpPage(),
-          '/history': (context) => UserHistory(),
-          'landing': (context) => LandingPage(),
-          '/funfact': (context) => FunFactPage(),
+          '/history': (context) => const UserHistory(),
+          '/landing': (context) => const LandingPage(),
+          '/funfact': (context) => const FunFactPage(),
         },
       ),
     );

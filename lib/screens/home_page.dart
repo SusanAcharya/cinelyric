@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       body: ListView(
         children: [
           const SizedBox(height: 20),
@@ -21,32 +21,21 @@ class HomePage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MovieHome()),
+                MaterialPageRoute(builder: (context) => const MovieHome()),
               );
             },
             child: Container(
               margin: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  // BoxShadow(
-                  //   color: Color.fromARGB(255, 245, 245, 245).withOpacity(0.5),
-                  //   spreadRadius: 5,
-                  //   blurRadius: 7,
-                  //   offset: Offset(0, 3),
-                  // ),
-                ],
-              ),
               child: Column(
                 children: [
                   Image.asset('assets/movie_image.png', width: double.infinity),
                   const Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Movies',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: const Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 25,
                       ),
                     ),
                   ),
@@ -55,7 +44,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
           const Divider(
-            color: Colors.black,
             thickness: 5,
           ),
           GestureDetector(
@@ -66,16 +54,8 @@ class HomePage extends StatelessWidget {
               );
             },
             child: Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  // BoxShadow(
-                  //   spreadRadius: 5,
-                  //   blurRadius: 7,
-                  //   offset: Offset(0, 3),
-                  // ),
-                ],
-              ),
+              margin: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(),
               child: Column(
                 children: [
                   Image.asset('assets/music_image.png', width: double.infinity),
@@ -84,7 +64,7 @@ class HomePage extends StatelessWidget {
                     child: Text(
                       'Music',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     ),
                   ),
                 ],
@@ -92,21 +72,16 @@ class HomePage extends StatelessWidget {
             ),
           ),
           const Divider(
-            color: Colors.black,
             thickness: 5,
           ),
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(10),
-                //color: const Color.fromARGB(71, 255, 82, 82),
-                color: Color.fromRGBO(
-                  60,
-                  104,
-                  177,
-                  0.5,
-                )),
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(10),
+              //color: const Color.fromARGB(71, 255, 82, 82),
+              color: Color.fromRGBO(38, 100, 199, 0.49),
+            ),
             child: Column(
               children: [
                 const Divider(
@@ -119,7 +94,6 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Colors.black,
                     ),
                   ),
                   trailing: GestureDetector(

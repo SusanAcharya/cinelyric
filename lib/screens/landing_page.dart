@@ -7,21 +7,27 @@ import '../account/login_page.dart';
 import '../elements/scaffold_bg.dart';
 
 class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key});
+  const LandingPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return AppBackground(
-      child: Column(
+    return Scaffold(
+      appBar: const MyAppBar(),
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 50),
           Container(
             child: Image.asset(
               'assets/landingimagee.png',
               width: double.infinity,
               height: 500,
             ),
+          ),
+          SizedBox(
+            height: 50,
           ),
           Container(
             width: 300,
@@ -33,7 +39,7 @@ class LandingPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(60, 104, 177, 1),
+                // backgroundColor: Color.fromRGBO(48, 53, 147, 1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
@@ -43,14 +49,14 @@ class LandingPage extends StatelessWidget {
                 children: [
                   Text(
                     'Proceed to login',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                  const SizedBox(
+                    width: 10,
                   ),
                   Icon(
                     Icons.arrow_forward,
-                    color: Colors.white,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
                   ),
                 ],
               ),
