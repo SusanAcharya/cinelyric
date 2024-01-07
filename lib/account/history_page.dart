@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/bottombar.dart';
 import '../screens/movie_provider.dart';
+import '../screens/music_result.dart';
 import '../screens/result_display_page.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _HistoryPageState extends State<HistoryPage> {
   List<Map<String, dynamic>> searchHistory =
       []; // List to store search history data
   String _wordsSpoken = "";
+  String type = "";
 
   @override
   void initState() {
@@ -73,66 +75,66 @@ class _HistoryPageState extends State<HistoryPage> {
     }
   }
 
-  Future getMovie() async {
-    //getDataFromSharedPreferences();
-    String apiUrl = 'http://10.0.2.2:8000/movie/';
-    Map<String, String> headers = {
-      'Authorization': 'Token $token',
-      'Content-Type': 'application/json', // Specify content type as JSON
-    };
-    Map<String, dynamic> requestBody = {
-      'quote': _wordsSpoken,
-    };
-    String jsonBody = jsonEncode(requestBody);
-    try {
-      // Send the POST request
-      http.Response response = await http.post(
-        Uri.parse(apiUrl),
-        headers: headers,
-        body: jsonBody,
-      );
-
-      // Handle the response
-      if (response.statusCode == 200) {
-        // Request was successful
-        print('Response: ${response.body}');
-        Map<String, dynamic> decodedData = jsonDecode(response.body);
-        int id = decodedData['id'];
-        String quote = decodedData['quote'];
-        String movie = decodedData['movie'];
-        String type = decodedData['type'];
-        String year = decodedData['year'];
-
-        print('ID: $id');
-        print('Quote: $quote');
-        print('Movie: $movie');
-        print('Type: $type');
-        print('Year: $year');
-
-        context.read<MovieProvider>().changeMovieDetail(
-            newId: id,
-            newQuote: quote,
-            newMovie: movie,
-            newType: type,
-            newYear: year);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ResultHome()),
-        );
-      } else {
-        // Request failed
-        print('Failed with status code: ${response.statusCode}');
-        print('Response: ${response.body}');
-        Map<String, dynamic> jasonBody = jsonDecode(response.body);
-        String message = jasonBody['message'];
-        print(message);
-      }
-    } catch (error) {
-      // Handle any exceptions that occurred during the request
-      print('Error: $error');
-    }
-  }
+  // Future getMovie() async {
+  //   //getDataFromSharedPreferences();
+  //   String apiUrl = 'http://10.0.2.2:8000/movie/';
+  //   Map<String, String> headers = {
+  //     'Authorization': 'Token $token',
+  //     'Content-Type': 'application/json', // Specify content type as JSON
+  //   };
+  //   Map<String, dynamic> requestBody = {
+  //     'quote': _wordsSpoken,
+  //   };
+  //   String jsonBody = jsonEncode(requestBody);
+  //   try {
+  //     // Send the POST request
+  //     http.Response response = await http.post(
+  //       Uri.parse(apiUrl),
+  //       headers: headers,
+  //       body: jsonBody,
+  //     );
+  //
+  //     // Handle the response
+  //     if (response.statusCode == 200) {
+  //       // Request was successful
+  //       print('Response: ${response.body}');
+  //       Map<String, dynamic> decodedData = jsonDecode(response.body);
+  //       int id = decodedData['id'];
+  //       String quote = decodedData['quote'];
+  //       String movie = decodedData['movie'];
+  //       String type = decodedData['type'];
+  //       String year = decodedData['year'];
+  //
+  //       print('ID: $id');
+  //       print('Quote: $quote');
+  //       print('Movie: $movie');
+  //       print('Type: $type');
+  //       print('Year: $year');
+  //
+  //       context.read<MovieProvider>().changeMovieDetail(
+  //           newId: id,
+  //           newQuote: quote,
+  //           newMovie: movie,
+  //           newType: type,
+  //           newYear: year);
+  //
+  //       // Navigator.push(
+  //       //   context,
+  //       //   MaterialPageRoute(builder: (context) => ResultHome()),
+  //       // );
+  //     } else {
+  //       // Request failed
+  //       print('Failed with status code: ${response.statusCode}');
+  //       print('Response: ${response.body}');
+  //       Map<String, dynamic> jasonBody = jsonDecode(response.body);
+  //       String message = jasonBody['message'];
+  //       print(message);
+  //     }
+  //   } catch (error) {
+  //     // Handle any exceptions that occurred during the request
+  //     print('Error: $error');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +160,7 @@ class _HistoryPageState extends State<HistoryPage> {
               child: ListView.builder(
                 itemCount: searchHistory.length, //search history length
                 itemBuilder: (context, index) {
-                  final historyItem = searchHistory.reversed.toList()[index];
+                  final historyItem = searchHistory.toList()[index];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -172,7 +174,23 @@ class _HistoryPageState extends State<HistoryPage> {
                             Text('Search Type: ${historyItem['search_type']}'),
                         onTap: () {
                           _wordsSpoken = historyItem['user_query'];
-                          getMovie();
+                          type = historyItem['search_type'];
+                          //getMovie();
+                          if(type == 'movie') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MovieResult(query: _wordsSpoken)),
+                            );
+                          }else{
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MusicResult(query: _wordsSpoken)),
+                            );
+                          }
                         },
                       ),
                     ),
