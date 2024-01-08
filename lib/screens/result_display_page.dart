@@ -193,7 +193,7 @@ class _MovieResultState extends State<MovieResult> {
   }
 
   Future<void> getMovies() async {
-    String apiUrl = 'http://10.0.2.2:8000/movie/';
+    String apiUrl = 'https://0411-202-166-206-236.ngrok-free.app/movie/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',

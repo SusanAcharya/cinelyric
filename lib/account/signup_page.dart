@@ -81,7 +81,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
     try {
       Response response = await post(
-          Uri.parse('http://10.0.2.2:8000/registration/'),
+          Uri.parse(
+              'https://0411-202-166-206-236.ngrok-free.app/registration/'),
           body: {'username': email, 'password': password});
 
       if (response.statusCode == 200) {

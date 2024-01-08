@@ -175,7 +175,7 @@ class _MusicResultState extends State<MusicResult> {
   }
 
   Future<void> getMovies() async {
-    String apiUrl = 'http://10.0.2.2:8000/song/';
+    String apiUrl = 'https://0411-202-166-206-236.ngrok-free.app/song/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',

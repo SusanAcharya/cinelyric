@@ -64,7 +64,7 @@ class _MovieHomeState extends State<MovieHome> {
   //
   // Future getMovie() async {
   //   //getDataFromSharedPreferences();
-  //   String apiUrl = 'http://10.0.2.2:8000/movie/';
+  //   String apiUrl = 'http://10.0.2.2:8000/movie/';//https://0411-202-166-206-236.ngrok-free.app/movie/
   //   Map<String, String> headers = {
   //     'Authorization': 'Token $token',
   //     'Content-Type': 'application/json', // Specify content type as JSON
@@ -198,7 +198,8 @@ class _MovieHomeState extends State<MovieHome> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MovieResult(query: _wordsSpoken)),
+                                        builder: (context) =>
+                                            MovieResult(query: _wordsSpoken)),
                                   );
                                 },
                                 child: const Row(
@@ -227,8 +228,6 @@ class _MovieHomeState extends State<MovieHome> {
             ),
           ],
         ),
-
-
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           clipBehavior: Clip.hardEdge,
