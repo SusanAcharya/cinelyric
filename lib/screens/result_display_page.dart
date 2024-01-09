@@ -1,160 +1,4 @@
-// import 'package:cinelyric/elements/appbar.dart';
-// import 'package:cinelyric/elements/bottombar.dart';
-// import 'package:cinelyric/screens/movie_provider.dart';
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-//
-// class Movie {
-//   final String quote;
-//   final String name;
-//   final String date;
-//   final String genre;
-//   final String posterUrl;
-//
-//   Movie(
-//       {required this.quote,
-//       required this.name,
-//       required this.date,
-//       required this.genre,
-//       required this.posterUrl});
-// }
-//
-// class Music {
-//   final String name;
-//   final String date;
-//   final String genre;
-//   final String album;
-//   final String singer;
-//   final String singerPhotoUrl;
-//
-//   Music(
-//       {required this.name,
-//       required this.date,
-//       required this.genre,
-//       required this.album,
-//       required this.singer,
-//       required this.singerPhotoUrl});
-// }
-//
-// class ResultHome extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: MyAppBar(),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             SizedBox(height: 20),
-//             Text(
-//               'Result Details',
-//               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-//             ),
-//             SizedBox(height: 10),
-//             Expanded(
-//               child: ListView.builder(
-//                 itemCount: 3, // Change this to the number of cards you want
-//                 itemBuilder: (context, index) {
-//                   return Padding(
-//                     padding: const EdgeInsets.all(16.0),
-//                     child: MovieCard(
-//                       movie: Movie(
-//                         quote: context.watch<MovieProvider>().quote,
-//                         name: context.watch<MovieProvider>().movie,
-//                         date: context.watch<MovieProvider>().year,
-//                         genre: context.watch<MovieProvider>().type,
-//                         posterUrl:
-//                             'https://m.media-amazon.com/images/I/61RhWaYBp7L._AC_SL1044_.jpg',
-//                       ),
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//             SizedBox(height: 20),
-//           ],
-//         ),
-//       ),
-//       bottomNavigationBar: MyAppBottomBar(),
-//     );
-//   }
-// }
-//
-// class MovieCard extends StatelessWidget {
-//   final Movie movie;
-//
-//   MovieCard({required this.movie});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: MovieDetails(movie: movie),
-//       ),
-//     );
-//   }
-// }
-//
-// class MovieDetails extends StatelessWidget {
-//   final Movie movie;
-//
-//   MovieDetails({required this.movie});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         Expanded(
-//           child: Padding(
-//             padding: const EdgeInsets.only(left: 10.0),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   'Quote: ${movie.quote}',
-//                   style: const TextStyle(
-//                     fontWeight: FontWeight.normal,
-//                     fontSize: 20.0,
-//                   ),
-//                 ),
-//                 Text(
-//                   'Movie Name: ${movie.name}',
-//                   style: const TextStyle(
-//                     fontWeight: FontWeight.normal,
-//                     fontSize: 20.0,
-//                   ),
-//                 ),
-//                 Text(
-//                   'Release Date: ${movie.date}',
-//                   style: const TextStyle(
-//                     fontWeight: FontWeight.normal,
-//                     fontSize: 20.0,
-//                   ),
-//                 ),
-//                 Text(
-//                   'Type: ${movie.genre}',
-//                   style: const TextStyle(
-//                     fontWeight: FontWeight.normal,
-//                     fontSize: 20.0,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         SizedBox(width: 20),
-//         // Image.network(
-//         //   movie.posterUrl,
-//         //   width: 100,
-//         //   height: 150,
-//         //   fit: BoxFit.cover,
-//         // ),
-//       ],
-//     );
-//   }
-// }
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -193,7 +37,8 @@ class _MovieResultState extends State<MovieResult> {
   }
 
   Future<void> getMovies() async {
-    String apiUrl = 'http://10.0.2.2:8000/movie/';
+    String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
+    //String apiUrl = 'http://10.0.2.2:8000/movie/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -284,9 +129,33 @@ class _MovieResultState extends State<MovieResult> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Type: ${movie.type}'),
-                                  Text('Release Date ${movie.year}'),
+                                  Text('Release Date: ${movie.year}'),
+                                  Text('Movie quote: ${movie.quote}'),
                                   Text('Your query: "${widget.query}"'),
                                 ],
+                              ),
+                              leading: movie.poster_link == ""
+                                  ? Image.network(
+                                'https://icons.iconarchive.com/icons/designbolts/free-multimedia/512/Film-icon.png',
+                                width: 80.0,
+                                height: 280.0,
+                                fit: BoxFit.contain,
+                              )
+                                  : FadeInImage.assetNetwork(
+                                placeholder: 'assets/placeholder/Film-icon.png', // Placeholder image
+                                image: movie.poster_link,
+                                width: 80.0,
+                                height: 150.0,
+                                fit: BoxFit.cover,
+                                imageErrorBuilder: (context, error, stackTrace) {
+                                  // Handle image loading errors here
+                                  return Image.asset(
+                                    'assets/placeholder/Film-icon.png', // Error placeholder image
+                                    width: 80.0,
+                                    height: 150.0,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                               onTap: () {},
                             ),
@@ -311,7 +180,8 @@ class Movie {
   final String quote;
   final String movie;
   final String type;
-  final String year;
+  final int year;
+  final String poster_link;
 
   Movie({
     required this.id,
@@ -319,6 +189,7 @@ class Movie {
     required this.movie,
     required this.type,
     required this.year,
+    required this.poster_link,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -328,6 +199,7 @@ class Movie {
       movie: json['movie'],
       type: json['type'],
       year: json['year'],
+      poster_link: json['poster_link'],
     );
   }
 }

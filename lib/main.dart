@@ -1,5 +1,5 @@
-import 'package:cinelyric/screens/movie_provider.dart';
-import 'package:cinelyric/screens/music_provider.dart';
+import 'package:cinelyric/screens/provider/movie_provider.dart';
+import 'package:cinelyric/screens/provider/music_provider.dart';
 import 'package:provider/provider.dart';
 import 'elements/app_theme.dart';
 import 'screens/funfact.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
-import 'package:cinelyric/screens/movie_provider.dart';
+import 'package:cinelyric/screens/provider/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';

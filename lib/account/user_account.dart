@@ -6,7 +6,7 @@ import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../screens/movie_provider.dart';
+import '../screens/provider/movie_provider.dart';
 import '../screens/result_display_page.dart';
 import 'history_page.dart';
 import 'login_page.dart';

@@ -17,36 +17,7 @@ class _SignUpPageState extends State<SignUpPage> {
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  // void _signUp() {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Check if passwords match
-  //     if (_passwordController.text == _confirmPasswordController.text) {
-  //       print("Email: ${_emailController.text}");
-  //       print("Password: ${_passwordController.text}");
 
-  //       Navigator.pop(context);
-  //     } else {
-  //       // if the pws don't match then:-
-  //       showDialog(
-  //         context: context,
-  //         builder: (context) {
-  //           return AlertDialog(
-  //             title: Text('Error'),
-  //             content: Text('Passwords do not match.'),
-  //             actions: [
-  //               TextButton(
-  //                 onPressed: () {
-  //                   Navigator.pop(context);
-  //                 },
-  //                 child: Text('OK'),
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     }
-  //   }
-  // }
   void loginb(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       // Check if passwords match
@@ -81,7 +52,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
     try {
       Response response = await post(
-          Uri.parse('http://10.0.2.2:8000/registration/'),
+          Uri.parse('https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/registration/'),
+        //Uri.parse('http://10.0.2.2:8000/registration/'),
           body: {'username': email, 'password': password});
 
       if (response.statusCode == 200) {

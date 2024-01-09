@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/bottombar.dart';
-import '../screens/movie_provider.dart';
+import '../screens/provider/movie_provider.dart';
 import '../screens/music_result.dart';
 import '../screens/result_display_page.dart';
 
@@ -44,7 +44,8 @@ class _HistoryPageState extends State<HistoryPage> {
   Future<void> fetchData() async {
     //getDataFromSharedPreferences();
     print(token);
-    String apiUrl = 'http://10.0.2.2:8000/history/';
+    String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/history/';
+    //String apiUrl = 'http://10.0.2.2:8000/history/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json', // Specify content type as JSON
@@ -75,66 +76,6 @@ class _HistoryPageState extends State<HistoryPage> {
     }
   }
 
-  // Future getMovie() async {
-  //   //getDataFromSharedPreferences();
-  //   String apiUrl = 'http://10.0.2.2:8000/movie/';
-  //   Map<String, String> headers = {
-  //     'Authorization': 'Token $token',
-  //     'Content-Type': 'application/json', // Specify content type as JSON
-  //   };
-  //   Map<String, dynamic> requestBody = {
-  //     'quote': _wordsSpoken,
-  //   };
-  //   String jsonBody = jsonEncode(requestBody);
-  //   try {
-  //     // Send the POST request
-  //     http.Response response = await http.post(
-  //       Uri.parse(apiUrl),
-  //       headers: headers,
-  //       body: jsonBody,
-  //     );
-  //
-  //     // Handle the response
-  //     if (response.statusCode == 200) {
-  //       // Request was successful
-  //       print('Response: ${response.body}');
-  //       Map<String, dynamic> decodedData = jsonDecode(response.body);
-  //       int id = decodedData['id'];
-  //       String quote = decodedData['quote'];
-  //       String movie = decodedData['movie'];
-  //       String type = decodedData['type'];
-  //       String year = decodedData['year'];
-  //
-  //       print('ID: $id');
-  //       print('Quote: $quote');
-  //       print('Movie: $movie');
-  //       print('Type: $type');
-  //       print('Year: $year');
-  //
-  //       context.read<MovieProvider>().changeMovieDetail(
-  //           newId: id,
-  //           newQuote: quote,
-  //           newMovie: movie,
-  //           newType: type,
-  //           newYear: year);
-  //
-  //       // Navigator.push(
-  //       //   context,
-  //       //   MaterialPageRoute(builder: (context) => ResultHome()),
-  //       // );
-  //     } else {
-  //       // Request failed
-  //       print('Failed with status code: ${response.statusCode}');
-  //       print('Response: ${response.body}');
-  //       Map<String, dynamic> jasonBody = jsonDecode(response.body);
-  //       String message = jasonBody['message'];
-  //       print(message);
-  //     }
-  //   } catch (error) {
-  //     // Handle any exceptions that occurred during the request
-  //     print('Error: $error');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +99,7 @@ class _HistoryPageState extends State<HistoryPage> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: ListView.builder(
+                reverse: true,
                 itemCount: searchHistory.length, //search history length
                 itemBuilder: (context, index) {
                   final historyItem = searchHistory.toList()[index];
