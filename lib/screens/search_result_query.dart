@@ -1,10 +1,12 @@
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
+import 'package:cinelyric/elements/movie.dart';
+
+import 'movie_info.dart';
 
 class SearchQueryResult extends StatefulWidget {
   final String query;
@@ -37,8 +39,8 @@ class _SearchQueryResultState extends State<SearchQueryResult> {
   }
 
   Future<void> getMovies() async {
-    String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
-    //String apiUrl = 'http://10.0.2.2:8000/movie/';
+    // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
+    String apiUrl = 'http://10.0.2.2:8000/movie/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -131,28 +133,38 @@ class _SearchQueryResultState extends State<SearchQueryResult> {
                               // ),
                               leading: movie.poster_link == ""
                                   ? Image.network(
-                                'https://icons.iconarchive.com/icons/designbolts/free-multimedia/512/Film-icon.png',
-                                width: 80.0,
-                                height: 150.0,
-                                fit: BoxFit.cover,
-                              )
+                                      'https://icons.iconarchive.com/icons/designbolts/free-multimedia/512/Film-icon.png',
+                                      width: 80.0,
+                                      height: 150.0,
+                                      fit: BoxFit.cover,
+                                    )
                                   : FadeInImage.assetNetwork(
-                                placeholder: 'assets/placeholder/Film-icon.png', // Placeholder image
-                                image: movie.poster_link,
-                                width: 80.0,
-                                height: 150.0,
-                                fit: BoxFit.cover,
-                                imageErrorBuilder: (context, error, stackTrace) {
-                                  // Handle image loading errors here
-                                  return Image.asset(
-                                    'assets/placeholder/Film-icon.png', // Error placeholder image
-                                    width: 80.0,
-                                    height: 150.0,
-                                    fit: BoxFit.cover,
-                                  );
-                                },
-                              ),
-                              onTap: () {},
+                                      placeholder:
+                                          'assets/placeholder/Film-icon.png', // Placeholder image
+                                      image: movie.poster_link,
+                                      width: 80.0,
+                                      height: 150.0,
+                                      fit: BoxFit.cover,
+                                      imageErrorBuilder:
+                                          (context, error, stackTrace) {
+                                        // Handle image loading errors here
+                                        return Image.asset(
+                                          'assets/placeholder/Film-icon.png', // Error placeholder image
+                                          width: 80.0,
+                                          height: 150.0,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MovieInfo(movie: movie),
+                                  ),
+                                );
+                              },
                             ),
                           );
                         },
@@ -165,37 +177,7 @@ class _SearchQueryResultState extends State<SearchQueryResult> {
           );
         },
       ),
-      bottomNavigationBar: const MyAppBottomBar(),
+      bottomNavigationBar: const MyAppBottomBar(currentPageIndex: 1),
     );
   }
 }
-
-class Movie {
-  final int id;
-  final String quote;
-  final String movie;
-  final String type;
-  final int year;
-  final String poster_link;
-
-  Movie({
-    required this.id,
-    required this.quote,
-    required this.movie,
-    required this.type,
-    required this.year,
-    required this.poster_link,
-  });
-
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
-      id: json['id'],
-      quote: json['quote'],
-      movie: json['movie'],
-      type: json['type'],
-      year: json['year'],
-      poster_link: json['poster_link'],
-    );
-  }
-}
-

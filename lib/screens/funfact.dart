@@ -56,7 +56,7 @@ class _FunFactPageState extends State<FunFactPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const MyAppBottomBar(),
+      bottomNavigationBar: const MyAppBottomBar(currentPageIndex: 3),
     );
   }
 }

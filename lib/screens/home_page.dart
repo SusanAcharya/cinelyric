@@ -111,7 +111,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: MyAppBottomBar(),
+      bottomNavigationBar: MyAppBottomBar(currentPageIndex: 0),
     );
   }
 }

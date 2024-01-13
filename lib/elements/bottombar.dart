@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
-class MyAppBottomBar extends StatelessWidget {
-  const MyAppBottomBar({super.key});
+class MyAppBottomBar extends StatefulWidget {
+  final int currentPageIndex;
+
+  const MyAppBottomBar({super.key, required this.currentPageIndex});
+
+  @override
+  State<MyAppBottomBar> createState() => _MyAppBottomBarState();
+}
+
+class _MyAppBottomBarState extends State<MyAppBottomBar> {
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.currentPageIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,33 +25,56 @@ class MyAppBottomBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          IconButton(
-            icon: const Icon(Icons.home),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/home');
-            },
+          buildIconWithLabel(0, Icons.home, 'Home'),
+          buildIconWithLabel(1, Icons.movie, 'Movies'),
+          buildIconWithLabel(2, Icons.music_note, 'Music'),
+          buildIconWithLabel(3, Icons.account_circle, 'Account'),
+        ],
+      ),
+    );
+  }
+
+  Widget buildIconWithLabel(int index, IconData iconData, String label) {
+    return InkWell(
+      onTap: () {
+        if (_currentIndex == index) {
+          // Do nothing if the user taps on the current page icon
+          return;
+        }
+
+        setState(() {
+          _currentIndex = index;
+        });
+
+        switch (index) {
+          case 0:
+            Navigator.pushReplacementNamed(context, '/home');
+            break;
+          case 1:
+            Navigator.pushReplacementNamed(context, '/movie');
+            break;
+          case 2:
+            Navigator.pushReplacementNamed(context, '/music');
+            break;
+          case 3:
+            Navigator.pushReplacementNamed(context, '/account');
+            break;
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            iconData,
+            color: _currentIndex == index ? Colors.redAccent : Colors.yellow,
+            size: _currentIndex == index ? 26.0 : 20.0,
           ),
-          IconButton(
-            icon: const Icon(Icons.movie),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/movie');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.music_note),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/music');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.account_circle),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/history');
-            },
+          Text(
+            label,
+            style: TextStyle(
+              color: _currentIndex == index ? Colors.redAccent : Colors.yellow,
+              fontSize: _currentIndex == index ? 16.0 : 12.0,
+            ),
           ),
         ],
       ),

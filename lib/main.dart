@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           '/music': (context) => const MusicHome(),
           '/login': (context) => const LoginPage(),
           '/signup': (context) => SignUpPage(),
-          '/history': (context) => const UserHistory(),
+          '/account': (context) => const UserAccount(),
           '/landing': (context) => const LandingPage(),
           '/funfact': (context) => const FunFactPage(),
         },

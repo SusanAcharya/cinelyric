@@ -175,8 +175,9 @@ class _MusicResultState extends State<MusicResult> {
   }
 
   Future<void> getMovies() async {
-    String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/song/';
-    //String apiUrl = 'http://10.0.2.2:8000/song/';
+    // String apiUrl =
+    //     'https://8cd5-2400-1a00-b040-5496-7491-c660-170c-1ab5.ngrok-fre/song/';
+    String apiUrl = 'http://10.0.2.2:8000/song/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -285,7 +286,7 @@ class _MusicResultState extends State<MusicResult> {
           );
         },
       ),
-      bottomNavigationBar: const MyAppBottomBar(),
+      bottomNavigationBar: const MyAppBottomBar(currentPageIndex: 2),
     );
   }
 }

@@ -1,64 +1,97 @@
-// ignore_for_file: unused_import
-
-import 'package:cinelyric/elements/appbar.dart';
-import 'package:cinelyric/elements/scaffold_bg.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../account/login_page.dart';
-import '../elements/scaffold_bg.dart';
 
-class LandingPage extends StatelessWidget {
-  const LandingPage({
-    super.key,
-  });
+class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key});
+
+  @override
+  _LandingPageState createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  bool _isScrollingDown = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
         children: [
-          SizedBox(height: 50),
-          Container(
-            child: Image.asset(
-              'assets/landingimagee.png',
-              width: double.infinity,
-              height: 500,
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Container(
-            width: 300,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                // backgroundColor: Color.fromRGBO(48, 53, 147, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 50),
+              Text(
+                'CINELYRIC',
+                style: TextStyle(
+                  fontSize: 60,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Proceed to login',
-                    style: Theme.of(context).textTheme.displayLarge,
+              const SizedBox(
+                height: 30,
+              ),
+              Container(
+                child: Lottie.asset(
+                  'assets/initial.json',
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 40,
+            left: 0,
+            right: 0,
+            child: GestureDetector(
+              onVerticalDragUpdate: (details) {
+                // Check if the user is scrolling down
+                if (details.primaryDelta! > 0) {
+                  setState(() {
+                    _isScrollingDown = true;
+                  });
+                }
+              },
+              onVerticalDragEnd: (details) {
+                // Check if the drag gesture ends and the user was scrolling down
+                if (_isScrollingDown) {
+                  _isScrollingDown = false;
+                  // Open LoginPage with transition
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          LoginPage(),
+                      transitionsBuilder:
+                          (context, animation1, animation2, child) {
+                        const begin = Offset(0.0, -10.0);
+                        const end = Offset.zero;
+                        const curve = Curves.ease;
+                        var tween = Tween(begin: begin, end: end)
+                            .chain(CurveTween(curve: curve));
+                        var offsetAnimation = animation1.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 1250),
+                    ),
+                  );
+                }
+              },
+              child: Container(
+                width: 100,
+                height: 100,
+                child: Center(
+                  child: Lottie.asset(
+                    'assets/arrow.json',
+                    width: 80,
+                    height: 80,
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.arrow_forward,
-                    color: Theme.of(context).textTheme.displayLarge?.color,
-                  ),
-                ],
+                ),
               ),
             ),
           ),

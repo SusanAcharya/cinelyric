@@ -57,7 +57,6 @@ class _MusicHomeState extends State<MusicHome> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -128,7 +127,8 @@ class _MusicHomeState extends State<MusicHome> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MusicResult(query: _wordsSpoken)),
+                                        builder: (context) =>
+                                            MusicResult(query: _wordsSpoken)),
                                   );
                                 },
                                 child: const Row(
@@ -168,7 +168,7 @@ class _MusicHomeState extends State<MusicHome> {
             color: Colors.redAccent,
           ),
         ),
-        bottomNavigationBar: const MyAppBottomBar(),
+        bottomNavigationBar: const MyAppBottomBar(currentPageIndex: 2),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/provider/movie_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:cinelyric/screens/result_display_page.dart';
@@ -124,6 +125,42 @@ class _MovieHomeState extends State<MovieHome> {
   //
   // }
 
+  void _navigateToResultPage() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Lottie.asset(
+          'assets/resultdisplay.json',
+        );
+      },
+    );
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MovieResult(query: _wordsSpoken)),
+      );
+    });
+  }
+
+  void _navigateToSearchResultPage() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Lottie.asset(
+          'assets/resultdisplay.json',
+        );
+      },
+    );
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SearchQueryResult(query: _controller.text)),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -144,17 +181,9 @@ class _MovieHomeState extends State<MovieHome> {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      // setvalue(){
-                      //   _wordsSpoken = _controller.text;
-                      //   getMovie();
-                      // };
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              SearchQueryResult(query: _controller.text),
-                        ),
-                      );
+                      setState(() {
+                        _navigateToSearchResultPage();
+                      });
                     },
                   ),
                 ),
@@ -192,14 +221,9 @@ class _MovieHomeState extends State<MovieHome> {
                                 _wordsSpoken.isNotEmpty)
                               TextButton(
                                 onPressed: () {
-                                  // getDataFromSharedPreferences().then((_) {
-                                  //   getMovie();
-                                  // });
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MovieResult(query: _wordsSpoken)),
-                                  );
+                                  setState(() {
+                                    _navigateToResultPage();
+                                  });
                                 },
                                 child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -227,8 +251,6 @@ class _MovieHomeState extends State<MovieHome> {
             ),
           ],
         ),
-
-
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           clipBehavior: Clip.hardEdge,
@@ -241,7 +263,7 @@ class _MovieHomeState extends State<MovieHome> {
             color: Colors.redAccent,
           ),
         ),
-        bottomNavigationBar: const MyAppBottomBar(),
+        bottomNavigationBar: const MyAppBottomBar(currentPageIndex: 1),
       ),
     );
   }

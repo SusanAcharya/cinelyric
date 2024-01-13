@@ -1,97 +1,63 @@
-// apptheme.dart
 import 'package:flutter/material.dart';
 
 final ThemeData lightTheme = ThemeData(
-  // Define your light theme here
   primaryColor: Colors.white,
-  brightness: Brightness.light,
-  textTheme: TextTheme(
-    displaySmall: TextStyle(
-      color: Colors.white,
-      fontSize: 15,
-      fontWeight: FontWeight.w700,
-    ),
-    displayLarge: TextStyle(
-      color: Colors.white,
-      fontSize: 22,
-    ),
-  ),
-  appBarTheme: AppBarTheme(
+  // brightness: Brightness.light,
+
+  appBarTheme: const AppBarTheme(
     titleTextStyle: TextStyle(
-      fontSize: 35,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
+      color: Colors.blue,
+      fontSize: 20,
     ),
+    backgroundColor: Colors.blue,
     iconTheme: IconThemeData(
-      color: Colors.white,
+      color: Colors.black,
     ),
-    backgroundColor: Color.fromRGBO(48, 53, 147, 1),
     centerTitle: true,
   ),
   bottomAppBarTheme: const BottomAppBarTheme(
-    color: Color.fromRGBO(48, 53, 147, 1),
+    color: Colors.blue,
   ),
   iconTheme: IconThemeData(
-    color: Colors.white,
+    color: Colors.black,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      textStyle: TextStyle(
-        color: Colors.white,
-      ),
-      backgroundColor: Color.fromRGBO(60, 104, 177, 1),
+      backgroundColor: Colors.blue,
     ),
   ),
+  dividerColor: Colors.grey[300], // Adjust the divider color for light mode
 
-  // primarySwatch: Colors.blue,
-  // visualDensity: VisualDensity.adaptivePlatformDensity,
+  primarySwatch: Colors.blue,
+  visualDensity: VisualDensity.adaptivePlatformDensity,
 );
 
+///////////////////////////////////////////////////////////////////////////
+
 final ThemeData darkTheme = ThemeData(
-  // primaryColor: Colors.black,
   brightness: Brightness.dark,
-  primaryColorDark: Colors.black,
-  // Define your dark theme here
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-      // backgroundColor: Colors.blueGrey,
-      ),
+    backgroundColor: Colors.grey[800], // Adjust the FAB color for dark mode
+  ),
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 35,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
+      color: Colors.white, // Adjust the text color for dark mode
     ),
-    // backgroundColor: Color.fromRGBO(199, 235, 247, 1),
-    backgroundColor: Color.fromRGBO(159, 18, 57, 1),
+    backgroundColor:
+        Colors.black26, // Adjust the background color for dark mode
     centerTitle: true,
   ),
   iconTheme: IconThemeData(
-    color: Colors.white,
+    color: Colors.yellow,
   ),
-  bottomAppBarTheme: const BottomAppBarTheme(
-    color: Color.fromRGBO(159, 18, 57, 1),
+  bottomAppBarTheme: BottomAppBarTheme(
+    color: Colors.black87, // Adjust the color for dark mode
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Color.fromRGBO(159, 18, 57, 1),
-      textStyle: TextStyle(
-        color: Colors.black,
-      ),
+      backgroundColor: Colors.yellow, // Adjust the button color for dark mode
     ),
   ),
-  textTheme: TextTheme(
-    displaySmall: TextStyle(
-      color: Colors.white,
-      fontSize: 15,
-      fontWeight: FontWeight.w700,
-    ),
-    displayLarge: TextStyle(
-      color: Colors.white,
-      fontSize: 22,
-    ),
-  ),
-
-  //darktheme:-
-  // primarySwatch: Colors.yellow,
-  // visualDensity: VisualDensity.adaptivePlatformDensity,
+  dividerColor: Colors.grey[800], // Adjust the divider color for dark mode
 );
