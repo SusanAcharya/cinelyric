@@ -120,9 +120,12 @@ import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/elements/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'result_display_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MovieInfo extends StatefulWidget {
   final Movie movie;
@@ -130,13 +133,13 @@ class MovieInfo extends StatefulWidget {
   MovieInfo({required this.movie});
 
   @override
-  _MovieInfoState createState() => _MovieInfoState();
+  State<MovieInfo> createState() => _MovieInfoState();
 }
 
 class _MovieInfoState extends State<MovieInfo> {
   bool _showVideoPlayer = false;
-
   late YoutubePlayerController _youtubeController;
+  bool _isBookmarkClicked = false;
 
   @override
   void initState() {
@@ -147,6 +150,8 @@ class _MovieInfoState extends State<MovieInfo> {
         autoPlay: true,
       ),
     )..addListener(_onYoutubePlayerChange);
+
+    _loadBookmarkState();
   }
 
   void _onYoutubePlayerChange() {
@@ -155,6 +160,19 @@ class _MovieInfoState extends State<MovieInfo> {
     } else {
       SystemChrome.setPreferredOrientations(DeviceOrientation.values);
     }
+  }
+
+  void _loadBookmarkState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool bookmarked = prefs.getBool('bookmark_${widget.movie.id}') ?? false;
+    setState(() {
+      _isBookmarkClicked = bookmarked;
+    });
+  }
+
+  void _saveBookmarkState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('bookmark_${widget.movie.id}', _isBookmarkClicked);
   }
 
   @override
@@ -187,7 +205,7 @@ class _MovieInfoState extends State<MovieInfo> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Quote: ${widget.movie.quote}',
+                            'Movie Name: ${widget.movie.movie}',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
@@ -195,17 +213,9 @@ class _MovieInfoState extends State<MovieInfo> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'Movie Name: ${widget.movie.movie}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
                             'Release Date: ${widget.movie.year}',
                             style: TextStyle(
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.w400,
                               fontSize: 14.0,
                             ),
                           ),
@@ -213,18 +223,66 @@ class _MovieInfoState extends State<MovieInfo> {
                           Text(
                             'Type: ${widget.movie.type}',
                             style: TextStyle(
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.w400,
                               fontSize: 14.0,
                             ),
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            children: [
+                              Text(
+                                'Rating: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                width: 50,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey[600],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '7.5', //dummy rating value ho
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                  width:
+                                      10), // Add space between rating and bookmark
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _isBookmarkClicked = !_isBookmarkClicked;
+                                    _saveBookmarkState();
+                                  });
+                                },
+                                child: Icon(
+                                  _isBookmarkClicked
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_border,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
                     Image.network(
                       widget.movie.poster_link,
-                      width: 100,
-                      height: 150,
+                      width: 150,
+                      height: 200,
                       fit: BoxFit.cover,
                     ),
                   ],
@@ -241,7 +299,7 @@ class _MovieInfoState extends State<MovieInfo> {
                                 controller: _youtubeController,
                                 showVideoProgressIndicator: true,
                                 onReady: () {
-                                  // Do something when the video is ready
+//video player ready huda k garne. for now, nothing
                                 },
                               ),
                               SizedBox(height: 20),
@@ -283,7 +341,7 @@ class _MovieInfoState extends State<MovieInfo> {
           ),
         ),
       ),
-      bottomNavigationBar: const MyAppBottomBar(currentPageIndex: 1),
+      bottomNavigationBar: const MyAppBottomBar(currentPageIndex: 3),
     );
   }
 }
