@@ -279,12 +279,36 @@ class _MovieInfoState extends State<MovieInfo> {
                         ],
                       ),
                     ),
+                    // Image.network(
+                    //   widget.movie.poster_link,
+                    //   width: 150,
+                    //   height: 200,
+                    //   fit: BoxFit.cover,
+                    // ),
                     Image.network(
                       widget.movie.poster_link,
                       width: 150,
                       height: 200,
                       fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                        return FadeInImage.assetNetwork(
+                          placeholder: 'assets/placeholder/Film-icon.png', // Placeholder image
+                          image: widget.movie.poster_link,
+                          width: 150,
+                          height: 200,
+                          fit: BoxFit.cover,
+                          imageErrorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/placeholder/Film-icon.png', // Error placeholder image
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        );
+                      },
                     ),
+
                   ],
                 ),
               ),
