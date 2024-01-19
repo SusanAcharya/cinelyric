@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
-import 'package:cinelyric/screens/music_result.dart';
+import 'package:cinelyric/screens/music_result_display.dart';
 import 'package:cinelyric/screens/search_music_query.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:cinelyric/elements/scaffold_bg.dart';
-import 'package:cinelyric/screens/result_display_page.dart';
+import 'package:cinelyric/screens/movie_result_display.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:cinelyric/screens/result_display_page.dart';
+import 'package:cinelyric/screens/movie_result_display.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'search_result_query.dart';

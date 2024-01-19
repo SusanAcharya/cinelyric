@@ -124,7 +124,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import 'result_display_page.dart';
+import 'movie_result_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MovieInfo extends StatefulWidget {
@@ -290,9 +290,11 @@ class _MovieInfoState extends State<MovieInfo> {
                       width: 150,
                       height: 200,
                       fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                      errorBuilder: (BuildContext context, Object error,
+                          StackTrace? stackTrace) {
                         return FadeInImage.assetNetwork(
-                          placeholder: 'assets/placeholder/Film-icon.png', // Placeholder image
+                          placeholder:
+                              'assets/placeholder/Film-icon.png', // Placeholder image
                           image: widget.movie.poster_link,
                           width: 150,
                           height: 200,
@@ -308,7 +310,6 @@ class _MovieInfoState extends State<MovieInfo> {
                         );
                       },
                     ),
-
                   ],
                 ),
               ),

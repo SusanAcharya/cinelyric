@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/bottombar.dart';
 import '../screens/provider/movie_provider.dart';
-import '../screens/music_result.dart';
-import '../screens/result_display_page.dart';
+import '../screens/music_result_display.dart';
+import '../screens/movie_result_display.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
