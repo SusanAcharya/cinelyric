@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
-
 import '../elements/music.dart';
 import 'music_info.dart';
 
@@ -132,6 +131,7 @@ class _MusicResultState extends State<MusicResult> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Artist: ${musics.artist_name}'),
+                                  //Text('Genre: ${musics.genre.join(', ')}'),
                                   Text('Genre: ${musics.genre}'),
                                   Text('Release Date: ${musics.release_date}'),
                                   Text('Your query: "${widget.query}"'),

@@ -1,4 +1,5 @@
 import 'package:cinelyric/account/history_page.dart';
+import 'package:cinelyric/account/login_page.dart';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/screens/about_us_page.dart';
 import 'package:cinelyric/screens/faq_page.dart';
@@ -178,7 +179,13 @@ class _UserHistoryState extends State<UserAccount> {
                   leading: const Icon(Icons.logout),
                   title: const Text('Logout'),
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, '/login');
+                    //Navigator.pushReplacementNamed(context, '/login');
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                      (route) => false,
+                    );
                   },
                 ),
                 const Divider(
