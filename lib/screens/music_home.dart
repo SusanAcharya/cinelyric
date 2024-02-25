@@ -4,6 +4,7 @@ import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/music_result_display.dart';
 import 'package:cinelyric/screens/search_music_query.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:cinelyric/elements/scaffold_bg.dart';
@@ -57,6 +58,25 @@ class _MusicHomeState extends State<MusicHome> {
     });
   }
 
+  void _navigateToMusicResultPage() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Lottie.asset(
+          'assets/resultdisplay.json',
+        );
+      },
+    );
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MusicResult(query: _controller.text),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -72,18 +92,20 @@ class _MusicHomeState extends State<MusicHome> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _controller,
+                onSubmitted: (value) {
+                  // Trigger search when user presses "Enter" on keyboard
+                  setState(() {
+                    _navigateToMusicResultPage();
+                  });
+                },
                 decoration: InputDecoration(
                   hintText: 'Enter your query',
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              MusicResult(query: _controller.text),
-                        ),
-                      );
+                      setState(() {
+                        _navigateToMusicResultPage();
+                      });
                     },
                   ),
                 ),

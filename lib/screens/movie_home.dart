@@ -176,6 +176,12 @@ class _MovieHomeState extends State<MovieHome> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _controller,
+                onSubmitted: (value) {
+                  // Trigger search when user presses "Enter" on keyboard
+                  setState(() {
+                    _navigateToSearchResultPage();
+                  });
+                },
                 decoration: InputDecoration(
                   hintText: 'Enter your query',
                   suffixIcon: IconButton(

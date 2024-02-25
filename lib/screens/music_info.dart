@@ -6,7 +6,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../elements/music.dart';
-import 'music_result_display.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class MusicInfo extends StatefulWidget {
   final Music music;
@@ -26,7 +26,8 @@ class _MusicInfoState extends State<MusicInfo> {
   void initState() {
     super.initState();
     _youtubeController = YoutubePlayerController(
-      initialVideoId: _parseYoutubeVideoId(widget.music.youtube_link),//'dQw4w9WgXcQ', // Dummy video ID for the song
+      initialVideoId: _parseYoutubeVideoId(widget
+          .music.youtube_link), //'dQw4w9WgXcQ', // Dummy video ID for the song
       flags: YoutubePlayerFlags(
         autoPlay: true,
       ),
@@ -35,7 +36,7 @@ class _MusicInfoState extends State<MusicInfo> {
     _loadBookmarkState();
   }
 
-String _parseYoutubeVideoId(String youtubeUrl) {
+  String _parseYoutubeVideoId(String youtubeUrl) {
     RegExp regExp = RegExp(
         r'(?<=watch\?v=|/videos/|embed/|youtu.be/|/v/|/e/|\?v=|&v=|%2Fvideos%2F|embed%\2F|youtu.be%\2F|%2Fv%2F|\?v=|%26v%3D|^youtu\.be/)([^&?/"]+)');
     Match? match = regExp.firstMatch(youtubeUrl);
@@ -96,7 +97,7 @@ String _parseYoutubeVideoId(String youtubeUrl) {
                             'Song Name: ${widget.music.track_name}',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
+                              fontSize: 18.0,
                             ),
                           ),
                           SizedBox(height: 10),
@@ -104,7 +105,7 @@ String _parseYoutubeVideoId(String youtubeUrl) {
                             'Artist: ${widget.music.artist_name}',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                             ),
                           ),
                           SizedBox(height: 10),
@@ -112,7 +113,7 @@ String _parseYoutubeVideoId(String youtubeUrl) {
                             'Genre: ${widget.music.genre}',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                             ),
                           ),
                           SizedBox(height: 10),
@@ -122,7 +123,7 @@ String _parseYoutubeVideoId(String youtubeUrl) {
                                 : 'Album: N/A',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                             ),
                           ),
                           SizedBox(height: 10),
@@ -132,17 +133,7 @@ String _parseYoutubeVideoId(String youtubeUrl) {
                                 : 'Year: N/A',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            widget.music.spotify_link != ''
-                                ? 'Spotify Link: ${widget.music.spotify_link}' // Actual rating value
-                                : 'Spotify Link: N/A',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12.0,
+                              fontSize: 16.0,
                             ),
                           ),
                           SizedBox(height: 30),
@@ -163,45 +154,59 @@ String _parseYoutubeVideoId(String youtubeUrl) {
                                   size: 30,
                                 ),
                               ),
+                              SizedBox(width: 16),
+                              GestureDetector(
+                                onTap: () async {
+                                  Uri spotifyUri =
+                                      Uri.parse(widget.music.spotify_link);
+
+                                  if (await launcher.canLaunchUrl(spotifyUri)) {
+                                    await launcher.launchUrl(spotifyUri);
+                                  } else {
+                                    print(
+                                        'Could not launch ${widget.music.spotify_link}');
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.music_note_rounded,
+                                  color: Colors.green,
+                                  size: 30,
+                                ),
+                              ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    Image.network(
-                      widget.music.artist_name,
-                      width: 150,
-                      height: 200,
-                      fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object error,
-                          StackTrace? stackTrace) {
-                        return FadeInImage.assetNetwork(
-                          placeholder:
-                              'assets/bgimagee.png', // Placeholder image
-                          image: widget.music.artist_name,
-                          width: 150,
-                          height: 200,
-                          fit: BoxFit.cover,
-                          imageErrorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/bgimagee.png', // Error placeholder image
-                              width: 150,
-                              height: 150,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        );
-                      },
-                    ),
+                    SizedBox(width: 16),
+                    // Move the poster link to the right side
+                    // Image.network(
+                    //   widget.music.artist_name,
+                    //   width: 150,
+                    //   height: 200,
+                    //   fit: BoxFit.cover,
+                    //   errorBuilder: (BuildContext context, Object error,
+                    //       StackTrace? stackTrace) {
+                    //     return FadeInImage.assetNetwork(
+                    //       placeholder:
+                    //           'assets/bgimagee.png', // Placeholder image
+                    //       image: widget.music.artist_name,
+                    //       width: 150,
+                    //       height: 200,
+                    //       fit: BoxFit.cover,
+                    //       imageErrorBuilder: (context, error, stackTrace) {
+                    //         return Image.asset(
+                    //           'assets/bgimagee.png', // Error placeholder image
+                    //           width: 150,
+                    //           height: 150,
+                    //           fit: BoxFit.cover,
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
-              ),
-              Text(
-                'Music Video:'
-                // style: TextStyle(
-                //               fontWeight: FontWeight.w400,
-                //               fontSize: 14.0,
-                //             ),
               ),
               SizedBox(height: 20),
               _showVideoPlayer

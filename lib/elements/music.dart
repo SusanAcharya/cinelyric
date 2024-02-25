@@ -9,16 +9,15 @@ class Music {
   final String spotify_link;
   final String album;
 
-  Music({
-    required this.id,
-    required this.artist_name,
-    required this.track_name,
-    required this.genre,
-    required this.release_date,
-    required this.youtube_link,
-    required this.spotify_link,
-    required this.album
-  });
+  Music(
+      {required this.id,
+      required this.artist_name,
+      required this.track_name,
+      required this.genre,
+      required this.release_date,
+      required this.youtube_link,
+      required this.spotify_link,
+      required this.album});
 
   factory Music.fromJson(Map<String, dynamic> json) {
     // List<String> genreList = (json['genre'] as List).cast<String>();
