@@ -26,13 +26,20 @@ class _MusicInfoState extends State<MusicInfo> {
   void initState() {
     super.initState();
     _youtubeController = YoutubePlayerController(
-      initialVideoId: 'dQw4w9WgXcQ', // Dummy video ID for the song
+      initialVideoId: _parseYoutubeVideoId(widget.music.youtube_link),//'dQw4w9WgXcQ', // Dummy video ID for the song
       flags: YoutubePlayerFlags(
         autoPlay: true,
       ),
     )..addListener(_onYoutubePlayerChange);
 
     _loadBookmarkState();
+  }
+
+String _parseYoutubeVideoId(String youtubeUrl) {
+    RegExp regExp = RegExp(
+        r'(?<=watch\?v=|/videos/|embed/|youtu.be/|/v/|/e/|\?v=|&v=|%2Fvideos%2F|embed%\2F|youtu.be%\2F|%2Fv%2F|\?v=|%26v%3D|^youtu\.be/)([^&?/"]+)');
+    Match? match = regExp.firstMatch(youtubeUrl);
+    return match?.group(0) ?? '';
   }
 
   void _onYoutubePlayerChange() {
@@ -108,6 +115,36 @@ class _MusicInfoState extends State<MusicInfo> {
                               fontSize: 14.0,
                             ),
                           ),
+                          SizedBox(height: 10),
+                          Text(
+                            widget.music.album != ''
+                                ? 'Album: ${widget.music.album}' // Actual rating value
+                                : 'Album: N/A',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            widget.music.release_date != ''
+                                ? 'Year: ${widget.music.release_date}' // Actual rating value
+                                : 'Year: N/A',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            widget.music.spotify_link != ''
+                                ? 'Spotify Link: ${widget.music.spotify_link}' // Actual rating value
+                                : 'Spotify Link: N/A',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12.0,
+                            ),
+                          ),
                           SizedBox(height: 30),
                           Row(
                             children: [
@@ -158,6 +195,13 @@ class _MusicInfoState extends State<MusicInfo> {
                     ),
                   ],
                 ),
+              ),
+              Text(
+                'Music Video:'
+                // style: TextStyle(
+                //               fontWeight: FontWeight.w400,
+                //               fontSize: 14.0,
+                //             ),
               ),
               SizedBox(height: 20),
               _showVideoPlayer

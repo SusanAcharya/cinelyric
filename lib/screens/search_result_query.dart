@@ -68,6 +68,24 @@ class _SearchQueryResultState extends State<SearchQueryResult> {
         Map<String, dynamic> jasonBody = jsonDecode(response.body);
         String message = jasonBody['message'];
         print(message);
+          showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Api response: $message'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       }
     } catch (error) {
       print('Error: $error');

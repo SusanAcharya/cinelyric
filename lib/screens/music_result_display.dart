@@ -133,9 +133,18 @@ class _MusicResultState extends State<MusicResult> {
                                   Text('Artist: ${musics.artist_name}'),
                                   //Text('Genre: ${musics.genre.join(', ')}'),
                                   Text('Genre: ${musics.genre}'),
+                                  //Text('Genre: ${musics.genre is List ? musics.genre.join(', ') : musics.genre}'),
+                                  //Text('Album: ${musics.album}'),
+                                  Text('Album: ${musics.album.isNotEmpty ? musics.album : 'N/A'}'),
                                   Text('Release Date: ${musics.release_date}'),
                                   Text('Your query: "${widget.query}"'),
                                 ],
+                              ),
+                              leading: Image.asset(
+                                'assets/placeholder/music-icon.jpeg',
+                                width: 80.0,
+                                height: 150.0,
+                                fit: BoxFit.cover,
                               ),
                               onTap: () {
                                 Navigator.push(
