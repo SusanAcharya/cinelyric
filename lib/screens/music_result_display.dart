@@ -16,11 +16,39 @@ class MusicResult extends StatefulWidget {
   _MusicResultState createState() => _MusicResultState();
 }
 
+enum SortOption { artistNameAscending, artistNameDescending, popularity }
+
 class _MusicResultState extends State<MusicResult> {
   String token = "";
   List<Music> music = [];
+  List<Music> defaultOrderMusic = []; // Store the default order
 
   late Future<void> dataFetchingFuture;
+  SortOption selectedSortOption = SortOption.popularity;
+
+  void onSortOptionChanged(SortOption? value) {
+    if (value != null) {
+      setState(() {
+        selectedSortOption = value;
+        sortMusic();
+      });
+    }
+  }
+
+  void sortMusic() {
+    switch (selectedSortOption) {
+      case SortOption.artistNameAscending:
+        music.sort((a, b) => a.artist_name.compareTo(b.artist_name));
+        break;
+      case SortOption.artistNameDescending:
+        music.sort((a, b) => b.artist_name.compareTo(a.artist_name));
+        break;
+      case SortOption.popularity:
+        // Reset to the default order
+        music = List.from(defaultOrderMusic);
+        break;
+    }
+  }
 
   @override
   void initState() {
@@ -60,6 +88,7 @@ class _MusicResultState extends State<MusicResult> {
         List<dynamic> decodedData = jsonDecode(response.body);
 
         music = decodedData.map((data) => Music.fromJson(data)).toList();
+        defaultOrderMusic = List.from(music); // Store the default order
 
         print('Music: $music');
       } else {
@@ -106,6 +135,8 @@ class _MusicResultState extends State<MusicResult> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
+                // Sort music based on the selected option
+                sortMusic();
                 return Column(
                   children: [
                     const Padding(
@@ -116,6 +147,27 @@ class _MusicResultState extends State<MusicResult> {
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ), // Dropdown menu for sorting options
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<SortOption?>(
+                        value: selectedSortOption,
+                        items: [
+                          DropdownMenuItem(
+                            value: SortOption.artistNameAscending,
+                            child: Text('Date Ascending'),
+                          ),
+                          DropdownMenuItem(
+                            value: SortOption.artistNameDescending,
+                            child: Text('Date Descending'),
+                          ),
+                          DropdownMenuItem(
+                            value: SortOption.popularity,
+                            child: Text('Popularity'),
+                          ),
+                        ],
+                        onChanged: onSortOptionChanged,
                       ),
                     ),
                     Expanded(
