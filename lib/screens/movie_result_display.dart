@@ -16,11 +16,39 @@ class MovieResult extends StatefulWidget {
   _MovieResultState createState() => _MovieResultState();
 }
 
+enum SortOption { dateAscending, dateDescending, popularity }
+
 class _MovieResultState extends State<MovieResult> {
   String token = "";
   List<Movie> movies = [];
+  List<Movie> defaultOrderMovies = []; // Store the default order
 
   late Future<void> dataFetchingFuture;
+  SortOption selectedSortOption = SortOption.popularity;
+
+  void onSortOptionChanged(SortOption? value) {
+    if (value != null) {
+      setState(() {
+        selectedSortOption = value;
+        sortMovies();
+      });
+    }
+  }
+
+  void sortMovies() {
+    switch (selectedSortOption) {
+      case SortOption.dateAscending:
+        movies.sort((a, b) => a.year.compareTo(b.year));
+        break;
+      case SortOption.dateDescending:
+        movies.sort((a, b) => b.year.compareTo(a.year));
+        break;
+      case SortOption.popularity:
+        // Reset to the default order
+        movies = List.from(defaultOrderMovies);
+        break;
+    }
+  }
 
   @override
   void initState() {
@@ -60,6 +88,7 @@ class _MovieResultState extends State<MovieResult> {
         List<dynamic> decodedData = jsonDecode(response.body);
 
         movies = decodedData.map((data) => Movie.fromJson(data)).toList();
+        defaultOrderMovies = List.from(movies); // Store the default order
 
         print('Movies: $movies');
       } else {
@@ -106,6 +135,8 @@ class _MovieResultState extends State<MovieResult> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
+                // Sort movies based on the selected option
+                sortMovies();
                 return Column(
                   children: [
                     const Padding(
@@ -116,6 +147,28 @@ class _MovieResultState extends State<MovieResult> {
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ),
+                    // Dropdown menu for sorting options
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<SortOption?>(
+                        value: selectedSortOption,
+                        items: [
+                          DropdownMenuItem(
+                            value: SortOption.dateAscending,
+                            child: Text('Date Ascending'),
+                          ),
+                          DropdownMenuItem(
+                            value: SortOption.dateDescending,
+                            child: Text('Date Descending'),
+                          ),
+                          DropdownMenuItem(
+                            value: SortOption.popularity,
+                            child: Text('Popularity'),
+                          ),
+                        ],
+                        onChanged: onSortOptionChanged,
                       ),
                     ),
                     Expanded(
@@ -155,8 +208,8 @@ class _MovieResultState extends State<MovieResult> {
                                         return Image.asset(
                                           'assets/placeholder/Film-icon.png', // Error placeholder image
                                           width: 80.0,
-                                          height: 150.0,
-                                          fit: BoxFit.cover,
+                                          height: 500.0,
+                                          fit: BoxFit.fill,
                                         );
                                       },
                                     ),

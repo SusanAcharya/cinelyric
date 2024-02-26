@@ -68,7 +68,7 @@ class _SearchQueryResultState extends State<SearchQueryResult> {
         Map<String, dynamic> jasonBody = jsonDecode(response.body);
         String message = jasonBody['message'];
         print(message);
-          showDialog(
+        showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
@@ -131,7 +131,6 @@ class _SearchQueryResultState extends State<SearchQueryResult> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Type: ${movie.type}'),
-                                  Text('Release Date ${movie.year}'),
                                   Text('Your query: "${widget.query}"'),
                                   Text('Movie Quote: "${movie.quote}"')
                                 ],
@@ -168,9 +167,9 @@ class _SearchQueryResultState extends State<SearchQueryResult> {
                                         // Handle image loading errors here
                                         return Image.asset(
                                           'assets/placeholder/Film-icon.png', // Error placeholder image
-                                          width: 80.0,
-                                          height: 150.0,
-                                          fit: BoxFit.cover,
+                                          width: 100.0,
+                                          height: 200.0,
+                                          fit: BoxFit.contain,
                                         );
                                       },
                                     ),

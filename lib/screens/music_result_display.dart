@@ -126,25 +126,33 @@ class _MusicResultState extends State<MusicResult> {
                           return Card(
                             margin: const EdgeInsets.all(8.0),
                             child: ListTile(
-                              title: Text('Name: ${musics.track_name}'),
+                              title: Text(
+                                'Name: ${musics.track_name}',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Artist: ${musics.artist_name}'),
-                                  //Text('Genre: ${musics.genre.join(', ')}'),
-                                  Text('Genre: ${musics.genre}'),
-                                  //Text('Genre: ${musics.genre is List ? musics.genre.join(', ') : musics.genre}'),
-                                  //Text('Album: ${musics.album}'),
-                                  Text('Album: ${musics.album.isNotEmpty ? musics.album : 'N/A'}'),
-                                  Text('Release Date: ${musics.release_date}'),
-                                  Text('Your query: "${widget.query}"'),
+                                  Text(
+                                    'Artist: ${musics.artist_name}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    'Album: ${musics.album.isNotEmpty ? musics.album : 'N/A'}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    'Your query: "${widget.query}"',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
                                 ],
                               ),
                               leading: Image.asset(
                                 'assets/placeholder/music-icon.jpeg',
                                 width: 80.0,
-                                height: 150.0,
-                                fit: BoxFit.cover,
+                                height: 500.0,
+                                fit: BoxFit.fill,
                               ),
                               onTap: () {
                                 Navigator.push(

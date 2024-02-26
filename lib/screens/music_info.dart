@@ -86,7 +86,7 @@ class _MusicInfoState extends State<MusicInfo> {
                 height: 30,
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -94,43 +94,72 @@ class _MusicInfoState extends State<MusicInfo> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Song Name: ${widget.music.track_name}',
+                            'Song Name: ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                             ),
                           ),
-                          SizedBox(height: 10),
                           Text(
-                            'Artist: ${widget.music.artist_name}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
+                            '${widget.music.track_name}',
+                            style: const TextStyle(
                               fontSize: 16.0,
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'Genre: ${widget.music.genre}',
+                            'Artist: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Text(
+                            '${widget.music.artist_name}',
+                            style: const TextStyle(
                               fontSize: 16.0,
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
-                            widget.music.album != ''
-                                ? 'Album: ${widget.music.album}' // Actual rating value
-                                : 'Album: N/A',
+                            'Genre: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Text(
+                            '${widget.music.genre}',
+                            style: const TextStyle(
                               fontSize: 16.0,
                             ),
                           ),
                           SizedBox(height: 10),
+                          Text(
+                            'Album: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Text(
+                            '${widget.music.album}',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Year: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
                           Text(
                             widget.music.release_date != ''
-                                ? 'Year: ${widget.music.release_date}' // Actual rating value
-                                : 'Year: N/A',
+                                ? '${widget.music.release_date}' // Actual rating value
+                                : 'N/A',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 16.0,
@@ -167,10 +196,10 @@ class _MusicInfoState extends State<MusicInfo> {
                                         'Could not launch ${widget.music.spotify_link}');
                                   }
                                 },
-                                child: Icon(
-                                  Icons.music_note_rounded,
-                                  color: Colors.green,
-                                  size: 30,
+                                child: Image.asset(
+                                  'assets/spotify_icon.png',
+                                  width: 30,
+                                  height: 30,
                                 ),
                               ),
                             ],
@@ -179,33 +208,43 @@ class _MusicInfoState extends State<MusicInfo> {
                       ),
                     ),
                     SizedBox(width: 16),
-                    // Move the poster link to the right side
-                    // Image.network(
-                    //   widget.music.artist_name,
-                    //   width: 150,
-                    //   height: 200,
-                    //   fit: BoxFit.cover,
-                    //   errorBuilder: (BuildContext context, Object error,
-                    //       StackTrace? stackTrace) {
-                    //     return FadeInImage.assetNetwork(
-                    //       placeholder:
-                    //           'assets/bgimagee.png', // Placeholder image
-                    //       image: widget.music.artist_name,
-                    //       width: 150,
-                    //       height: 200,
-                    //       fit: BoxFit.cover,
-                    //       imageErrorBuilder: (context, error, stackTrace) {
-                    //         return Image.asset(
-                    //           'assets/bgimagee.png', // Error placeholder image
-                    //           width: 150,
-                    //           height: 150,
-                    //           fit: BoxFit.cover,
-                    //         );
-                    //       },
-                    //     );
-                    //   },
-                    // ),
+                    //Move the poster link to the right side
+                    Image.network(
+                      widget.music.artist_name,
+                      width: 150,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object error,
+                          StackTrace? stackTrace) {
+                        return FadeInImage.assetNetwork(
+                          placeholder:
+                              'assets/bgimagee.png', // Placeholder image
+                          image: widget.music.artist_name,
+                          width: 150,
+                          height: 200,
+                          fit: BoxFit.cover,
+                          imageErrorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/bgimagee.png', // Error placeholder image
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Music Video:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -257,6 +296,82 @@ class _MusicInfoState extends State<MusicInfo> {
                         ),
                       ),
                     ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                thickness: 2,
+                color: Colors.white60,
+              ),
+              // for the recommendation of other similar movies
+              const SizedBox(height: 10),
+              Text(
+                'The viewers of ${widget.music.track_name} also listen to these songs:',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 20),
+              // Add a horizontal scrollable ListView for recommended songs
+              Container(
+                height: 250,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(right: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.network(
+                            widget.music.artist_name,
+                            width: 150,
+                            height: 200,
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object error,
+                                StackTrace? stackTrace) {
+                              return FadeInImage.assetNetwork(
+                                placeholder:
+                                    'assets/bgimagee.png', // Placeholder image
+                                image: widget.music.artist_name,
+                                width: 150,
+                                height: 200,
+                                fit: BoxFit.cover,
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  return Image.asset(
+                                    'assets/bgimagee.png', // Error placeholder image
+                                    width: 150,
+                                    height: 150,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          // Replace 'songName' and 'genre' with actual data
+                          Text(
+                            'Song Name',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Genre',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),

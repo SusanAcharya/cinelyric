@@ -1,14 +1,10 @@
 import 'dart:convert';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
-import 'package:cinelyric/screens/provider/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:cinelyric/screens/movie_result_display.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'search_result_query.dart';
 
 class MovieHome extends StatefulWidget {
@@ -54,76 +50,6 @@ class _MovieHomeState extends State<MovieHome> {
       //getDataFromSharedPreferences();
     });
   }
-
-  // Future<void> getDataFromSharedPreferences() async {
-  //   // Get an instance of SharedPreferences
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? stringValue = prefs.getString('token');
-  //   token = stringValue!;
-  //   print('String value: $token');
-  // }
-  //
-  // Future getMovie() async {
-  //   //getDataFromSharedPreferences();
-  //   String apiUrl = 'http://10.0.2.2:8000/movie/';
-  //   Map<String, String> headers = {
-  //     'Authorization': 'Token $token',
-  //     'Content-Type': 'application/json', // Specify content type as JSON
-  //   };
-  //   Map<String, dynamic> requestBody = {
-  //     'quote': _wordsSpoken,
-  //   };
-  //   String jsonBody = jsonEncode(requestBody);
-  //   try {
-  //     // Send the POST request
-  //     http.Response response = await http.post(
-  //       Uri.parse(apiUrl),
-  //       headers: headers,
-  //       body: jsonBody,
-  //     );
-  //
-  //     // Handle the response
-  //     if (response.statusCode == 200) {
-  //       // Request was successful
-  //       print('Response: ${response.body}');
-  //       Map<String, dynamic> decodedData = jsonDecode(response.body);
-  //       int id = decodedData['id'];
-  //       String quote = decodedData['quote'];
-  //       String movie = decodedData['movie'];
-  //       String type = decodedData['type'];
-  //       String year = decodedData['year'];
-  //
-  //       print('ID: $id');
-  //       print('Quote: $quote');
-  //       print('Movie: $movie');
-  //       print('Type: $type');
-  //       print('Year: $year');
-  //
-  //       context.read<MovieProvider>().changeMovieDetail(
-  //           newId: id,
-  //           newQuote: quote,
-  //           newMovie: movie,
-  //           newType: type,
-  //           newYear: year);
-  //
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => ResultHome()),
-  //       );
-  //     } else {
-  //       // Request failed
-  //       print('Failed with status code: ${response.statusCode}');
-  //       print('Response: ${response.body}');
-  //       Map<String, dynamic> jasonBody = jsonDecode(response.body);
-  //       String message = jasonBody['message'];
-  //       print(message);
-  //     }
-  //   } catch (error) {
-  //     // Handle any exceptions that occurred during the request
-  //     print('Error: $error');
-  //   }
-  //
-  // }
 
   void _navigateToResultPage() {
     showDialog(
