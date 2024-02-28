@@ -1,5 +1,5 @@
 // movie.dart
-class Movie {
+class RecMovie {
   final int id;
   final String quote;
   final String movie;
@@ -13,7 +13,7 @@ class Movie {
   final String metascore;
   final String director;
 
-  Movie({
+  RecMovie({
     required this.id,
     required this.quote,
     required this.movie,
@@ -28,8 +28,8 @@ class Movie {
     required this.director,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
+  factory RecMovie.fromJson(Map<String, dynamic> json) {
+    return RecMovie(
       id: json['id'],
       quote: json['quote'] ?? '',
       movie: json['movie'] ?? '',

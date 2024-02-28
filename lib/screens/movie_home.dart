@@ -82,7 +82,7 @@ class _MovieHomeState extends State<MovieHome> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => SearchQueryResult(query: _controller.text)),
+            builder: (context) => MovieResult(query: _controller.text)),
       );
     });
   }

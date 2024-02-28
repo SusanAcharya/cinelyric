@@ -9,18 +9,17 @@ import '../elements/music.dart';
 import '../elements/recmusic.dart';
 import '../elements/bottombar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:cinelyric/screens/recmusic_detail.dart';
 
-class MusicInfo extends StatefulWidget {
-  final Music music;
+class RecMusicInfo extends StatefulWidget {
+  final RecMusic recmusic;
 
-  MusicInfo({required this.music});
+  RecMusicInfo({required this.recmusic});
 
   @override
-  State<MusicInfo> createState() => _MusicInfoState();
+  State<RecMusicInfo> createState() => _MusicInfoState();
 }
 
-class _MusicInfoState extends State<MusicInfo> {
+class _MusicInfoState extends State<RecMusicInfo> {
   bool _showVideoPlayer = false;
   late YoutubePlayerController _youtubeController;
   //bool _isBookmarkClicked = false;
@@ -34,14 +33,11 @@ class _MusicInfoState extends State<MusicInfo> {
   @override
   void initState() {
     super.initState();
-    genre = widget.music.genre;
-    id= widget.music.id;
-    //getDataFromSharedPreferences();
-    getDataFromSharedPreferences().then((_) {
-      return recMusic();
-    });
+    genre = widget.recmusic.genre;
+    id= widget.recmusic.id;
+    getDataFromSharedPreferences();
     _youtubeController = YoutubePlayerController(
-      initialVideoId: _parseYoutubeVideoId(widget.music.youtube_link),
+      initialVideoId: _parseYoutubeVideoId(widget.recmusic.youtube_link),
       flags: YoutubePlayerFlags(
         autoPlay: true,
       ),
@@ -72,8 +68,8 @@ class _MusicInfoState extends State<MusicInfo> {
   }
 
   Future<void> addItem() async {
-    id = widget.music.id;
-    type = widget.music.type;
+    id = widget.recmusic.id;
+    type = widget.recmusic.type;
     String apiUrl = 'http://10.0.2.2:8000/bookmark/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
@@ -128,46 +124,6 @@ class _MusicInfoState extends State<MusicInfo> {
   }
 
 
-Future<void> recMusic() async {
-    // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
-    String apiUrl = 'http://10.0.2.2:8000/musicRecommend/';
-    Map<String, String> headers = {
-      'Authorization': 'Token $token',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
-    Map<String, dynamic> requestBody = {
-      'id': id,
-      'genre': genre,
-    };
-    String jsonBody = jsonEncode(requestBody);
-    try {
-      http.Response response = await http.post(
-        Uri.parse(apiUrl),
-        headers: headers,
-        body: jsonBody,
-      );
-
-      if (response.statusCode == 200) {
-        List<dynamic> decodedData = jsonDecode(response.body);
-
-        //recmovies = decodedData.map((data) => RecMovie.fromJson(data)).toList();
-        setState(() {
-        recmusic = decodedData.map((data) => RecMusic.fromJson(data)).toList();
-        });
-        print('Movies: $recmusic');
-      } else {
-        print('Failed with status code: ${response.statusCode}');
-        print('Response: ${response.body}');
-        Map<String, dynamic> jasonBody = jsonDecode(response.body);
-        String message = jasonBody['message'];
-        print(message);
-      }
-    } catch (error) {
-      print('Error: $error');
-    }
-  }
-
 
   @override
   void dispose() {
@@ -206,7 +162,7 @@ Future<void> recMusic() async {
                             ),
                           ),
                           Text(
-                            '${widget.music.track_name}',
+                            '${widget.recmusic.track_name}',
                             style: TextStyle(
                               fontSize: 16.0,
                             ),
@@ -220,7 +176,7 @@ Future<void> recMusic() async {
                             ),
                           ),
                           Text(
-                            '${widget.music.artist_name}',
+                            '${widget.recmusic.artist_name}',
                             style: TextStyle(
                               fontSize: 16.0,
                             ),
@@ -234,7 +190,7 @@ Future<void> recMusic() async {
                             ),
                           ),
                           Text(
-                            '${widget.music.genre}',
+                            '${widget.recmusic.genre}',
                             style: TextStyle(
                               fontSize: 16.0,
                             ),
@@ -248,7 +204,7 @@ Future<void> recMusic() async {
                             ),
                           ),
                           Text(
-                            '${widget.music.album}',
+                            '${widget.recmusic.album}',
                             style: TextStyle(
                               fontSize: 16.0,
                             ),
@@ -262,8 +218,8 @@ Future<void> recMusic() async {
                             ),
                           ),
                           Text(
-                            widget.music.release_date != ''
-                                ? '${widget.music.release_date}'
+                            widget.recmusic.release_date != ''
+                                ? '${widget.recmusic.release_date}'
                                 : 'N/A',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -289,14 +245,14 @@ Future<void> recMusic() async {
                               GestureDetector(
                                 onTap: () async {
                                   Uri spotifyUri =
-                                      Uri.parse(widget.music.spotify_link);
+                                      Uri.parse(widget.recmusic.spotify_link);
 
                                   if (await launcher
                                       .canLaunchUrl(spotifyUri)) {
                                     await launcher.launchUrl(spotifyUri);
                                   } else {
                                     print(
-                                        'Could not launch ${widget.music.spotify_link}');
+                                        'Could not launch ${widget.recmusic.spotify_link}');
                                   }
                                 },
                                 child: Image.asset(
@@ -312,7 +268,7 @@ Future<void> recMusic() async {
                     ),
                     SizedBox(width: 16),
                     Image.network(
-                      widget.music.artist_name,
+                      widget.recmusic.artist_name,
                       width: 150,
                       height: 200,
                       fit: BoxFit.cover,
@@ -320,7 +276,7 @@ Future<void> recMusic() async {
                           StackTrace? stackTrace) {
                         return FadeInImage.assetNetwork(
                           placeholder: 'assets/bgimagee.png',
-                          image: widget.music.artist_name,
+                          image: widget.recmusic.artist_name,
                           width: 150,
                           height: 200,
                           fit: BoxFit.cover,
@@ -400,16 +356,6 @@ Future<void> recMusic() async {
                 thickness: 2,
                 color: Colors.white60,
               ),
-              SizedBox(height: 10),
-              Text(
-                'The viewers of ${widget.music.track_name} also listen to these songs:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(height: 20),
-              RelatedMusicList(recommendedMusic: recmusic),
             ],
           ),
         ),
@@ -419,92 +365,3 @@ Future<void> recMusic() async {
   }
 }
 
-class RelatedMusicList extends StatelessWidget {
-  final List<RecMusic> recommendedMusic;
-
-  RelatedMusicList({required this.recommendedMusic});
-
-  @override
-  Widget build(BuildContext context) {
-    return recommendedMusic.isEmpty
-        ? Center(child: CircularProgressIndicator())
-        : Container(
-            height: 250,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: recommendedMusic.length,
-              itemBuilder: (context, index) {
-                RecMusic music = recommendedMusic[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecMusicInfo(recmusic: music),
-                      ),
-                    );
-                  },
-                  child: Container(
-                  margin: const EdgeInsets.only(right: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // SizedBox(
-                      //   width: 120,
-                      //   child: AspectRatio(
-                      //     aspectRatio: 2 / 3, // Aspect ratio of the poster
-                      //     child: Image.network(
-                      //       'assets/placeholder/music-icon.jpeg',
-                      //         width: 150,
-                      //         height: 150,
-                      //         fit: BoxFit.cover,
-                      //     ),
-                          
-                      //   ),
-                      // ),
-                      SizedBox(
-                        width: 120,
-                        child: AspectRatio(
-                          aspectRatio: 2 / 3, // Aspect ratio of the poster
-                          child: Image.asset(
-                            'assets/placeholder/music-icon.jpeg',
-                            width: 150,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: 120,
-                        child: Text(
-                          music.track_name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Text(
-                        music.artist_name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                        ),
-                        maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                      ),
-                      // Text(
-                      //   music.release_date.toString(),
-                      //   style: const TextStyle(
-                      //     fontWeight: FontWeight.w400,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ));
-              },
-            ),
-          );
-  }
-}
