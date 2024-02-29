@@ -47,12 +47,12 @@ class _UserHistoryState extends State<UserAccount> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Email'),
+          title: Text('Edit Username'),
           content: TextField(
             onChanged: (value) {
               newEmail = value;
             },
-            decoration: InputDecoration(hintText: 'Enter new email'),
+            decoration: InputDecoration(hintText: 'Enter new Username'),
           ),
           actions: <Widget>[
             TextButton(

@@ -268,15 +268,14 @@ class _MusicInfoState extends State<RecMusicInfo> {
                     ),
                     SizedBox(width: 16),
                     Image.network(
-                      widget.recmusic.artist_name,
+                      widget.recmusic.artist_image.isNotEmpty ? widget.recmusic.artist_image : 'assets/bgimagee.png',
                       width: 150,
                       height: 200,
                       fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object error,
-                          StackTrace? stackTrace) {
+                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
                         return FadeInImage.assetNetwork(
                           placeholder: 'assets/bgimagee.png',
-                          image: widget.recmusic.artist_name,
+                          image: widget.recmusic.artist_image.isNotEmpty ? widget.recmusic.artist_image : 'assets/bgimagee.png',
                           width: 150,
                           height: 200,
                           fit: BoxFit.cover,

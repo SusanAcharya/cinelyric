@@ -1,6 +1,7 @@
 class RecMusic {
   final int id;
   final String artist_name;
+  final String artist_image;
   final String track_name;
   final String genre;
   final int release_date;
@@ -12,6 +13,7 @@ class RecMusic {
   RecMusic(
       {required this.id,
       required this.artist_name,
+      required this.artist_image,
       required this.track_name,
       required this.genre,
       required this.release_date,
@@ -25,6 +27,7 @@ class RecMusic {
     return RecMusic(
       id: json['id'],
       artist_name: json['artist_name'] ?? '',
+      artist_image: json['artist_image'] ?? '',
       track_name: json['track_name'] ?? '',
       genre: json['genre'] ?? '',
       release_date: json['release_date'] ?? 0,

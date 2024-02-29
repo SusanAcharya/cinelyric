@@ -2,6 +2,7 @@ class Music {
   final int id;
   final String artist_name;
   final String track_name;
+  final String artist_image;
   //final List<String> genre;
   final String genre;
   final int release_date;
@@ -13,6 +14,7 @@ class Music {
   Music(
       {required this.id,
       required this.artist_name,
+      required this.artist_image,
       required this.track_name,
       required this.genre,
       required this.release_date,
@@ -37,6 +39,7 @@ class Music {
     return Music(
       id: json['id'],
       artist_name: json['artist_name'],
+      artist_image: json['artist_image'],
       track_name: json['track_name'],
       //genre: genreList,
       genre: json['genre'],

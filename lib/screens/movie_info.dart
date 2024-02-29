@@ -541,13 +541,13 @@ class RelatedMoviesList extends StatelessWidget {
                                 image: movie.poster_link,
                                 width: 50,
                                 height: 60,
-                                fit: BoxFit.cover,
+                                //fit: BoxFit.cover,
                                 imageErrorBuilder: (context, error, stackTrace) {
                                   return Image.asset(
                                     'assets/placeholder/Film-icon.png',
                                     width: 50,
                                     height: 60,
-                                    fit: BoxFit.cover,
+                                    //fit: BoxFit.cover,
                                   );
                                 },
                               );
