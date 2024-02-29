@@ -1,16 +1,10 @@
 
-import 'dart:ffi';
-import '../elements/movie.dart';
-import 'movie_info.dart';
 import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/bottombar.dart';
-import '../screens/music_result_display.dart';
-import '../screens/movie_result_display.dart';
 
 class BookmarkPage extends StatefulWidget{
   const BookmarkPage({super.key});
@@ -21,8 +15,7 @@ class BookmarkPage extends StatefulWidget{
 
 class _BookmarkPageState extends State<BookmarkPage>{
    String token = "";
-  List<Map<String, dynamic>> Bookmark =
-      []; // List to store search history data
+  List<Map<String, dynamic>> Bookmark =[]; // List to store search history data
   int id = 0;
 
   @override
@@ -65,10 +58,6 @@ class _BookmarkPageState extends State<BookmarkPage>{
         setState(() {
           Bookmark = data.cast<Map<String, dynamic>>();
         });
-        // } else {
-        //   // If the server did not return a 200 OK response,
-        //   // throw an exception.
-        //   throw Exception('Failed to load search history');
       }
     } catch (error) {
       // Handle any exceptions that occurred during the request
@@ -167,24 +156,7 @@ class _BookmarkPageState extends State<BookmarkPage>{
                             },
                         ),    
                         onTap: () {
-                          // _wordsSpoken = historyItem['user_query'];
-                          // type = historyItem['search_type'];
-                          // //getMovie();
-                          // if (type == 'movie') {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             MovieResult(query: _wordsSpoken)),
-                          //   );
-                          // } else {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             MusicResult(query: _wordsSpoken)),
-                          //   );
-                          // }
+          
                         },
                       ),
                     ),

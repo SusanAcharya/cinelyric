@@ -27,10 +27,6 @@ class _SignUpPageState extends State<SignUpPage> {
       if (_passwordController.text == _confirmPasswordController.text) {
         print("Email: ${_emailController.text}");
         print("Password: ${_passwordController.text}");
-
-        //Navigator.pop(context);
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
         // if the pws don't match then:-
         showDialog(
@@ -135,10 +131,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
                     }
-                    // if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                    //     .hasMatch(value)) {
-                    //   return 'Please enter a valid email address';
-                    // }
                     return null;
                   },
                 ),

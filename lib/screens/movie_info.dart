@@ -63,25 +63,13 @@ class _MovieInfoState extends State<MovieInfo> {
     }
   }
 
-  // void _loadBookmarkState() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool bookmarked = prefs.getBool('bookmark_${widget.movie.id}') ?? false;
-  //   setState(() {
-  //     _isBookmarkClicked = bookmarked;
-  //   });
-  // }
-
-  // void _saveBookmarkState() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setBool('bookmark_${widget.movie.id}', _isBookmarkClicked);
-  // }
-
   Future<void> getDataFromSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();//getting token
     String? stringValue = prefs.getString('token');
     token = stringValue!;
   }
 
+  //for adding movie in bookmark
     Future<void> addItem() async {
     id = widget.movie.id;
     type = widget.movie.type;
@@ -136,7 +124,7 @@ class _MovieInfoState extends State<MovieInfo> {
     }
   }
 
-
+//for retriving recommended movies
   Future<void> recMovies() async {
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
     String apiUrl = 'http://10.0.2.2:8000/api/recommend/';
@@ -171,24 +159,6 @@ class _MovieInfoState extends State<MovieInfo> {
         Map<String, dynamic> jasonBody = jsonDecode(response.body);
         String message = jasonBody['message'];
         print(message);
-        // showDialog(
-        //   context: context,
-        //   builder: (context) {
-        //     return AlertDialog(
-        //       title: Text('Error'),
-        //       content: Text('Api response: $message'),
-        //       actions: [
-        //         TextButton(
-        //           onPressed: () {
-        //             Navigator.pop(context);
-        //             Navigator.pop(context);
-        //           },
-        //           child: Text('OK'),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
       }
     } catch (error) {
       print('Error: $error');
@@ -348,19 +318,6 @@ class _MovieInfoState extends State<MovieInfo> {
                               ),
                               const SizedBox(width: 10),
                               GestureDetector(
-                                // onTap: () {
-                                //   setState(() {
-                                //     _isBookmarkClicked = !_isBookmarkClicked;
-                                //     //_saveBookmarkState();
-                                //   });
-                                // },
-                                // child: Icon(
-                                //   _isBookmarkClicked
-                                //       ? Icons.bookmark
-                                //       : Icons.bookmark_border,
-                                //   color: Colors.white,
-                                //   size: 30,
-                                // ),
                                 onTap: () {
                                   addItem();
                                 },
@@ -375,12 +332,6 @@ class _MovieInfoState extends State<MovieInfo> {
                         ],
                       ),
                     ),
-                    // Image.network(
-                    //   widget.movie.poster_link,
-                    //   width: 150,
-                    //   height: 200,
-                    //   fit: BoxFit.cover,
-                    // ),
                     Image.network(
                       widget.movie.poster_link,
                       width: 150,
@@ -482,11 +433,6 @@ class _MovieInfoState extends State<MovieInfo> {
                 ),
               ),
               const SizedBox(height: 20),
-              // RelatedMoviesList(
-              //   posterLink: widget.movie.poster_link,
-              //   movieName: widget.movie.movie,
-              //   movieType: widget.movie.type,
-              // )
               RelatedMoviesList(recommendedMovies: recmovies),
             ],
           ),
@@ -582,76 +528,6 @@ class RelatedMoviesList extends StatelessWidget {
           );
   }
 }
-
-
-// class RelatedMoviesList extends StatelessWidget {
-//   final List<RecMovie> recommendedMovies;
-
-//   RelatedMoviesList({required this.recommendedMovies});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return recommendedMovies.isEmpty
-//         ? Center(child: CircularProgressIndicator()) // Show loading indicator if recommendedMovies is empty
-//         : Container(
-//             height: 250,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: recommendedMovies.length,
-//               itemBuilder: (context, index) {
-//                 RecMovie movie = recommendedMovies[index];
-//                 return Container(
-//                   margin: const EdgeInsets.only(right: 16),
-//                   child: SingleChildScrollView(
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Image.network(
-//                           movie.poster_link,
-//                           width: 120,
-//                           height: 160,
-//                           fit: BoxFit.cover,
-//                           errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-//                             return FadeInImage.assetNetwork(
-//                               placeholder: 'assets/placeholder/Film-icon.png',
-//                               image: movie.poster_link,
-//                               width: 120,
-//                               height: 160,
-//                               fit: BoxFit.cover,
-//                               imageErrorBuilder: (context, error, stackTrace) {
-//                                 return Image.asset(
-//                                   'assets/placeholder/Film-icon.png',
-//                                   width: 120,
-//                                   height: 160,
-//                                   fit: BoxFit.cover,
-//                                 );
-//                               },
-//                             );
-//                           },
-//                         ),
-//                         const SizedBox(height: 8),
-//                         Text(
-//                           movie.movie,
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                         ),
-//                         Text(
-//                           movie.year.toString(),
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.w400,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 );
-//               },
-//             ),
-//           );
-//   }
-// }
-
 
 
 

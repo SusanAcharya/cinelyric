@@ -200,12 +200,6 @@ class _MusicResultState extends State<MusicResult> {
                                   ),
                                 ],
                               ),
-                              // leading: Image.asset(
-                              //   'assets/placeholder/music-icon.jpeg',
-                              //   width: 80.0,
-                              //   height: 500.0,
-                              //   fit: BoxFit.fill,
-                              // ),
                               leading: musics.artist_image.isNotEmpty
                             ? FadeInImage.assetNetwork(
                                 placeholder: 'assets/placeholder/music-icon.jpeg',

@@ -1,13 +1,10 @@
 // history_page.dart
 import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/bottombar.dart';
-import '../screens/provider/movie_provider.dart';
 import '../screens/music_result_display.dart';
 import '../screens/movie_result_display.dart';
 
@@ -65,10 +62,6 @@ class _HistoryPageState extends State<HistoryPage> {
         setState(() {
           searchHistory = data.cast<Map<String, dynamic>>();
         });
-        // } else {
-        //   // If the server did not return a 200 OK response,
-        //   // throw an exception.
-        //   throw Exception('Failed to load search history');
       }
     } catch (error) {
       // Handle any exceptions that occurred during the request

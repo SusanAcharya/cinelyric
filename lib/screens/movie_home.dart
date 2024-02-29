@@ -1,11 +1,10 @@
-import 'dart:convert';
+
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:cinelyric/screens/movie_result_display.dart';
-import 'search_result_query.dart';
 
 class MovieHome extends StatefulWidget {
   const MovieHome({Key? key});

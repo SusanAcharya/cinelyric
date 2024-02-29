@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/appbar.dart';
 import 'signup_page.dart';
-import 'forgot_password.dart';
 import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
@@ -160,22 +159,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      // SizedBox(height: 10),
-                      // TextButton(
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => ForgotPassword()),
-                      //     );
-                      //   },
-                      //   child: Text(
-                      //     'Forgot Password?',
-                      //     style: TextStyle(
-                      //       color: Colors.redAccent,
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(height: 10),
                       GestureDetector(
                         onTap: () {

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cinelyric/elements/movie.dart';
 import 'package:cinelyric/elements/recmovie.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:cinelyric/screens/movie_info.dart';
 
 class RecMovieInfo extends StatefulWidget {
   final RecMovie movie;
@@ -32,21 +30,15 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
   @override
   void initState() {
     super.initState();
-    //genre = widget.movie.genre;
-    //id= widget.movie.id;
     getDataFromSharedPreferences();
-    // getDataFromSharedPreferences().then((_) {
-    //   return recMovies();
-    // });
     _youtubeController = YoutubePlayerController(
       initialVideoId: _parseYoutubeVideoId(widget.movie.youtube_link),
       flags: const YoutubePlayerFlags(
         autoPlay: true,
       ),
     )..addListener(_onYoutubePlayerChange);
-
-    //_loadBookmarkState();
   }
+
 //for parsing the url
   String _parseYoutubeVideoId(String youtubeUrl) { 
     RegExp regExp = RegExp(
@@ -124,46 +116,6 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
   }
 
 
-  // Future<void> recMovies() async {
-  //   // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
-  //   String apiUrl = 'http://10.0.2.2:8000/api/recommend/';
-  //   Map<String, String> headers = {
-  //     'Authorization': 'Token $token',
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //   };
-  //   Map<String, dynamic> requestBody = {
-  //     'id': id,
-  //     'genre': genre,
-  //   };
-  //   String jsonBody = jsonEncode(requestBody);
-  //   try {
-  //     http.Response response = await http.post(
-  //       Uri.parse(apiUrl),
-  //       headers: headers,
-  //       body: jsonBody,
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       List<dynamic> decodedData = jsonDecode(response.body);
-
-  //       //recmovies = decodedData.map((data) => RecMovie.fromJson(data)).toList();
-  //       setState(() {
-  //       recmovies = decodedData.map((data) => RecMovie.fromJson(data)).toList();
-  //       });
-  //       print('Movies: $recmovies');
-  //     } else {
-  //       print('Failed with status code: ${response.statusCode}');
-  //       print('Response: ${response.body}');
-  //       Map<String, dynamic> jasonBody = jsonDecode(response.body);
-  //       String message = jasonBody['message'];
-  //       print(message);
-  //     }
-  //   } catch (error) {
-  //     print('Error: $error');
-  //   }
-  // }
- 
   @override
   void dispose() {
     _youtubeController.dispose();
@@ -423,17 +375,6 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
                 thickness: 2,
                 color: Colors.white60,
               ),
-              // for the recommendation of other similar movies
-              //const SizedBox(height: 10),
-              // Text(
-              //   'The viewers of ${widget.movie.movie} also watch these movies:',
-              //   style: const TextStyle(
-              //     fontWeight: FontWeight.bold,
-              //     fontSize: 18,
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              // RelatedMoviesList(recommendedMovies: recmovies),
             ],
           ),
         ),
@@ -442,93 +383,3 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
     );
   }
 }
-
-
-// class RecRelatedMoviesList extends StatelessWidget {
-//   final List<RecMovie> recommendedMovies;
-
-//   RecRelatedMoviesList({required this.recommendedMovies});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return recommendedMovies.isEmpty
-//         ? Center(child: CircularProgressIndicator())
-//         : Container(
-//             height: 250,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: recommendedMovies.length,
-//               itemBuilder: (context, index) {
-//                 RecMovie movie = recommendedMovies[index];
-//                 return GestureDetector(
-//                   // onTap: () {
-//                   //   Navigator.push(
-//                   //     context,
-//                   //     MaterialPageRoute(
-//                   //       builder: (context) => MovieInfo(movie: movie),
-//                   //     ),
-//                   //   );
-//                   // },
-//                   child: Container(
-//                   margin: const EdgeInsets.only(right: 16),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SizedBox(
-//                         width: 120,
-//                         child: AspectRatio(
-//                           aspectRatio: 2 / 3, // Aspect ratio of the poster
-//                           child: Image.network(
-//                             movie.poster_link,
-//                             fit: BoxFit.cover,
-//                             errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-//                               return FadeInImage.assetNetwork(
-//                                 placeholder: 'assets/placeholder/Film-icon.png',
-//                                 image: movie.poster_link,
-//                                 width: 50,
-//                                 height: 60,
-//                                 fit: BoxFit.cover,
-//                                 imageErrorBuilder: (context, error, stackTrace) {
-//                                   return Image.asset(
-//                                     'assets/placeholder/Film-icon.png',
-//                                     width: 50,
-//                                     height: 60,
-//                                     fit: BoxFit.cover,
-//                                   );
-//                                 },
-//                               );
-//                             },
-//                           ),
-                          
-//                         ),
-//                       ),
-//                       const SizedBox(height: 8),
-//                       SizedBox(
-//                         width: 120,
-//                         child: Text(
-//                           movie.movie,
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                           maxLines: 2,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                       Text(
-//                         movie.year.toString(),
-//                         style: const TextStyle(
-//                           fontWeight: FontWeight.w400,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ));
-//               },
-//             ),
-//           );
-//   }
-// }
-
-
-
-
