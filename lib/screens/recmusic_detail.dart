@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +25,7 @@ class _MusicInfoState extends State<RecMusicInfo> {
   String token = "";
   int id = 0;
   int bid = 0;
-  String genre= "";
+  String genre = "";
   String type = "";
   List<RecMusic> recmusic = [];
 
@@ -34,7 +33,7 @@ class _MusicInfoState extends State<RecMusicInfo> {
   void initState() {
     super.initState();
     genre = widget.recmusic.genre;
-    id= widget.recmusic.id;
+    id = widget.recmusic.id;
     getDataFromSharedPreferences();
     _youtubeController = YoutubePlayerController(
       initialVideoId: _parseYoutubeVideoId(widget.recmusic.youtube_link),
@@ -42,7 +41,6 @@ class _MusicInfoState extends State<RecMusicInfo> {
         autoPlay: true,
       ),
     )..addListener(_onYoutubePlayerChange);
-
   }
 
   String _parseYoutubeVideoId(String youtubeUrl) {
@@ -60,7 +58,6 @@ class _MusicInfoState extends State<RecMusicInfo> {
     }
   }
 
- 
   Future<void> getDataFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? stringValue = prefs.getString('token');
@@ -88,33 +85,33 @@ class _MusicInfoState extends State<RecMusicInfo> {
         body: jsonBody,
       );
       if (response.statusCode == 200) {
-      Map<String,dynamic> responseData = jsonDecode(response.body);
-      //if (responseData.isNotEmpty && responseData[0]['message'] != null) {
+        Map<String, dynamic> responseData = jsonDecode(response.body);
+        //if (responseData.isNotEmpty && responseData[0]['message'] != null) {
         // String message = responseData[0]['message'];
         // print('Message: $message');
         if (responseData.containsKey('message')) {
-        String message = responseData['message'];
-        print('Message: $message');
-        //return message;
-        showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Alert:'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('OK'),
-              ),
-            ],
+          String message = responseData['message'];
+          print('Message: $message');
+          //return message;
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Alert:'),
+                content: Text(message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
           );
-        },
-      );
+        }
       }
-    }
       //print(response);
       //return response;
     } catch (error) {
@@ -122,8 +119,6 @@ class _MusicInfoState extends State<RecMusicInfo> {
       throw error;
     }
   }
-
-
 
   @override
   void dispose() {
@@ -247,8 +242,7 @@ class _MusicInfoState extends State<RecMusicInfo> {
                                   Uri spotifyUri =
                                       Uri.parse(widget.recmusic.spotify_link);
 
-                                  if (await launcher
-                                      .canLaunchUrl(spotifyUri)) {
+                                  if (await launcher.canLaunchUrl(spotifyUri)) {
                                     await launcher.launchUrl(spotifyUri);
                                   } else {
                                     print(
@@ -268,20 +262,25 @@ class _MusicInfoState extends State<RecMusicInfo> {
                     ),
                     SizedBox(width: 16),
                     Image.network(
-                      widget.recmusic.artist_image.isNotEmpty ? widget.recmusic.artist_image : 'assets/bgimagee.png',
+                      widget.recmusic.artist_image.isNotEmpty
+                          ? widget.recmusic.artist_image
+                          : 'assets/placeholder/music-icon.jpeg',
                       width: 150,
                       height: 200,
                       fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                      errorBuilder: (BuildContext context, Object error,
+                          StackTrace? stackTrace) {
                         return FadeInImage.assetNetwork(
-                          placeholder: 'assets/bgimagee.png',
-                          image: widget.recmusic.artist_image.isNotEmpty ? widget.recmusic.artist_image : 'assets/bgimagee.png',
+                          placeholder: 'assets/placeholder/music-icon.jpeg',
+                          image: widget.recmusic.artist_image.isNotEmpty
+                              ? widget.recmusic.artist_image
+                              : 'assets/placeholder/music-icon.jpeg',
                           width: 150,
                           height: 200,
                           fit: BoxFit.cover,
                           imageErrorBuilder: (context, error, stackTrace) {
                             return Image.asset(
-                              'assets/bgimagee.png',
+                              'assets/placeholder/music-icon.jpeg',
                               width: 150,
                               height: 150,
                               fit: BoxFit.cover,
@@ -363,4 +362,3 @@ class _MusicInfoState extends State<RecMusicInfo> {
     );
   }
 }
-
