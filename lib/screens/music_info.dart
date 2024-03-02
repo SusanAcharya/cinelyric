@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +26,7 @@ class _MusicInfoState extends State<MusicInfo> {
   String token = "";
   int id = 0;
   int bid = 0;
-  String genre= "";
+  String genre = "";
   String type = "";
   List<RecMusic> recmusic = [];
 
@@ -35,7 +34,7 @@ class _MusicInfoState extends State<MusicInfo> {
   void initState() {
     super.initState();
     genre = widget.music.genre;
-    id= widget.music.id;
+    id = widget.music.id;
     //getDataFromSharedPreferences();
     getDataFromSharedPreferences().then((_) {
       return recMusic();
@@ -46,7 +45,6 @@ class _MusicInfoState extends State<MusicInfo> {
         autoPlay: true,
       ),
     )..addListener(_onYoutubePlayerChange);
-
   }
 
   String _parseYoutubeVideoId(String youtubeUrl) {
@@ -64,7 +62,6 @@ class _MusicInfoState extends State<MusicInfo> {
     }
   }
 
- 
   Future<void> getDataFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? stringValue = prefs.getString('token');
@@ -92,33 +89,33 @@ class _MusicInfoState extends State<MusicInfo> {
         body: jsonBody,
       );
       if (response.statusCode == 200) {
-      Map<String,dynamic> responseData = jsonDecode(response.body);
-      // if (responseData.isNotEmpty && responseData[0]['message'] != null) {
-      //   String message = responseData[0]['message'];
-      //   print('Message: $message');
+        Map<String, dynamic> responseData = jsonDecode(response.body);
+        // if (responseData.isNotEmpty && responseData[0]['message'] != null) {
+        //   String message = responseData[0]['message'];
+        //   print('Message: $message');
         if (responseData.containsKey('message')) {
-        String message = responseData['message'];
-        print('Message: $message');
-        //return message;
-        showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Alert:'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('OK'),
-              ),
-            ],
+          String message = responseData['message'];
+          print('Message: $message');
+          //return message;
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Alert:'),
+                content: Text(message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
           );
-        },
-      );
+        }
       }
-    }
       //print(response);
       //return response;
     } catch (error) {
@@ -127,8 +124,7 @@ class _MusicInfoState extends State<MusicInfo> {
     }
   }
 
-
-Future<void> recMusic() async {
+  Future<void> recMusic() async {
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
     String apiUrl = 'http://10.0.2.2:8000/musicRecommend/';
     Map<String, String> headers = {
@@ -153,7 +149,8 @@ Future<void> recMusic() async {
 
         //recmovies = decodedData.map((data) => RecMovie.fromJson(data)).toList();
         setState(() {
-        recmusic = decodedData.map((data) => RecMusic.fromJson(data)).toList();
+          recmusic =
+              decodedData.map((data) => RecMusic.fromJson(data)).toList();
         });
         print('Movies: $recmusic');
       } else {
@@ -167,7 +164,6 @@ Future<void> recMusic() async {
       print('Error: $error');
     }
   }
-
 
   @override
   void dispose() {
@@ -291,8 +287,7 @@ Future<void> recMusic() async {
                                   Uri spotifyUri =
                                       Uri.parse(widget.music.spotify_link);
 
-                                  if (await launcher
-                                      .canLaunchUrl(spotifyUri)) {
+                                  if (await launcher.canLaunchUrl(spotifyUri)) {
                                     await launcher.launchUrl(spotifyUri);
                                   } else {
                                     print(
@@ -336,20 +331,25 @@ Future<void> recMusic() async {
                     //   },
                     // ),
                     Image.network(
-                      widget.music.artist_image.isNotEmpty ? widget.music.artist_image : 'assets/bgimagee.png',
+                      widget.music.artist_image.isNotEmpty
+                          ? widget.music.artist_image
+                          : 'assets/bgimagee.png',
                       width: 150,
                       height: 200,
                       fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                      errorBuilder: (BuildContext context, Object error,
+                          StackTrace? stackTrace) {
                         return FadeInImage.assetNetwork(
-                          placeholder: 'assets/bgimagee.png',
-                          image: widget.music.artist_image.isNotEmpty ? widget.music.artist_image : 'assets/bgimagee.png',
+                          placeholder: 'assets/placeholder/music-icon.jpeg',
+                          image: widget.music.artist_image.isNotEmpty
+                              ? widget.music.artist_image
+                              : 'assets/placeholder/music-icon.jpeg',
                           width: 150,
                           height: 200,
                           fit: BoxFit.cover,
                           imageErrorBuilder: (context, error, stackTrace) {
                             return Image.asset(
-                              'assets/bgimagee.png',
+                              'assets/placeholder/music-icon.jpeg',
                               width: 150,
                               height: 150,
                               fit: BoxFit.cover,
@@ -358,7 +358,6 @@ Future<void> recMusic() async {
                         );
                       },
                     ),
-
                   ],
                 ),
               ),
@@ -443,7 +442,6 @@ Future<void> recMusic() async {
   }
 }
 
-
 class RelatedMusicList extends StatelessWidget {
   final List<RecMusic> recommendedMusic;
 
@@ -454,7 +452,7 @@ class RelatedMusicList extends StatelessWidget {
     return recommendedMusic.isEmpty
         ? Center(child: CircularProgressIndicator())
         : Container(
-            height: 250,
+            height: 300,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: recommendedMusic.length,
@@ -470,37 +468,37 @@ class RelatedMusicList extends StatelessWidget {
                       );
                     },
                     child: Container(
+                      width: 120,
                       margin: const EdgeInsets.only(right: 16),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // SizedBox(
-                            //   width: 120,
-                            //   child: AspectRatio(
-                            //     aspectRatio: 2 / 3, // Aspect ratio of the poster
-                            //     child: Image.network(
-                            //       'assets/placeholder/music-icon.jpeg',
-                            //         width: 150,
-                            //         height: 150,
-                            //         fit: BoxFit.cover,
-                            //     ),
-                        
-                            //   ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // SizedBox(
+                          //   width: 120,
+                          //   child: AspectRatio(
+                          //     aspectRatio: 2 / 3, // Aspect ratio of the poster
+                          //     child: Image.network(
+                          //       'assets/placeholder/music-icon.jpeg',
+                          //         width: 150,
+                          //         height: 150,
+                          //         fit: BoxFit.cover,
+                          //     ),
+
+                          //   ),
+                          // ),
+                          AspectRatio(
+                            aspectRatio: 2 / 3, // Aspect ratio of the poster
+                            // child: Image.asset(
+                            //   'assets/placeholder/music-icon.jpeg',
+                            //   width: 150,
+                            //   height: 150,
+                            //   fit: BoxFit.cover,
                             // ),
-                            SizedBox(
-                              width: 120,
-                              child: AspectRatio(
-                                aspectRatio: 2 / 3, // Aspect ratio of the poster
-                                // child: Image.asset(
-                                //   'assets/placeholder/music-icon.jpeg',
-                                //   width: 150,
-                                //   height: 150,
-                                //   fit: BoxFit.cover,
-                                // ),
-                              child: FadeInImage.assetNetwork(
+                            child: FadeInImage.assetNetwork(
                               placeholder: 'assets/placeholder/music-icon.jpeg',
-                              image: music.artist_image,
+                              image: music.artist_image.isNotEmpty
+                                  ? music.artist_image
+                                  : 'assets/placeholder/music-icon.jpeg',
                               width: 150,
                               height: 150,
                               fit: BoxFit.cover,
@@ -509,47 +507,45 @@ class RelatedMusicList extends StatelessWidget {
                                   'assets/placeholder/music-icon.jpeg',
                                   width: 150,
                                   height: 150,
-                                  //fit: BoxFit.cover,
+                                  // fit: BoxFit.cover,
                                 );
                               },
                             ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              music.track_name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
                             ),
-                            const SizedBox(height: 8),
-                            SizedBox(
-                              width: 120,
-                              child: Flexible(
-                                child: Text(
-                                  music.track_name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Flexible(
+                            child: SingleChildScrollView(
+                              child: Text(
+                                music.artist_name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
                                 ),
+                                maxLines: 2,
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                            SizedBox(
-                              width: 120,
-                              child: Flexible(
-                                child: Text(
-                                  music.artist_name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            // Text(
-                            //   music.release_date.toString(),
-                            //   style: const TextStyle(
-                            //     fontWeight: FontWeight.w400,
-                            //   ),
-                            // ),
-                          ],
-                        ),
+                          ),
+
+                          // Text(
+                          //   music.release_date.toString(),
+                          //   style: const TextStyle(
+                          //     fontWeight: FontWeight.w400,
+                          //   ),
+                          // ),
+                        ],
                       ),
                     ));
               },
@@ -557,92 +553,3 @@ class RelatedMusicList extends StatelessWidget {
           );
   }
 }
-// class RelatedMusicList extends StatelessWidget {
-//   final List<RecMusic> recommendedMusic;
-
-//   RelatedMusicList({required this.recommendedMusic});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return recommendedMusic.isEmpty
-//         ? Center(child: CircularProgressIndicator())
-//         : Container(
-//             height: 250,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: recommendedMusic.length,
-//               itemBuilder: (context, index) {
-//                 RecMusic music = recommendedMusic[index];
-//                 return GestureDetector(
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => RecMusicInfo(recmusic: music),
-//                       ),
-//                     );
-//                   },
-//                   child: Container(
-//                   margin: const EdgeInsets.only(right: 16),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       // SizedBox(
-//                       //   width: 120,
-//                       //   child: AspectRatio(
-//                       //     aspectRatio: 2 / 3, // Aspect ratio of the poster
-//                       //     child: Image.network(
-//                       //       'assets/placeholder/music-icon.jpeg',
-//                       //         width: 150,
-//                       //         height: 150,
-//                       //         fit: BoxFit.cover,
-//                       //     ),
-                          
-//                       //   ),
-//                       // ),
-//                       SizedBox(
-//                         width: 120,
-//                         child: AspectRatio(
-//                           aspectRatio: 2 / 3, // Aspect ratio of the poster
-//                           child: Image.asset(
-//                             'assets/placeholder/music-icon.jpeg',
-//                             width: 150,
-//                             height: 150,
-//                             fit: BoxFit.cover,
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(height: 8),
-//                       SizedBox(
-//                         width: 120,
-//                         child: Text(
-//                           music.track_name,
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                           maxLines: 2,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                       Text(
-//                         music.artist_name,
-//                         style: const TextStyle(
-//                           fontWeight: FontWeight.w400,
-//                         ),
-//                         maxLines: 2,
-//                           overflow: TextOverflow.ellipsis,
-//                       ),
-//                       // Text(
-//                       //   music.release_date.toString(),
-//                       //   style: const TextStyle(
-//                       //     fontWeight: FontWeight.w400,
-//                       //   ),
-//                       // ),
-//                     ],
-//                   ),
-//                 ));
-//               },
-//             ),
-//           );
-//   }
-// }
