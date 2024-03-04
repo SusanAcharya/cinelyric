@@ -18,7 +18,7 @@ class UserAccount extends StatefulWidget {
 }
 
 class _UserHistoryState extends State<UserAccount> {
-  late String userEmail;
+  late String userEmail = "";
   String token = "";
   List<Map<String, dynamic>> searchHistory = [];
   String _wordsSpoken = "";
