@@ -46,6 +46,7 @@ dependencies:
   youtube_player_flutter: ^9.0.0
   audioplayers: ^5.2.1
   url_launcher: ^6.2.5
+  carousel_slider: ^4.2.1
     
 flutter_icons:
   android: true

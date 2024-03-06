@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -23,7 +22,7 @@ class _MovieInfoState extends State<MovieInfo> {
   bool _showVideoPlayer = false;
   late YoutubePlayerController _youtubeController;
   //bool _isBookmarkClicked = false;
-  String token="";
+  String token = "";
   String type = "";
   int id = 0;
   String genre = "";
@@ -33,7 +32,7 @@ class _MovieInfoState extends State<MovieInfo> {
   void initState() {
     super.initState();
     genre = widget.movie.genre;
-    id= widget.movie.id;
+    id = widget.movie.id;
     //getDataFromSharedPreferences();
     getDataFromSharedPreferences().then((_) {
       return recMovies();
@@ -47,8 +46,9 @@ class _MovieInfoState extends State<MovieInfo> {
 
     //_loadBookmarkState();
   }
+
 //for parsing the url
-  String _parseYoutubeVideoId(String youtubeUrl) { 
+  String _parseYoutubeVideoId(String youtubeUrl) {
     RegExp regExp = RegExp(
         r'(?<=watch\?v=|/videos/|embed/|youtu.be/|/v/|/e/|\?v=|&v=|%2Fvideos%2F|embed%\2F|youtu.be%\2F|%2Fv%2F|\?v=|%26v%3D|^youtu\.be/)([^&?/"]+)');
     Match? match = regExp.firstMatch(youtubeUrl);
@@ -82,7 +82,7 @@ class _MovieInfoState extends State<MovieInfo> {
     token = stringValue!;
   }
 
-    Future<void> addItem() async {
+  Future<void> addItem() async {
     id = widget.movie.id;
     type = widget.movie.type;
     String apiUrl = 'http://10.0.2.2:8000/bookmark/';
@@ -103,39 +103,38 @@ class _MovieInfoState extends State<MovieInfo> {
         body: jsonBody,
       );
       if (response.statusCode == 200) {
-      Map<String,dynamic> responseData = jsonDecode(response.body);
-      //if (responseData.isNotEmpty && responseData[0]['message'] != null) {
+        Map<String, dynamic> responseData = jsonDecode(response.body);
+        //if (responseData.isNotEmpty && responseData[0]['message'] != null) {
         // String message = responseData[0]['message'];
         // print('Message: $message');
         if (responseData.containsKey('message')) {
-        String message = responseData['message'];
-        print('Message: $message');
-        //return message;
-        showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Alert:'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('OK'),
-              ),
-            ],
+          String message = responseData['message'];
+          print('Message: $message');
+          //return message;
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Alert:'),
+                content: Text(message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
           );
-        },
-      );
+        }
       }
-    }
     } catch (error) {
       print('Error: $error');
       throw error;
     }
   }
-
 
   Future<void> recMovies() async {
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
@@ -162,7 +161,8 @@ class _MovieInfoState extends State<MovieInfo> {
 
         //recmovies = decodedData.map((data) => RecMovie.fromJson(data)).toList();
         setState(() {
-        recmovies = decodedData.map((data) => RecMovie.fromJson(data)).toList();
+          recmovies =
+              decodedData.map((data) => RecMovie.fromJson(data)).toList();
         });
         print('Movies: $recmovies');
       } else {
@@ -194,6 +194,7 @@ class _MovieInfoState extends State<MovieInfo> {
       print('Error: $error');
     }
   }
+
   @override
   void dispose() {
     _youtubeController.dispose();
@@ -219,197 +220,193 @@ class _MovieInfoState extends State<MovieInfo> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
+                    // Movie Poster
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Image.network(
+                        widget.movie.poster_link,
+                        width: 150,
+                        height: 300,
+                        fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          return Image.asset(
+                            'assets/placeholder/Film-icon.png',
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    // Information Card
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.movie.movie,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Release Date: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.movie.year}',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            widget.movie.director != ''
-                                ? 'Director: '
-                                : 'Director: N/A',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            widget.movie.director != ''
-                                ? widget.movie.director
-                                : 'N/A',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            widget.movie.genre != '' ? 'Genre: ' : 'Genre: N/A',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            widget.movie.genre != ''
-                                ? widget.movie.genre
-                                : 'N/A',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            widget.movie.metascore != ''
-                                ? 'MetaScore: '
-                                : 'MetaScore: N/A',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            widget.movie.metascore != ''
-                                ? widget.movie.metascore
-                                : 'N/A',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Type: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            widget.movie.type,
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
+                      child: Card(
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Movie Title
+                              Text(
+                                widget.movie.movie,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24.0,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              // Release Date
                               const Text(
-                                'Rating: ',
+                                'Release Date: ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
+                                  fontSize: 16.0,
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                width: 50,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey[600],
+                              Text(
+                                '${widget.movie.year}',
+                                style: const TextStyle(
+                                  fontSize: 16.0,
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    widget.movie.imdb_rating != ''
-                                        ? widget.movie
-                                            .imdb_rating // Actual rating value
-                                        : 'N/A',
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                              ),
+                              const SizedBox(height: 10),
+                              // Director
+                              Text(
+                                widget.movie.director != ''
+                                    ? 'Director: '
+                                    : 'Director: N/A',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                widget.movie.director != ''
+                                    ? widget.movie.director
+                                    : 'N/A',
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              // Genre
+                              Text(
+                                widget.movie.genre != ''
+                                    ? 'Genre: '
+                                    : 'Genre: N/A',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                widget.movie.genre != ''
+                                    ? widget.movie.genre
+                                    : 'N/A',
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              // MetaScore
+                              Text(
+                                widget.movie.metascore != ''
+                                    ? 'MetaScore: '
+                                    : 'MetaScore: N/A',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                widget.movie.metascore != ''
+                                    ? widget.movie.metascore
+                                    : 'N/A',
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              // Type
+                              const Text(
+                                'Type: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                widget.movie.type,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Rating: ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
                                     ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const SizedBox(width: 10),
-                              GestureDetector(
-                                // onTap: () {
-                                //   setState(() {
-                                //     _isBookmarkClicked = !_isBookmarkClicked;
-                                //     //_saveBookmarkState();
-                                //   });
-                                // },
-                                // child: Icon(
-                                //   _isBookmarkClicked
-                                //       ? Icons.bookmark
-                                //       : Icons.bookmark_border,
-                                //   color: Colors.white,
-                                //   size: 30,
-                                // ),
-                                onTap: () {
-                                  addItem();
-                                },
-                                child: Icon(
-                                  Icons.add_circle,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.grey[600],
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        widget.movie.imdb_rating != ''
+                                            ? widget.movie
+                                                .imdb_rating // Actual rating value
+                                            : 'N/A',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      addItem();
+                                      final snackBar = SnackBar(
+                                        content: Text('Bookmark successful'),
+                                        duration: Duration(seconds: 1),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    },
+                                    child: Icon(
+                                      Icons.bookmarks,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                    // Image.network(
-                    //   widget.movie.poster_link,
-                    //   width: 150,
-                    //   height: 200,
-                    //   fit: BoxFit.cover,
-                    // ),
-                    Image.network(
-                      widget.movie.poster_link,
-                      width: 150,
-                      height: 300,
-                      fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object error,
-                          StackTrace? stackTrace) {
-                        return FadeInImage.assetNetwork(
-                          placeholder:
-                              'assets/placeholder/Film-icon.png', // Placeholder image
-                          image: widget.movie.poster_link,
-                          width: 150,
-                          height: 200,
-                          fit: BoxFit.cover,
-                          imageErrorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/placeholder/Film-icon.png', // Error placeholder image
-                              width: 150,
-                              height: 150,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        );
-                      },
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const Text(
                 'Movie Trailer:',
                 style: TextStyle(
@@ -497,7 +494,6 @@ class _MovieInfoState extends State<MovieInfo> {
   }
 }
 
-
 class RelatedMoviesList extends StatelessWidget {
   final List<RecMovie> recommendedMovies;
 
@@ -515,68 +511,70 @@ class RelatedMoviesList extends StatelessWidget {
               itemBuilder: (context, index) {
                 RecMovie movie = recommendedMovies[index];
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecMovieInfo(movie: movie),
-                      ),
-                    );
-                  },
-                  child: Container(
-                  margin: const EdgeInsets.only(right: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 120,
-                        child: AspectRatio(
-                          aspectRatio: 2 / 3, // Aspect ratio of the poster
-                          child: Image.network(
-                            movie.poster_link,
-                            fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                              return FadeInImage.assetNetwork(
-                                placeholder: 'assets/placeholder/Film-icon.png',
-                                image: movie.poster_link,
-                                width: 50,
-                                height: 60,
-                                //fit: BoxFit.cover,
-                                imageErrorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
-                                    'assets/placeholder/Film-icon.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RecMovieInfo(movie: movie),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 120,
+                            child: AspectRatio(
+                              aspectRatio: 2 / 3, // Aspect ratio of the poster
+                              child: Image.network(
+                                movie.poster_link,
+                                fit: BoxFit.cover,
+                                errorBuilder: (BuildContext context,
+                                    Object error, StackTrace? stackTrace) {
+                                  return FadeInImage.assetNetwork(
+                                    placeholder:
+                                        'assets/placeholder/Film-icon.png',
+                                    image: movie.poster_link,
                                     width: 50,
                                     height: 60,
                                     //fit: BoxFit.cover,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image.asset(
+                                        'assets/placeholder/Film-icon.png',
+                                        width: 50,
+                                        height: 60,
+                                        //fit: BoxFit.cover,
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
+                              ),
+                            ),
                           ),
-                          
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: 120,
-                        child: Text(
-                          movie.movie,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            width: 120,
+                            child: Text(
+                              movie.movie,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                          Text(
+                            movie.year.toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        movie.year.toString(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ));
+                    ));
               },
             ),
           );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +26,7 @@ class _MusicInfoState extends State<MusicInfo> {
   String token = "";
   int id = 0;
   int bid = 0;
-  String genre= "";
+  String genre = "";
   String type = "";
   List<RecMusic> recmusic = [];
 
@@ -35,7 +34,7 @@ class _MusicInfoState extends State<MusicInfo> {
   void initState() {
     super.initState();
     genre = widget.music.genre;
-    id= widget.music.id;
+    id = widget.music.id;
     //getDataFromSharedPreferences();
     getDataFromSharedPreferences().then((_) {
       return recMusic();
@@ -46,7 +45,6 @@ class _MusicInfoState extends State<MusicInfo> {
         autoPlay: true,
       ),
     )..addListener(_onYoutubePlayerChange);
-
   }
 
   String _parseYoutubeVideoId(String youtubeUrl) {
@@ -64,7 +62,6 @@ class _MusicInfoState extends State<MusicInfo> {
     }
   }
 
- 
   Future<void> getDataFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? stringValue = prefs.getString('token');
@@ -92,33 +89,33 @@ class _MusicInfoState extends State<MusicInfo> {
         body: jsonBody,
       );
       if (response.statusCode == 200) {
-      Map<String,dynamic> responseData = jsonDecode(response.body);
-      // if (responseData.isNotEmpty && responseData[0]['message'] != null) {
-      //   String message = responseData[0]['message'];
-      //   print('Message: $message');
+        Map<String, dynamic> responseData = jsonDecode(response.body);
+        // if (responseData.isNotEmpty && responseData[0]['message'] != null) {
+        //   String message = responseData[0]['message'];
+        //   print('Message: $message');
         if (responseData.containsKey('message')) {
-        String message = responseData['message'];
-        print('Message: $message');
-        //return message;
-        showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Alert:'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('OK'),
-              ),
-            ],
+          String message = responseData['message'];
+          print('Message: $message');
+          //return message;
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Alert:'),
+                content: Text(message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
           );
-        },
-      );
+        }
       }
-    }
       //print(response);
       //return response;
     } catch (error) {
@@ -127,8 +124,7 @@ class _MusicInfoState extends State<MusicInfo> {
     }
   }
 
-
-Future<void> recMusic() async {
+  Future<void> recMusic() async {
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
     String apiUrl = 'http://10.0.2.2:8000/musicRecommend/';
     Map<String, String> headers = {
@@ -153,7 +149,8 @@ Future<void> recMusic() async {
 
         //recmovies = decodedData.map((data) => RecMovie.fromJson(data)).toList();
         setState(() {
-        recmusic = decodedData.map((data) => RecMusic.fromJson(data)).toList();
+          recmusic =
+              decodedData.map((data) => RecMusic.fromJson(data)).toList();
         });
         print('Movies: $recmusic');
       } else {
@@ -167,7 +164,6 @@ Future<void> recMusic() async {
       print('Error: $error');
     }
   }
-
 
   @override
   void dispose() {
@@ -187,180 +183,167 @@ Future<void> recMusic() async {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Song Name: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.music.track_name}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Artist: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.music.artist_name}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Genre: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.music.genre}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Album: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.music.album}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Year: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            widget.music.release_date != ''
-                                ? '${widget.music.release_date}'
-                                : 'N/A',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  //id = widget.music.id;
-                                  //type = widget.music.type;
-                                  addItem();
-                                },
-                                child: Icon(
-                                  Icons.add_circle,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              GestureDetector(
-                                onTap: () async {
-                                  Uri spotifyUri =
-                                      Uri.parse(widget.music.spotify_link);
-
-                                  if (await launcher
-                                      .canLaunchUrl(spotifyUri)) {
-                                    await launcher.launchUrl(spotifyUri);
-                                  } else {
-                                    print(
-                                        'Could not launch ${widget.music.spotify_link}');
-                                  }
-                                },
-                                child: Image.asset(
-                                  'assets/spotify_icon.png',
-                                  width: 30,
-                                  height: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    // Image.network(
-                    //   widget.music.artist_name,
-                    //   width: 150,
-                    //   height: 200,
-                    //   fit: BoxFit.cover,
-                    //   errorBuilder: (BuildContext context, Object error,
-                    //       StackTrace? stackTrace) {
-                    //     return FadeInImage.assetNetwork(
-                    //       placeholder: 'assets/bgimagee.png',
-                    //       image: widget.music.artist_name,
-                    //       width: 150,
-                    //       height: 200,
-                    //       fit: BoxFit.cover,
-                    //       imageErrorBuilder: (context, error, stackTrace) {
-                    //         return Image.asset(
-                    //           'assets/bgimagee.png',
-                    //           width: 150,
-                    //           height: 150,
-                    //           fit: BoxFit.cover,
-                    //         );
-                    //       },
-                    //     );
-                    //   },
-                    // ),
-                    Image.network(
-                      widget.music.artist_image.isNotEmpty ? widget.music.artist_image : 'assets/bgimagee.png',
-                      width: 150,
-                      height: 200,
+              SizedBox(height: 30),
+              Row(
+                children: [
+                  // Artist Image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: Image.network(
+                      widget.music.artist_image.isNotEmpty
+                          ? widget.music.artist_image
+                          : 'assets/bgimagee.png',
+                      width: 170,
+                      height: 300,
                       fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                        return FadeInImage.assetNetwork(
-                          placeholder: 'assets/bgimagee.png',
-                          image: widget.music.artist_image.isNotEmpty ? widget.music.artist_image : 'assets/bgimagee.png',
+                      errorBuilder: (BuildContext context, Object error,
+                          StackTrace? stackTrace) {
+                        return Image.asset(
+                          'assets/placeholder/music-icon.jpeg',
                           width: 150,
-                          height: 200,
+                          height: 150,
                           fit: BoxFit.cover,
-                          imageErrorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/bgimagee.png',
-                              width: 150,
-                              height: 150,
-                              fit: BoxFit.cover,
-                            );
-                          },
                         );
                       },
                     ),
+                  ),
+                  SizedBox(width: 16),
+                  // Information Card
+                  Expanded(
+                    child: Card(
+                      elevation: 10,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Song Name
+                            Text(
+                              'Song Name: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.music.track_name}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Artist: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.music.artist_name}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            // Genre
+                            Text(
+                              'Genre: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.music.genre}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            // Album
+                            Text(
+                              'Album: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.music.album}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            // Year
+                            Text(
+                              'Year: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              widget.music.release_date != ''
+                                  ? '${widget.music.release_date}'
+                                  : 'N/A',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            // Icons
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    addItem();
+                                    final snackBar = SnackBar(
+                                      content: Text('Bookmark successful'),
+                                      duration: Duration(seconds: 1),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  },
+                                  child: Icon(
+                                    Icons.bookmarks,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                GestureDetector(
+                                  onTap: () async {
+                                    Uri spotifyUri =
+                                        Uri.parse(widget.music.spotify_link);
 
-                  ],
-                ),
+                                    if (await launcher
+                                        .canLaunchUrl(spotifyUri)) {
+                                      await launcher.launchUrl(spotifyUri);
+                                    } else {
+                                      print(
+                                          'Could not launch ${widget.music.spotify_link}');
+                                    }
+                                  },
+                                  child: Image.asset(
+                                    'assets/spotify_icon.png',
+                                    width: 30,
+                                    height: 30,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -443,7 +426,6 @@ Future<void> recMusic() async {
   }
 }
 
-
 class RelatedMusicList extends StatelessWidget {
   final List<RecMusic> recommendedMusic;
 
@@ -454,195 +436,87 @@ class RelatedMusicList extends StatelessWidget {
     return recommendedMusic.isEmpty
         ? Center(child: CircularProgressIndicator())
         : Container(
-            height: 250,
+            height: 300,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: recommendedMusic.length,
               itemBuilder: (context, index) {
                 RecMusic music = recommendedMusic[index];
                 return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecMusicInfo(recmusic: music),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 16),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // SizedBox(
-                            //   width: 120,
-                            //   child: AspectRatio(
-                            //     aspectRatio: 2 / 3, // Aspect ratio of the poster
-                            //     child: Image.network(
-                            //       'assets/placeholder/music-icon.jpeg',
-                            //         width: 150,
-                            //         height: 150,
-                            //         fit: BoxFit.cover,
-                            //     ),
-                        
-                            //   ),
-                            // ),
-                            SizedBox(
-                              width: 120,
-                              child: AspectRatio(
-                                aspectRatio: 2 / 3, // Aspect ratio of the poster
-                                // child: Image.asset(
-                                //   'assets/placeholder/music-icon.jpeg',
-                                //   width: 150,
-                                //   height: 150,
-                                //   fit: BoxFit.cover,
-                                // ),
-                              child: FadeInImage.assetNetwork(
-                              placeholder: 'assets/placeholder/music-icon.jpeg',
-                              image: music.artist_image,
-                              width: 150,
-                              height: 150,
-                              fit: BoxFit.cover,
-                              imageErrorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  'assets/placeholder/music-icon.jpeg',
-                                  width: 150,
-                                  height: 150,
-                                  //fit: BoxFit.cover,
-                                );
-                              },
-                            ),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            SizedBox(
-                              width: 120,
-                              child: Flexible(
-                                child: Text(
-                                  music.track_name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 120,
-                              child: Flexible(
-                                child: Text(
-                                  music.artist_name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            // Text(
-                            //   music.release_date.toString(),
-                            //   style: const TextStyle(
-                            //     fontWeight: FontWeight.w400,
-                            //   ),
-                            // ),
-                          ],
-                        ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RecMusicInfo(recmusic: music),
                       ),
-                    ));
+                    );
+                  },
+                  child: Container(
+                    width: 160,
+                    height: 300, // Adjust the width of the card as needed
+                    margin: const EdgeInsets.only(right: 16),
+                    child: Card(
+                      elevation: 10, // Adjust the elevation as needed
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 2 / 3,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(4),
+                              ),
+                              child: FadeInImage.assetNetwork(
+                                placeholder:
+                                    'assets/placeholder/music-icon.jpeg',
+                                image: music.artist_image.isNotEmpty
+                                    ? music.artist_image
+                                    : 'assets/placeholder/music-icon.jpeg',
+                                width: double.infinity,
+                                height: 120,
+                                fit: BoxFit.cover,
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  return Image.asset(
+                                    'assets/placeholder/music-icon.jpeg',
+                                    width: double.infinity,
+                                    height: 120,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Flexible(
+                            child: Text(
+                              music.track_name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Flexible(
+                            child: Text(
+                              music.artist_name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
               },
             ),
           );
   }
 }
-// class RelatedMusicList extends StatelessWidget {
-//   final List<RecMusic> recommendedMusic;
-
-//   RelatedMusicList({required this.recommendedMusic});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return recommendedMusic.isEmpty
-//         ? Center(child: CircularProgressIndicator())
-//         : Container(
-//             height: 250,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: recommendedMusic.length,
-//               itemBuilder: (context, index) {
-//                 RecMusic music = recommendedMusic[index];
-//                 return GestureDetector(
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => RecMusicInfo(recmusic: music),
-//                       ),
-//                     );
-//                   },
-//                   child: Container(
-//                   margin: const EdgeInsets.only(right: 16),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       // SizedBox(
-//                       //   width: 120,
-//                       //   child: AspectRatio(
-//                       //     aspectRatio: 2 / 3, // Aspect ratio of the poster
-//                       //     child: Image.network(
-//                       //       'assets/placeholder/music-icon.jpeg',
-//                       //         width: 150,
-//                       //         height: 150,
-//                       //         fit: BoxFit.cover,
-//                       //     ),
-                          
-//                       //   ),
-//                       // ),
-//                       SizedBox(
-//                         width: 120,
-//                         child: AspectRatio(
-//                           aspectRatio: 2 / 3, // Aspect ratio of the poster
-//                           child: Image.asset(
-//                             'assets/placeholder/music-icon.jpeg',
-//                             width: 150,
-//                             height: 150,
-//                             fit: BoxFit.cover,
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(height: 8),
-//                       SizedBox(
-//                         width: 120,
-//                         child: Text(
-//                           music.track_name,
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                           maxLines: 2,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                       Text(
-//                         music.artist_name,
-//                         style: const TextStyle(
-//                           fontWeight: FontWeight.w400,
-//                         ),
-//                         maxLines: 2,
-//                           overflow: TextOverflow.ellipsis,
-//                       ),
-//                       // Text(
-//                       //   music.release_date.toString(),
-//                       //   style: const TextStyle(
-//                       //     fontWeight: FontWeight.w400,
-//                       //   ),
-//                       // ),
-//                     ],
-//                   ),
-//                 ));
-//               },
-//             ),
-//           );
-//   }
-// }
