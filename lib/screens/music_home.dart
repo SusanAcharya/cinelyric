@@ -1,9 +1,10 @@
-import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/music_result_display.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+
+import 'for_you_music.dart';
 
 class MusicHome extends StatefulWidget {
   const MusicHome({Key? key});
@@ -67,6 +68,15 @@ class _MusicHomeState extends State<MusicHome> {
     });
   }
 
+  void _navigateToForYouMusicPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ForYouMusic(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -75,7 +85,40 @@ class _MusicHomeState extends State<MusicHome> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false, //fixing the mic button
-        appBar: const MyAppBar(),
+        appBar: AppBar(
+          titleSpacing: 10,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 55),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.radio,
+                  color: Theme.of(context).iconTheme.color,
+                  size: 50,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'CineLyric',
+                  style: TextStyle(
+                    color: Theme.of(context).iconTheme.color,
+                    fontSize: 35,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                icon: const Icon(Icons.music_note,
+                    size: 30, color: Colors.blueAccent),
+                onPressed: _navigateToForYouMusicPage,
+              ),
+            ),
+          ],
+        ),
         body: Column(
           children: [
             Padding(
@@ -91,7 +134,9 @@ class _MusicHomeState extends State<MusicHome> {
                 decoration: InputDecoration(
                   hintText: 'Enter your query',
                   suffixIcon: IconButton(
-                    icon: const Icon(Icons.search),
+                    icon: const Icon(
+                      Icons.search,
+                    ),
                     onPressed: () {
                       setState(() {
                         _navigateToMusicResultPage();

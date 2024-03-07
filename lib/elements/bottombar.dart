@@ -37,11 +37,7 @@ class _MyAppBottomBarState extends State<MyAppBottomBar> {
   Widget buildIconWithLabel(int index, IconData iconData, String label) {
     return InkWell(
       onTap: () {
-        if (_currentIndex == index) {
-          // Do nothing if the user taps on the current page icon
-          return;
-        }
-
+        // Always allow navigation even if the user is on the current page
         setState(() {
           _currentIndex = index;
         });
