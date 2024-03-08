@@ -138,160 +138,169 @@ class _MusicInfoState extends State<RecMusicInfo> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Song Name: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.recmusic.track_name}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Artist: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.recmusic.artist_name}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Genre: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.recmusic.genre}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Album: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            '${widget.recmusic.album}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Year: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            widget.recmusic.release_date != ''
-                                ? '${widget.recmusic.release_date}'
-                                : 'N/A',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  //id = widget.music.id;
-                                  //type = widget.music.type;
-                                  addItem();
-                                },
-                                child: Icon(
-                                  Icons.add_circle,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              GestureDetector(
-                                onTap: () async {
-                                  Uri spotifyUri =
-                                      Uri.parse(widget.recmusic.spotify_link);
-
-                                  if (await launcher.canLaunchUrl(spotifyUri)) {
-                                    await launcher.launchUrl(spotifyUri);
-                                  } else {
-                                    print(
-                                        'Could not launch ${widget.recmusic.spotify_link}');
-                                  }
-                                },
-                                child: Image.asset(
-                                  'assets/spotify_icon.png',
-                                  width: 30,
-                                  height: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    Image.network(
+              SizedBox(height: 30),
+              Row(
+                children: [
+                  // Artist Image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: Image.network(
                       widget.recmusic.artist_image.isNotEmpty
                           ? widget.recmusic.artist_image
                           : 'assets/placeholder/music-icon.jpeg',
-                      width: 150,
-                      height: 200,
+                      width: 170,
+                      height: 300,
                       fit: BoxFit.cover,
                       errorBuilder: (BuildContext context, Object error,
                           StackTrace? stackTrace) {
-                        return FadeInImage.assetNetwork(
-                          placeholder: 'assets/placeholder/music-icon.jpeg',
-                          image: widget.recmusic.artist_image.isNotEmpty
-                              ? widget.recmusic.artist_image
-                              : 'assets/placeholder/music-icon.jpeg',
+                        return Image.asset(
+                          'assets/placeholder/music-icon.jpeg',
                           width: 150,
-                          height: 200,
+                          height: 150,
                           fit: BoxFit.cover,
-                          imageErrorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/placeholder/music-icon.jpeg',
-                              width: 150,
-                              height: 150,
-                              fit: BoxFit.cover,
-                            );
-                          },
                         );
                       },
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(width: 16),
+                  // Information Card
+                  Expanded(
+                    child: Card(
+                      elevation: 10,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Song Name
+                            Text(
+                              'Song Name: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.recmusic.track_name}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Artist: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.recmusic.artist_name}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            // Genre
+                            Text(
+                              'Genre: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.recmusic.genre}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            // Album
+                            Text(
+                              'Album: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              '${widget.recmusic.album}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            // Year
+                            Text(
+                              'Year: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              widget.recmusic.release_date != ''
+                                  ? '${widget.recmusic.release_date}'
+                                  : 'N/A',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            // Icons
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    addItem();
+                                    final snackBar = SnackBar(
+                                      content: Text('Bookmark successful'),
+                                      duration: Duration(seconds: 1),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  },
+                                  child: Icon(
+                                    Icons.bookmarks,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                GestureDetector(
+                                  onTap: () async {
+                                    Uri spotifyUri =
+                                        Uri.parse(widget.recmusic.spotify_link);
+
+                                    if (await launcher
+                                        .canLaunchUrl(spotifyUri)) {
+                                      await launcher.launchUrl(spotifyUri);
+                                    } else {
+                                      print(
+                                          'Could not launch ${widget.recmusic.spotify_link}');
+                                    }
+                                  },
+                                  child: Image.asset(
+                                    'assets/spotify_icon.png',
+                                    width: 30,
+                                    height: 30,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              // Music Video Section
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
