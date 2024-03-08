@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/elements/bottombar.dart';
+import 'package:cinelyric/screens/for_you_movie.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -87,6 +88,15 @@ class _MovieHomeState extends State<MovieHome> {
     });
   }
 
+  void _navigateToForYouMoviePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ForYouMovie(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -95,7 +105,40 @@ class _MovieHomeState extends State<MovieHome> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const MyAppBar(),
+        appBar: AppBar(
+          titleSpacing: 10,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 55),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.radio,
+                  color: Theme.of(context).iconTheme.color,
+                  size: 50,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'CineLyric',
+                  style: TextStyle(
+                    color: Theme.of(context).iconTheme.color,
+                    fontSize: 35,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                icon: const Icon(Icons.movie,
+                    size: 30, color: Colors.blueAccent),
+                onPressed: _navigateToForYouMoviePage,
+              ),
+            ),
+          ],
+        ),
         body: Column(
           children: [
             Padding(

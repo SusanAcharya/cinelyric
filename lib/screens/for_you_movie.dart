@@ -5,12 +5,12 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/appbar.dart';
 
-class ForYouMusic extends StatefulWidget {
+class ForYouMovie extends StatefulWidget {
   @override
-  _ForYouMusicState createState() => _ForYouMusicState();
+  _ForYouMovieState createState() => _ForYouMovieState();
 }
 
-class _ForYouMusicState extends State<ForYouMusic> {
+class _ForYouMovieState extends State<ForYouMovie> {
   List<CarouselItem> carouselItems = [];
   String token = '';
 
@@ -39,7 +39,7 @@ class _ForYouMusicState extends State<ForYouMusic> {
       'Content-Type': 'application/json',
     };
     Map<String, dynamic> requestBody = {
-      'type': 'music',
+      'type': 'movie',
     };
     String jsonBody = jsonEncode(requestBody);
     try {
@@ -53,9 +53,9 @@ class _ForYouMusicState extends State<ForYouMusic> {
         final List<dynamic> responseData = json.decode(response.body);
         setState(() {
           carouselItems = responseData.map((data) => CarouselItem(
-            imageUrl: data['artist_image'],
-            title: data['track_name'],
-            description: data['artist_name'],
+            imageUrl: data['poster_link'],
+            title: data['movie'],
+            description: data['year'].toString(),
           )).toList();
         });
       } else {
@@ -102,7 +102,7 @@ class _ForYouMusicState extends State<ForYouMusic> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Musics For you:",
+                  "Movies For you:",
                   style: TextStyle(
                     fontSize: 40,
                   ),
@@ -153,17 +153,17 @@ class _ForYouMusicState extends State<ForYouMusic> {
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage.assetNetwork(
                                 placeholder:
-                                    'assets/placeholder/music-icon.jpeg',
+                                    'assets/placeholder/Film-icon.jpeg',
                                 image: item.imageUrl.isNotEmpty
                                     ? item.imageUrl
-                                    : 'assets/placeholder/music-icon.jpeg',
+                                    : 'assets/placeholder/Film-icon.png',
                                 width: double.infinity,
                                 height: 300.0,
                                 fit: BoxFit.fill,
                                 imageErrorBuilder:
                                     (context, error, stackTrace) {
                                   return Image.asset(
-                                    'assets/placeholder/music-icon.jpeg',
+                                    'assets/placeholder/Film-icon.png',
                                     width: double.infinity,
                                     height: 300.0,
                                   );
