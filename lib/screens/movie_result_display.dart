@@ -166,7 +166,7 @@ class _MovieResultState extends State<MovieResult> {
                           ),
                           DropdownMenuItem(
                             value: SortOption.popularity,
-                            child: Text('Popularity'),
+                            child: Text('Similarity'),
                           ),
                         ],
                         onChanged: onSortOptionChanged,
