@@ -53,11 +53,13 @@ class _ForYouMovieState extends State<ForYouMovie> {
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
         setState(() {
-          carouselItems = responseData.map((data) => CarouselItem(
-            imageUrl: data['poster_link'],
-            title: data['movie'],
-            description: data['year'].toString(),
-          )).toList();
+          carouselItems = responseData
+              .map((data) => CarouselItem(
+                    imageUrl: data['poster_link'],
+                    title: data['movie'],
+                    description: data['year'].toString(),
+                  ))
+              .toList();
         });
       } else {
         print('Failed with status code: ${response.statusCode}');
@@ -103,7 +105,7 @@ class _ForYouMovieState extends State<ForYouMovie> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Movies For you:",
+                  "For you:",
                   style: TextStyle(
                     fontSize: 40,
                   ),
@@ -112,7 +114,7 @@ class _ForYouMovieState extends State<ForYouMovie> {
                 Material(
                   child: Tooltip(
                     message:
-                        "We took a little sneak peek on the music you bookmarked. And we thought these songs/artists might fit your taste.",
+                        "We took a little sneak peek on the movies you bookmarked. And we thought these movies/shows might fit your taste.",
                     child: Icon(
                       Icons.help,
                       color: Colors.white,
@@ -126,19 +128,20 @@ class _ForYouMovieState extends State<ForYouMovie> {
           Expanded(
             child: carouselItems.isEmpty
                 ? Center(child: CircularProgressIndicator())
-                :CarouselSlider.builder(
-              itemCount: carouselItems.length,
-              options: CarouselOptions(
-                height: 600.0, // Adjust the height as needed
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 2),
-                autoPlayAnimationDuration: const Duration(milliseconds: 1500),
-                autoPlayCurve: Curves.fastOutSlowIn,
-              ),
-              itemBuilder: (context, index, realIndex) {
-                return _buildCarouselItem(carouselItems[index]);
-              },
-            ),
+                : CarouselSlider.builder(
+                    itemCount: carouselItems.length,
+                    options: CarouselOptions(
+                      height: 600.0, // Adjust the height as needed
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 2),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 1500),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                    ),
+                    itemBuilder: (context, index, realIndex) {
+                      return _buildCarouselItem(carouselItems[index]);
+                    },
+                  ),
           ),
         ],
       ),
@@ -153,23 +156,21 @@ class _ForYouMovieState extends State<ForYouMovie> {
           ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage.assetNetwork(
-                                placeholder:
-                                    'assets/placeholder/Film-icon.png',
-                                image: item.imageUrl.isNotEmpty
-                                    ? item.imageUrl
-                                    : 'assets/placeholder/Film-icon.png',
-                                width: double.infinity,
-                                height: 300.0,
-                                fit: BoxFit.fill,
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  return Image.asset(
-                                    'assets/placeholder/Film-icon.png',
-                                    width: double.infinity,
-                                    height: 300.0,
-                                  );
-                                },
-                              ),
+              placeholder: 'assets/placeholder/Film-icon.png',
+              image: item.imageUrl.isNotEmpty
+                  ? item.imageUrl
+                  : 'assets/placeholder/Film-icon.png',
+              width: double.infinity,
+              height: 300.0,
+              fit: BoxFit.fill,
+              imageErrorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/placeholder/Film-icon.png',
+                  width: double.infinity,
+                  height: 300.0,
+                );
+              },
+            ),
           ),
           const SizedBox(height: 16.0),
           Text(

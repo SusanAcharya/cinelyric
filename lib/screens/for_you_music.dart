@@ -53,11 +53,13 @@ class _ForYouMusicState extends State<ForYouMusic> {
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
         setState(() {
-          carouselItems = responseData.map((data) => CarouselItem(
-            imageUrl: data['artist_image'],
-            title: data['track_name'],
-            description: data['artist_name'],
-          )).toList();
+          carouselItems = responseData
+              .map((data) => CarouselItem(
+                    imageUrl: data['artist_image'],
+                    title: data['track_name'],
+                    description: data['artist_name'],
+                  ))
+              .toList();
         });
       } else {
         print('Failed with status code: ${response.statusCode}');
@@ -103,7 +105,7 @@ class _ForYouMusicState extends State<ForYouMusic> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Musics For you:",
+                  "For you:",
                   style: TextStyle(
                     fontSize: 40,
                   ),
@@ -126,19 +128,20 @@ class _ForYouMusicState extends State<ForYouMusic> {
           Expanded(
             child: carouselItems.isEmpty
                 ? Center(child: CircularProgressIndicator())
-                :CarouselSlider.builder(
-              itemCount: carouselItems.length,
-              options: CarouselOptions(
-                height: 600.0, // Adjust the height as needed
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 2),
-                autoPlayAnimationDuration: const Duration(milliseconds: 1500),
-                autoPlayCurve: Curves.fastOutSlowIn,
-              ),
-              itemBuilder: (context, index, realIndex) {
-                return _buildCarouselItem(carouselItems[index]);
-              },
-            ),
+                : CarouselSlider.builder(
+                    itemCount: carouselItems.length,
+                    options: CarouselOptions(
+                      height: 600.0, // Adjust the height as needed
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 2),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 1500),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                    ),
+                    itemBuilder: (context, index, realIndex) {
+                      return _buildCarouselItem(carouselItems[index]);
+                    },
+                  ),
           ),
         ],
       ),
@@ -153,23 +156,21 @@ class _ForYouMusicState extends State<ForYouMusic> {
           ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage.assetNetwork(
-                                placeholder:
-                                    'assets/placeholder/music-icon.jpeg',
-                                image: item.imageUrl.isNotEmpty
-                                    ? item.imageUrl
-                                    : 'assets/placeholder/music-icon.jpeg',
-                                width: double.infinity,
-                                height: 300.0,
-                                fit: BoxFit.fill,
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  return Image.asset(
-                                    'assets/placeholder/music-icon.jpeg',
-                                    width: double.infinity,
-                                    height: 300.0,
-                                  );
-                                },
-                              ),
+              placeholder: 'assets/placeholder/music-icon.jpeg',
+              image: item.imageUrl.isNotEmpty
+                  ? item.imageUrl
+                  : 'assets/placeholder/music-icon.jpeg',
+              width: double.infinity,
+              height: 300.0,
+              fit: BoxFit.fill,
+              imageErrorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/placeholder/music-icon.jpeg',
+                  width: double.infinity,
+                  height: 300.0,
+                );
+              },
+            ),
           ),
           const SizedBox(height: 16.0),
           Text(

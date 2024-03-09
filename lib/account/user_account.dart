@@ -111,20 +111,21 @@ class _UserHistoryState extends State<UserAccount> {
                   'Your History',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  width: 170,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HistoryPage()),
-                    );
-                  },
-                  child: const Icon(
-                    Icons.history,
-                    size: 30,
-                    color: Colors.grey,
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HistoryPage()),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.history,
+                      size: 30,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ],

@@ -20,14 +20,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   size: 50,
                 ),
                 SizedBox(width: 8),
-                Center(
-                    child: Text(
+                Text(
                   'CineLyric',
                   style: TextStyle(
                     color: Theme.of(context).iconTheme.color,
                     fontSize: 35,
                   ),
-                )),
+                ),
               ],
             ),
           ],

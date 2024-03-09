@@ -201,29 +201,30 @@ class _MusicResultState extends State<MusicResult> {
                                   ),
                                 ],
                               ),
-                          
                               leading: musics.artist_image.isNotEmpty
-                            ? FadeInImage.assetNetwork(
-                                placeholder: 'assets/placeholder/music-icon.jpeg',
-                                image: musics.artist_image,
-                                width: 80.0,
-                                height: 180.0,
-                                fit: BoxFit.fill,
-                                imageErrorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
-                                    'assets/placeholder/music-icon.jpeg',
-                                    width: 80.0,
-                                    height: 500.0,
-                                    fit: BoxFit.fill,
-                                  );
-                                },
-                              )
-                            : Image.asset(
-                                'assets/placeholder/music-icon.jpeg',
-                                width: 80.0,
-                                height: 500.0,
-                                fit: BoxFit.fill,
-                              ),
+                                  ? FadeInImage.assetNetwork(
+                                      placeholder:
+                                          'assets/placeholder/music-icon.jpeg',
+                                      image: musics.artist_image,
+                                      width: 80.0,
+                                      height: 180.0,
+                                      fit: BoxFit.fill,
+                                      imageErrorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'assets/placeholder/music-icon.jpeg',
+                                          width: 80.0,
+                                          height: 500.0,
+                                          fit: BoxFit.fill,
+                                        );
+                                      },
+                                    )
+                                  : Image.asset(
+                                      'assets/placeholder/music-icon.jpeg',
+                                      width: 80.0,
+                                      height: 500.0,
+                                      fit: BoxFit.fill,
+                                    ),
                               onTap: () {
                                 Navigator.push(
                                   context,

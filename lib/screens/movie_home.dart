@@ -1,11 +1,9 @@
-
 import 'package:cinelyric/elements/bottombar.dart';
 import 'package:cinelyric/screens/for_you_movie.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:cinelyric/screens/movie_result_display.dart';
-
 
 class MovieHome extends StatefulWidget {
   const MovieHome({Key? key});
@@ -107,7 +105,7 @@ class _MovieHomeState extends State<MovieHome> {
         appBar: AppBar(
           titleSpacing: 10,
           title: Padding(
-            padding: const EdgeInsets.only(left: 55),
+            padding: const EdgeInsets.only(left: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -124,19 +122,18 @@ class _MovieHomeState extends State<MovieHome> {
                     fontSize: 35,
                   ),
                 ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.movie,
+                        size: 30, color: Colors.blueAccent),
+                    onPressed: _navigateToForYouMoviePage,
+                  ),
+                ),
               ],
             ),
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: IconButton(
-                icon: const Icon(Icons.movie,
-                    size: 30, color: Colors.blueAccent),
-                onPressed: _navigateToForYouMoviePage,
-              ),
-            ),
-          ],
         ),
         body: Column(
           children: [

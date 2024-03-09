@@ -63,7 +63,6 @@ class _MovieInfoState extends State<MovieInfo> {
     }
   }
 
-
   Future<void> getDataFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? stringValue = prefs.getString('token');
@@ -158,7 +157,6 @@ class _MovieInfoState extends State<MovieInfo> {
         Map<String, dynamic> jasonBody = jsonDecode(response.body);
         String message = jasonBody['message'];
         print(message);
-       
       }
     } catch (error) {
       print('Error: $error');
@@ -213,7 +211,7 @@ class _MovieInfoState extends State<MovieInfo> {
                     // Information Card
                     Expanded(
                       child: Card(
-                        elevation: 10,
+                        elevation: 5,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
@@ -316,18 +314,15 @@ class _MovieInfoState extends State<MovieInfo> {
                                 ),
                               ),
 
+                              const Text(
+                                'Rating: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
+                              ),
                               Row(
                                 children: [
-                                  const Text(
-                                    'Rating: ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
                                   Container(
                                     width: 50,
                                     height: 50,
@@ -348,7 +343,7 @@ class _MovieInfoState extends State<MovieInfo> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 8,
+                                    width: 10,
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -367,7 +362,7 @@ class _MovieInfoState extends State<MovieInfo> {
                                     ),
                                   ),
                                 ],
-                              ),
+                              )
                             ],
                           ),
                         ),

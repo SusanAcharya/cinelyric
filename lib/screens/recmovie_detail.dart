@@ -119,7 +119,6 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
     }
   }
 
-  
   @override
   void dispose() {
     _youtubeController.dispose();
