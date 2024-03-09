@@ -71,7 +71,8 @@ class _MusicInfoState extends State<MusicInfo> {
   Future<void> addItem() async {
     id = widget.music.id;
     type = widget.music.type;
-    String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    //String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    String apiUrl = 'http://65.2.9.109:8000/bookmark/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -90,9 +91,6 @@ class _MusicInfoState extends State<MusicInfo> {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = jsonDecode(response.body);
-        // if (responseData.isNotEmpty && responseData[0]['message'] != null) {
-        //   String message = responseData[0]['message'];
-        //   print('Message: $message');
         if (responseData.containsKey('message')) {
           String message = responseData['message'];
           print('Message: $message');
@@ -126,7 +124,8 @@ class _MusicInfoState extends State<MusicInfo> {
 
   Future<void> recMusic() async {
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
-    String apiUrl = 'http://10.0.2.2:8000/musicRecommend/';
+    //String apiUrl = 'http://10.0.2.2:8000/musicRecommend/';
+    String apiUrl = 'http://65.2.9.109:8000/musicRecommend/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',

@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
-import '../elements/music.dart';
 import '../elements/recmusic.dart';
 import '../elements/bottombar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -67,7 +66,8 @@ class _MusicInfoState extends State<RecMusicInfo> {
   Future<void> addItem() async {
     id = widget.recmusic.id;
     type = widget.recmusic.type;
-    String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    //String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    String apiUrl = 'http://65.2.9.109:8000/bookmark/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -86,9 +86,6 @@ class _MusicInfoState extends State<RecMusicInfo> {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = jsonDecode(response.body);
-        //if (responseData.isNotEmpty && responseData[0]['message'] != null) {
-        // String message = responseData[0]['message'];
-        // print('Message: $message');
         if (responseData.containsKey('message')) {
           String message = responseData['message'];
           print('Message: $message');

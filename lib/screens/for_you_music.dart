@@ -33,7 +33,8 @@ class _ForYouMusicState extends State<ForYouMusic> {
   Future<void> fetchData() async {
     // String apiUrl =
     //     'https://8cd5-2400-1a00-b040-5496-7491-c660-170c-1ab5.ngrok-fre/movie/';
-    String apiUrl = 'http://10.0.2.2:8000/api/bookmarkRecommend/';
+    //String apiUrl = 'http://10.0.2.2:8000/api/bookmarkRecommend/';
+    String apiUrl = 'http://65.2.9.109:8000/api/bookmarkRecommend/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',

@@ -63,18 +63,6 @@ class _MovieInfoState extends State<MovieInfo> {
     }
   }
 
-  // void _loadBookmarkState() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool bookmarked = prefs.getBool('bookmark_${widget.movie.id}') ?? false;
-  //   setState(() {
-  //     _isBookmarkClicked = bookmarked;
-  //   });
-  // }
-
-  // void _saveBookmarkState() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setBool('bookmark_${widget.movie.id}', _isBookmarkClicked);
-  // }
 
   Future<void> getDataFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -85,7 +73,8 @@ class _MovieInfoState extends State<MovieInfo> {
   Future<void> addItem() async {
     id = widget.movie.id;
     type = widget.movie.type;
-    String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    //String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    String apiUrl = 'http://65.2.9.109:8000/bookmark/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -104,9 +93,6 @@ class _MovieInfoState extends State<MovieInfo> {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = jsonDecode(response.body);
-        //if (responseData.isNotEmpty && responseData[0]['message'] != null) {
-        // String message = responseData[0]['message'];
-        // print('Message: $message');
         if (responseData.containsKey('message')) {
           String message = responseData['message'];
           print('Message: $message');
@@ -138,7 +124,8 @@ class _MovieInfoState extends State<MovieInfo> {
 
   Future<void> recMovies() async {
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/movie/';
-    String apiUrl = 'http://10.0.2.2:8000/api/recommend/';
+    //String apiUrl = 'http://10.0.2.2:8000/api/recommend/';
+    String apiUrl = 'http://65.2.9.109:8000/api/recommend/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -171,24 +158,7 @@ class _MovieInfoState extends State<MovieInfo> {
         Map<String, dynamic> jasonBody = jsonDecode(response.body);
         String message = jasonBody['message'];
         print(message);
-        // showDialog(
-        //   context: context,
-        //   builder: (context) {
-        //     return AlertDialog(
-        //       title: Text('Error'),
-        //       content: Text('Api response: $message'),
-        //       actions: [
-        //         TextButton(
-        //           onPressed: () {
-        //             Navigator.pop(context);
-        //             Navigator.pop(context);
-        //           },
-        //           child: Text('OK'),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
+       
       }
     } catch (error) {
       print('Error: $error');
@@ -479,11 +449,6 @@ class _MovieInfoState extends State<MovieInfo> {
                 ),
               ),
               const SizedBox(height: 20),
-              // RelatedMoviesList(
-              //   posterLink: widget.movie.poster_link,
-              //   movieName: widget.movie.movie,
-              //   movieType: widget.movie.type,
-              // )
               RelatedMoviesList(recommendedMovies: recmovies),
             ],
           ),
@@ -580,76 +545,3 @@ class RelatedMoviesList extends StatelessWidget {
           );
   }
 }
-
-
-// class RelatedMoviesList extends StatelessWidget {
-//   final List<RecMovie> recommendedMovies;
-
-//   RelatedMoviesList({required this.recommendedMovies});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return recommendedMovies.isEmpty
-//         ? Center(child: CircularProgressIndicator()) // Show loading indicator if recommendedMovies is empty
-//         : Container(
-//             height: 250,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: recommendedMovies.length,
-//               itemBuilder: (context, index) {
-//                 RecMovie movie = recommendedMovies[index];
-//                 return Container(
-//                   margin: const EdgeInsets.only(right: 16),
-//                   child: SingleChildScrollView(
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Image.network(
-//                           movie.poster_link,
-//                           width: 120,
-//                           height: 160,
-//                           fit: BoxFit.cover,
-//                           errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-//                             return FadeInImage.assetNetwork(
-//                               placeholder: 'assets/placeholder/Film-icon.png',
-//                               image: movie.poster_link,
-//                               width: 120,
-//                               height: 160,
-//                               fit: BoxFit.cover,
-//                               imageErrorBuilder: (context, error, stackTrace) {
-//                                 return Image.asset(
-//                                   'assets/placeholder/Film-icon.png',
-//                                   width: 120,
-//                                   height: 160,
-//                                   fit: BoxFit.cover,
-//                                 );
-//                               },
-//                             );
-//                           },
-//                         ),
-//                         const SizedBox(height: 8),
-//                         Text(
-//                           movie.movie,
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                         ),
-//                         Text(
-//                           movie.year.toString(),
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.w400,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 );
-//               },
-//             ),
-//           );
-//   }
-// }
-
-
-
-

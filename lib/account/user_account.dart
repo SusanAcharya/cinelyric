@@ -4,10 +4,8 @@ import 'package:cinelyric/elements/appbar.dart';
 import 'package:cinelyric/screens/about_us_page.dart';
 import 'package:cinelyric/screens/bookmark.dart';
 import 'package:cinelyric/screens/faq_page.dart';
-import 'package:cinelyric/screens/feedback_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../elements/bottombar.dart';
 
 class UserAccount extends StatefulWidget {

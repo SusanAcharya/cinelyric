@@ -68,7 +68,8 @@ class _MusicResultState extends State<MusicResult> {
   Future<void> getMovies() async {
     // String apiUrl =
     //     'https://8cd5-2400-1a00-b040-5496-7491-c660-170c-1ab5.ngrok-fre/song/';
-    String apiUrl = 'http://10.0.2.2:8000/song/';
+    //String apiUrl = 'http://10.0.2.2:8000/song/';
+    String apiUrl = 'http://65.2.9.109:8000/song/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json',
@@ -200,12 +201,7 @@ class _MusicResultState extends State<MusicResult> {
                                   ),
                                 ],
                               ),
-                              // leading: Image.asset(
-                              //   'assets/placeholder/music-icon.jpeg',
-                              //   width: 80.0,
-                              //   height: 500.0,
-                              //   fit: BoxFit.fill,
-                              // ),
+                          
                               leading: musics.artist_image.isNotEmpty
                             ? FadeInImage.assetNetwork(
                                 placeholder: 'assets/placeholder/music-icon.jpeg',

@@ -25,7 +25,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login(String email, String password) async {
     try {
-      Response response = await post(Uri.parse('http://10.0.2.2:8000/login/'),
+      //Response response = await post(Uri.parse('http://10.0.2.2:8000/login/'),
+      Response response = await post(Uri.parse('http://65.2.9.109:8000/login/'),
           body: {'username': email, 'password': password});
       if (response.statusCode == 200) {
         print('login successful');

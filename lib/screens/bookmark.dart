@@ -1,16 +1,9 @@
-
-import 'dart:ffi';
-import '../elements/movie.dart';
-import 'movie_info.dart';
 import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:cinelyric/elements/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../elements/bottombar.dart';
-import '../screens/music_result_display.dart';
-import '../screens/movie_result_display.dart';
 
 class BookmarkPage extends StatefulWidget{
   const BookmarkPage({super.key});
@@ -45,7 +38,8 @@ class _BookmarkPageState extends State<BookmarkPage>{
     //getDataFromSharedPreferences();
     print(token);
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/history/';
-    String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    //String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+    String apiUrl = 'http://65.2.9.109:8000/bookmark/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json', // Specify content type as JSON
@@ -59,16 +53,11 @@ class _BookmarkPageState extends State<BookmarkPage>{
       );
       if (response.statusCode == 200) {
         print(response.body);
-        //final temp= response.body;
         // If the server returns a 200 OK response, parse the JSON
         final List<dynamic> data = jsonDecode(response.body);
         setState(() {
           Bookmark = data.cast<Map<String, dynamic>>();
         });
-        // } else {
-        //   // If the server did not return a 200 OK response,
-        //   // throw an exception.
-        //   throw Exception('Failed to load search history');
       }
     } catch (error) {
       // Handle any exceptions that occurred during the request
@@ -79,7 +68,8 @@ class _BookmarkPageState extends State<BookmarkPage>{
   Future<void> deleteItem() async {
   print(token);
   // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/history/';
-  String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+  //String apiUrl = 'http://10.0.2.2:8000/bookmark/';
+  String apiUrl = 'http://65.2.9.109:8000/bookmark/';
   Map<String, String> headers = {
     'Authorization': 'Token $token',
     'Content-Type': 'application/json', // Specify content type as JSON
@@ -167,24 +157,7 @@ class _BookmarkPageState extends State<BookmarkPage>{
                             },
                         ),    
                         onTap: () {
-                          // _wordsSpoken = historyItem['user_query'];
-                          // type = historyItem['search_type'];
-                          // //getMovie();
-                          // if (type == 'movie') {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             MovieResult(query: _wordsSpoken)),
-                          //   );
-                          // } else {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             MusicResult(query: _wordsSpoken)),
-                          //   );
-                          // }
+                         
                         },
                       ),
                     ),

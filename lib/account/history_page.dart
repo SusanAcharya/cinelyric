@@ -1,4 +1,4 @@
-// history_page.dart
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:cinelyric/elements/appbar.dart';
@@ -44,7 +44,8 @@ class _HistoryPageState extends State<HistoryPage> {
     //getDataFromSharedPreferences();
     print(token);
     // String apiUrl = 'https://3140-2400-1a00-b040-1115-2d7f-ac13-bf4c-a684.ngrok-free.app/history/';
-    String apiUrl = 'http://10.0.2.2:8000/history/';
+    //String apiUrl = 'http://10.0.2.2:8000/history/';
+    String apiUrl = 'http://65.2.9.109:8000/history/';
     Map<String, String> headers = {
       'Authorization': 'Token $token',
       'Content-Type': 'application/json', // Specify content type as JSON
