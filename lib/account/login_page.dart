@@ -39,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
         await prefs.setString('token', token);
         await prefs.setString(
             'username', email); // Save user email to SharedPreferences
+        await prefs.setString('userEmail', email);
+
 
         setState(() {
           _isLoggingIn = true;
