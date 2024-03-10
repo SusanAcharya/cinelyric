@@ -268,16 +268,15 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
                                 ),
                               ),
 
+                              const Text(
+                                'Rating: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
+                              ),
                               Row(
                                 children: [
-                                  const Text(
-                                    'Rating: ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
                                   Container(
                                     width: 50,
                                     height: 50,
@@ -288,7 +287,8 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
                                     child: Center(
                                       child: Text(
                                         widget.movie.imdb_rating != ''
-                                            ? widget.movie.imdb_rating
+                                            ? widget.movie
+                                                .imdb_rating // Actual rating value
                                             : 'N/A',
                                         style: const TextStyle(
                                           color: Colors.white,
@@ -296,7 +296,9 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   GestureDetector(
                                     onTap: () {
                                       addItem();
@@ -314,7 +316,7 @@ class _RecMovieInfoState extends State<RecMovieInfo> {
                                     ),
                                   ),
                                 ],
-                              ),
+                              )
                             ],
                           ),
                         ),
